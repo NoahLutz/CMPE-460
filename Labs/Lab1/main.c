@@ -12,7 +12,7 @@ Date: 8/30/19
 #define LED_BLUE_PIN		21U
 #define SW2_PIN					6U
 
-uint8_t index;
+uint8_t ledIndex;
 
 void LED_Init(void){
 	// Enable clocks on Ports B and E for LED timing
@@ -49,6 +49,11 @@ void delay (uint32_t delay) {
 	for(i = 0; i < delay; i++);
 }
 
+void leds_off(void) {
+	GPIOB_PSOR = (1UL << LED_RED_PIN) | (1UL << LED_BLUE_PIN);
+	GPIOE_PSOR = (1UL << LED_GREEN_PIN);
+}
+
 void yellow_loop(void) {
 	for(;;){
 		//Turn on an LED configuration when button is held
@@ -66,31 +71,56 @@ void yellow_loop(void) {
 }
 
 void led_cycle(void) {
-	if ((GPIOC_PDIR & (1 << SW2_PIN)) == 0){
-		index++;
-	}
-	
-	switch (index) {
-		case 1:
-			GPIOB_PCOR = (1 << LED_RED_PIN);
-			delay (2000000);
-			GPIOB_PSOR = (1 << LED_RED_PIN);
-			GPIOE_PCOR = (1 << LED_GREEN_PIN);
-			delay (2000000);
-			index = 0;
-			break;
+	for(;;) {
+		if ((GPIOC_PDIR & (1 << SW2_PIN)) == 0){
+			ledIndex++;
+			switch (ledIndex) {
+				case 1:
+					GPIOB_PCOR = (1 << LED_RED_PIN);
+					delay (2000000);
+					GPIOB_PSOR = (1 << LED_RED_PIN);
+					GPIOE_PCOR = (1 << LED_GREEN_PIN);
+					delay (2000000);
+					GPIOE_PSOR = (1 << LED_GREEN_PIN);
+					GPIOB_PCOR = (1 << LED_BLUE_PIN);
+					delay (2000000);
+					GPIOB_PSOR = (1 << LED_BLUE_PIN);
+					break;
+				case 2:
+					GPIOE_PCOR = (1 << LED_GREEN_PIN);
+					GPIOB_PCOR = (1 << LED_BLUE_PIN);
+					delay (2000000);
+					GPIOE_PSOR = (1 << LED_GREEN_PIN);
+					GPIOB_PCOR = (1 << LED_RED_PIN);
+					delay (2000000);
+					GPIOB_PSOR = (1 << LED_BLUE_PIN);
+					GPIOE_PCOR = (1 << LED_GREEN_PIN);
+					delay (2000000);
+					GPIOE_PSOR = (1 << LED_GREEN_PIN);
+					GPIOB_PSOR = (1 << LED_RED_PIN);
+					break;
+				case 3:
+					GPIOB_PCOR = (1 << LED_RED_PIN) | (1 << LED_BLUE_PIN);
+					GPIOE_PCOR = (1 << LED_GREEN_PIN);
+					delay (2000000);
+					GPIOB_PSOR = (1 << LED_RED_PIN) | (1 << LED_BLUE_PIN);
+					GPIOE_PSOR = (1 << LED_GREEN_PIN);
+					ledIndex = 0;
+					delay (2000000);
+					break;
+			}
+		}	
 	}
 }
 
 int main(void){
-	index = 0;
+	ledIndex = 0;
 	
 	// Initialize buttons and LEDs
 	LED_Init();
 	Button_Init();
-
-	//yellow_loop();
 	
-	led_cycle();
+	yellow_loop();
+	//led_cycle();
 	
 }

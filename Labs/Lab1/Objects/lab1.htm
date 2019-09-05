@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\lab1.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\lab1.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Fri Aug 30 10:48:53 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Wed Sep 04 18:12:02 2019
 <BR><P>
 <H3>Maximum Stack Usage =          8 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -654,37 +654,33 @@ Global Symbols
 
 <P><STRONG><a name="[a8]"></a>__semihosting_library_function</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, indicate_semi.o(.text), UNUSED)
 
-<P><STRONG><a name="[7e]"></a>Button_Init</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, main.o(i.Button_Init))
+<P><STRONG><a name="[7c]"></a>Button_Init</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, main.o(i.Button_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[7d]"></a>LED_Init</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, main.o(i.LED_Init))
+<P><STRONG><a name="[7b]"></a>LED_Init</STRONG> (Thumb, 68 bytes, Stack size 0 bytes, main.o(i.LED_Init))
 <BR><BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[63]"></a>SystemInit</STRONG> (Thumb, 136 bytes, Stack size 0 bytes, system_mk64f12.o(i.SystemInit))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mk64f12.o(.text)
 </UL>
-<P><STRONG><a name="[7c]"></a>delay</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(i.delay))
-<BR><BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_cycle
+<P><STRONG><a name="[7e]"></a>delay</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, main.o(i.delay))
+<BR><BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;yellow_loop
 </UL>
 
-<P><STRONG><a name="[7b]"></a>led_cycle</STRONG> (Thumb, 80 bytes, Stack size 4 bytes, main.o(i.led_cycle))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = led_cycle
-</UL>
-<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
-</UL>
-<BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-</UL>
-
-<P><STRONG><a name="[72]"></a>main</STRONG> (Thumb, 24 bytes, Stack size 4 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = main &rArr; led_cycle
-</UL>
-<BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;led_cycle
-<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Button_Init
+<P><STRONG><a name="[72]"></a>main</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, main.o(i.main))
+<BR><BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;yellow_loop
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
+<LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Button_Init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry_main
+</UL>
+
+<P><STRONG><a name="[7d]"></a>yellow_loop</STRONG> (Thumb, 60 bytes, Stack size 0 bytes, main.o(i.yellow_loop))
+<BR><BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay
+</UL>
+<BR>[Called By]<UL><LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[6c]"></a>_fp_init</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fpinit.o(x$fpl$fpinit))
