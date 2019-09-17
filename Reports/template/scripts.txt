@@ -1,0 +1,34 @@
+#Turns an image to grayscale without inverting
+gray(){
+    #convert  -colorspace Gray  $1 `echo $1|sed "s/Color/Grayscale/"`
+    convert    $1  -grayscale rec709luma  `echo $1|sed "s/Color/Grayscale/"`
+    #convert -negate $1 `echo $1|sed "s/Color/Grayscale/"`
+}
+#Turns an image to grayscale while inverting                                                                                                                                                    
+iv(){
+    #convert  -colorspace Gray  $1 `echo $1|sed "s/Color/Grayscale/"`
+    convert    $1  -grayscale rec709luma -negate  `echo $1|sed "s/Color/Grayscale/"`
+    #convert -negate $1 `echo $1|sed "s/Color/Grayscale/"`
+}
+#converts a pgm to a png
+pgm2png(){
+    #convert  -colorspace Gray  $1 `echo $1|sed "s/Color/Grayscale/"`
+    convert    $1 `echo $1|sed "s/pgm/png/"`
+    #convert -negate $1 `echo $1|sed "s/Color/Grayscale/"`
+}
+
+For loop to convert all CSVs:
+for i in *.csv                                                                                                                                                        [+++++.....]00h,55m
+	do                                                                            
+		awk -f ./test.awk $i
+	done
+
+
+
+Compilation command: 
+latexmk -pvc -pv- -pdf -shell-escape -r ~/.latexmkrc LATEXFILE.tex
+
+Contents of ~/.latexmkrc:
+$pdf_previewer = "xpdf -remote %R %O %S";                                                                                                                                                       
+$pdf_update_method = 4;                                                         
+$pdf_update_command = "xpdf -remote %R -reload"  

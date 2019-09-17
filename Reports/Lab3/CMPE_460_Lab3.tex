@@ -1,0 +1,130 @@
+% A skeleton file for producing Computer Engineering reports
+% https://kgcoe-git.rit.edu/jgm6496/KGCOEReport_template
+
+\documentclass[CMPE]{KGCOEReport}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{comment}
+\usepackage{siunitx}
+
+% Required packages
+\usepackage{multicol}
+\usepackage{multirow}
+
+% The following should be changed to represent your personal information
+\newcommand{\classCode}{CMPE-460}  % 4 char code with number
+\newcommand{\name}{
+Noah Lutz\\
+Alejandro Vasquez-Lopez}
+\newcommand{\LabSectionNum}{L2}
+\newcommand{\LabInstructor}{Louis Beato}
+\newcommand{\TAs}{
+Nicholas Amatruda\\
+\, Michael Baumgarten\\
+\, John DeBrino
+}
+\newcommand{\LectureSectionNum}{1}
+\newcommand{\LectureInstructor}{Louis Beato}
+\newcommand{\exerciseNumber}{3}
+\newcommand{\exerciseDescription}{Characterization of OPB745}
+\newcommand{\dateDone}{9/13/19}
+\newcommand{\dateSubmitted}{9/20/19}
+
+\begin{document}
+\maketitle
+% Some reports require a table of contents.
+
+\renewcommand\cftsecleader{\cftdotfill{\cftdotsep}} %Print dots between the sections and page numbers
+\tableofcontents
+\newpage
+\setcounter{secnumdepth}{0} %Needed so that sections go into the TOC
+\renewcommand\um{$\mu$m} %So you can pretty print micrometers
+\newcommand\ua{$\mu$a }
+\newcommand{\ol}[1]{\overline{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Abstract}
+The purpose of this exercise was to develop an understanding behind the 
+functionality and various functional parameters of the OPB745 
+photo-transducer. In order to test its ability to perform as an opto-isolator,
+a tube with an adjustable reflective surface was created, and the OPB745 was placed inside in order to isolate any 
+external light source. With the following implemented, the Opto-Isolator 
+functioned accordingly yielding the expected results. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Design Methodology}
+
+Design methodology goes here. Follow lab report guidelines. Remember to introduce Figure \ref{img:dog} before it appears in the document. Make sure that your figure labels are below the figure itself and that they have a title.
+
+\nimg[height=4.5in]{img:dog}{fig/seg_examples.png}{Image Segmentation Examples}
+
+Note that unlike mere edge detection, the edges of image segments must form closed regions within the image. \\
+
+You must cite other works if you are using information from them. However, this is not the case for most laboratory exercises.\textsuperscript{[2]} Another nice feature of LaTeX is how easy it is to put equations in-line with text. Given an image consisting of N pixels, the number of pixels per superpixel is $\frac{N}{K}$. Furthermore, it follows that the dimension ("step size") of each superpixel is $\sqrt[]{\frac{N}{K}}$. An example of a numbered list follows this paragraph.
+
+\begin{enumerate}
+\item{Initialize cluster centers by sampling pixels at regular grid steps S}
+\item{Repeat 10 times:
+	\begin{enumerate}
+    	\item{For each cluster center, do:
+        	\begin{enumerate}
+            	\item{Assign the best matching pixels from a ${2S}\times{2S}$ square neighborhood around the cluster center according to the distance measured as a function of both position and color.}
+            \end{enumerate}
+        }
+        \item{Recalculate cluster centers}
+    \end{enumerate}
+    
+    \item{Enforce connectivity (Merge small regions into large neighboring regions)}
+}
+\end{enumerate}
+
+Below are some equations. These must be labeled and numbered like figures. Also like figures, they must be introduced first. In this implementation, these parameters were weighted according to the number of superpixels and the segment size. This distance is computed using equations (\ref{eq:dlab}) through (\ref{eq:dist}). Note that this algorithm operates over the Lab color space, which is perceptually uniform over the entire range of visible light.
+
+\begin{equation}\label{eq:dlab}
+d_{lab} = \sqrt[]{(l_1 - l_0)^2 + (a_1 - a_0)^2 + (b_1 - b_0)^2}
+\end{equation}
+\begin{equation}\label{eq:dxy}
+d_{xy} = \sqrt[]{(x_1 - x_0)^2 + (y_1 - y_0)^2}
+\end{equation}
+\begin{equation}\label{eq:dist}
+distance = \sqrt[]{\frac{d_{lab}^2}{num\_clusters} + \frac{d_{xy}^2}{step\_size}}
+\end{equation}
+
+Design Methodology is usually the most tedious part of the lab report.\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results \& Analysis}
+Results and Analysis go here. Follow lab report guidelines. Remember to introduce Figures (\ref{img:dog}) through (\ref{img:lindbloom} before they appear in the document. Make sure that your figure labels are below the figure itself and that they have a title.
+
+
+\nimg[height=3.0in]{img:dog}{fig/dog.png}{Dog (${420}\times{240}$, 76800 pixels)}
+\nimg[height=3.0in]{img:elephants}{fig/elephants.jpg}{Elephants (${481}\times{321}$, 154401 pixels)}
+\nimg[height=3.0in]{img:toucan}{fig/toucan.jpg}{Toucan (${960}\times{640}$, 614400 pixels)}
+\nimg[height=1.5in]{img:lindbloom}{fig/Lindbloom.jpg}{Lindbloom (${148}\times{95}$, 14060 pixels)}
+
+A pair of exemplary segmentations are illustrated in Figures (\ref{img:dog_CPU}) and (\ref{img:dog_GPU}), corresponding to the CPU and GPU implementations respectively. Note that the images are identical.
+
+\nimg[height=3.0in]{img:dog_CPU}{fig/dog_40_100_cpu.png}{CPU Dog Segmentation, 100 Superpixels}
+\nimg[height=3.0in]{img:dog_GPU}{fig/dog_40_100_gpu.png}{GPU Dog Segmentation, 100 Superpixels}
+
+Graphs are very helpful if you're trying to show a trend to the reader. Figures (\ref{fig:time24}), (\ref{fig:time100}), and (\ref{fig:time400}) plot the CPU and GPU execution times of the segmentation of the images of different sizes, with 24, 100, and 400 superpixels respectively. Note that not only does the GPU consistently provide a speedup >1, but that the speedup improves with an increasing image size. Moreover, speedup also improves with an increased superpixel size.
+
+\nimg[height=3.0in]{fig:time24}{fig/time24.png}{Basic Superpixels Performance, 24 Superpixels}
+\nimg[height=3.0in]{fig:time100}{fig/time100.png}{Basic Superpixels Performance, 100 Superpixels}
+\nimg[height=3.0in]{fig:time400}{fig/time400.png}{Basic Superpixels Performance, 400 Superpixels}
+
+Results and Analysis are also pretty tedious :)\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusions}
+Conclusions go here. Follow lab report guidelines.\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\end{document}
+
