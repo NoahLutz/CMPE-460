@@ -120,7 +120,7 @@ int main(void){
 	LED_Init();
 	Button_Init();
 	
-	//yellow_loop();
-	led_cycle();
+	yellow_loop();
+	//led_cycle();
 	
 }
