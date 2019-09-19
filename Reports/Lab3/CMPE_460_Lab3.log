@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.9.1)  19 SEP 2019 14:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2019.9.1)  19 SEP 2019 19:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1088,21 +1088,39 @@ Package: multirow 2019/01/01 v2.4 Span multiple rows of a table
 \multirow@cntb=\count348
 \multirow@dima=\skip95
 \bigstrutjot=\dimen309
+)
+(/usr/share/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)+ FMi change
+\LTleft=\skip96
+\LTright=\skip97
+\LTpre=\skip98
+\LTpost=\skip99
+\LTchunksize=\count349
+\LTcapwidth=\dimen310
+\LT@head=\box110
+\LT@firsthead=\box111
+\LT@foot=\box112
+\LT@lastfoot=\box113
+\LT@cols=\count350
+\LT@rows=\count351
+\c@LT@tables=\count352
+\c@LT@chunks=\count353
+\LT@p@ftn=\toks46
 ) (./CMPE_460_Lab3.aux)
 \openout1 = `CMPE_460_Lab3.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 32.
-LaTeX Font Info:    ... okay on input line 32.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
+LaTeX Font Info:    ... okay on input line 33.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1141,25 +1159,30 @@ LaTeX Font Info:    ... okay on input line 32.
 ABD: EveryShipout initializing macros
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count349
-\scratchdimen=\dimen310
-\scratchbox=\box110
-\nofMPsegments=\count350
-\nofMParguments=\count351
-\everyMPshowfont=\toks46
-\MPscratchCnt=\count352
-\MPscratchDim=\dimen311
-\MPnumerator=\count353
-\makeMPintoPDFobject=\count354
-\everyMPtoPDFconversion=\toks47
+\scratchcounter=\count354
+\scratchdimen=\dimen311
+\scratchbox=\box114
+\nofMPsegments=\count355
+\nofMParguments=\count356
+\everyMPshowfont=\toks47
+\MPscratchCnt=\count357
+\MPscratchDim=\dimen312
+\MPnumerator=\count358
+\makeMPintoPDFobject=\count359
+\everyMPtoPDFconversion=\toks48
 )
-\c@lstlisting=\count355
+\c@lstlisting=\count360
  (/usr/share/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2018/08/11 v1.3c Input encoding file
-\inpenc@prehook=\toks48
-\inpenc@posthook=\toks49
+\inpenc@prehook=\toks49
+\inpenc@posthook=\toks50
 )
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: longtable package is loaded.
+
+(/usr/share/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2018/08/26 v1.4-95 longtable captions (AR)
+)
 Package caption Info: End \AtBeginDocument code.
 Now handling font encoding TS1 ...
 ... processing UTF-8 mapping file for font encoding TS1
@@ -1247,13 +1270,13 @@ File: siunitx-abbreviations.cfg 2017/11/26 v2.7k siunitx: Abbreviated units
 Package pgfplots Warning: running in backwards compatibility mode (unsuitable t
 ick labels; missing features). Consider writing \pgfplotsset{compat=1.16} into 
 your preamble.
- on input line 32.
+ on input line 33.
 
 
 Package todonotes Warning: The length marginparwidth is less than 2cm and will 
 most likely cause issues with the appearance of inserted todonotes. The issue c
 an be solved by adding a line like \setlength {\marginparwidth }{2cm} prior to 
-loading the todonotes package. on input line 32.
+loading the todonotes package. on input line 33.
 
 [1
 
@@ -1266,92 +1289,117 @@ loading the todonotes package. on input line 32.
 <fig/opto-isolator-enclosure.png, id=50, 513.92pt x 232.87pt>
 File: fig/opto-isolator-enclosure.png Graphic file (type png)
 <use fig/opto-isolator-enclosure.png>
-Package pdftex.def Info: fig/opto-isolator-enclosure.png  used on input line 59
+Package pdftex.def Info: fig/opto-isolator-enclosure.png  used on input line 63
 .
 (pdftex.def)             Requested size: 318.99567pt x 144.54pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--67
+Underfull \hbox (badness 10000) in paragraph at lines 65--71
 
  []
 
 <fig/circuit1.png, id=52, 403.5075pt x 251.94125pt>
 File: fig/circuit1.png Graphic file (type png)
 <use fig/circuit1.png>
-Package pdftex.def Info: fig/circuit1.png  used on input line 73.
+Package pdftex.def Info: fig/circuit1.png  used on input line 77.
 (pdftex.def)             Requested size: 289.36766pt x 180.67499pt.
 [3 <./fig/opto-isolator-enclosure.png>]
 <fig/circuit2.png, id=57, 627.34375pt x 225.84375pt>
 File: fig/circuit2.png Graphic file (type png)
 <use fig/circuit2.png>
-Package pdftex.def Info: fig/circuit2.png  used on input line 75.
+Package pdftex.def Info: fig/circuit2.png  used on input line 79.
 (pdftex.def)             Requested size: 301.13115pt x 108.405pt.
- [4 <./fig/circuit1.png> <./fig/circuit2.png>] [5]
+ [4 <./fig/circuit1.png> <./fig/circuit2.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 125--129
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 130--133
+
+ []
+
+! Misplaced \noalign.
+\hline ->\noalign 
+                  {\ifnum 0=`}\fi \penalty \@M \futurelet \@let@token \LT@@h...
+l.153 \hline
+            
+? 
+! Misplaced \omit.
+\multispan ->\omit 
+                   \@multispan 
+l.154 		&
+          \multicolumn{2}{c|}{$R_{l,1}$ - $10\si{\kilo\ohm}$} & \multicolumn...
+
+? 
+! Extra alignment tab has been changed to \cr.
+<template> \endtemplate 
+                        
+l.154 		&
+          \multicolumn{2}{c|}{$R_{l,1}$ - $10\si{\kilo\ohm}$} & \multicolumn...
+
+? 
+[5]
 <fig/circuit1_voltage.png, id=71, 482.80376pt x 290.08376pt>
 File: fig/circuit1_voltage.png Graphic file (type png)
 <use fig/circuit1_voltage.png>
-Package pdftex.def Info: fig/circuit1_voltage.png  used on input line 177.
+Package pdftex.def Info: fig/circuit1_voltage.png  used on input line 191.
 (pdftex.def)             Requested size: 300.71286pt x 180.67499pt.
 <fig/circuit1_current.png, id=72, 481.8pt x 283.0575pt>
 File: fig/circuit1_current.png Graphic file (type png)
 <use fig/circuit1_current.png>
-Package pdftex.def Info: fig/circuit1_current.png  used on input line 178.
+Package pdftex.def Info: fig/circuit1_current.png  used on input line 192.
 (pdftex.def)             Requested size: 307.54225pt x 180.67499pt.
-
-
-LaTeX Warning: Reference `img:dog' on page 6 undefined on input line 182.
-
-
-LaTeX Warning: Reference `img:lindbloom' on page 6 undefined on input line 182.
-
-
-
-LaTeX Warning: Reference `img:dog_CPU' on page 6 undefined on input line 185.
-
-
-LaTeX Warning: Reference `img:dog_GPU' on page 6 undefined on input line 185.
-
-
-LaTeX Warning: Reference `fig:time24' on page 6 undefined on input line 188.
-
-
-LaTeX Warning: Reference `fig:time100' on page 6 undefined on input line 188.
-
-
-LaTeX Warning: Reference `fig:time400' on page 6 undefined on input line 188.
-
-[6 <./fig/circuit1_voltage.png> <./fig/circuit1_current.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 191--192
+ [6 <./fig/circuit1_voltage.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 194--197
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 196--197
-
- []
-
-[7] (./CMPE_460_Lab3.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+<fig/scope_circuit2_10k_100Hz.png, id=77, 245.4771pt x 171.5208pt>
+File: fig/scope_circuit2_10k_100Hz.png Graphic file (type png)
+<use fig/scope_circuit2_10k_100Hz.png>
+Package pdftex.def Info: fig/scope_circuit2_10k_100Hz.png  used on input line 2
+03.
+(pdftex.def)             Requested size: 258.5826pt x 180.67499pt.
+<fig/scope_circuit2_20k_100Hz.png, id=78, 244.9953pt x 170.0754pt>
+File: fig/scope_circuit2_20k_100Hz.png Graphic file (type png)
+<use fig/scope_circuit2_20k_100Hz.png>
+Package pdftex.def Info: fig/scope_circuit2_20k_100Hz.png  used on input line 2
+04.
+(pdftex.def)             Requested size: 260.28069pt x 180.67499pt.
+[7 <./fig/circuit1_current.png> <./fig/scope_circuit2_10k_100Hz.png>]
+<fig/scope_circuit2_10k_1kHz.png, id=84, 245.9589pt x 168.8709pt>
+File: fig/scope_circuit2_10k_1kHz.png Graphic file (type png)
+<use fig/scope_circuit2_10k_1kHz.png>
+Package pdftex.def Info: fig/scope_circuit2_10k_1kHz.png  used on input line 21
+3.
+(pdftex.def)             Requested size: 263.1659pt x 180.67499pt.
+<fig/scope_circuit2_20k_600Hz.png, id=85, 245.2362pt x 169.1118pt>
+File: fig/scope_circuit2_20k_600Hz.png Graphic file (type png)
+<use fig/scope_circuit2_20k_600Hz.png>
+Package pdftex.def Info: fig/scope_circuit2_20k_600Hz.png  used on input line 2
+14.
+(pdftex.def)             Requested size: 262.00722pt x 180.67499pt.
+ [8 <./fig/scope_circuit2_20k_100Hz.png> <./fig/scope_circuit2_10k_1kHz.png>] [
+9 <./fig/scope_circuit2_20k_600Hz.png>] (./CMPE_460_Lab3.aux) ) 
 Here is how much of TeX's memory you used:
- 44086 strings out of 492623
- 1059004 string characters out of 6135670
- 1221039 words of memory out of 5000000
- 47401 multiletter control sequences out of 15000+600000
+ 44221 strings out of 492623
+ 1061284 string characters out of 6135670
+ 1233491 words of memory out of 5000000
+ 47526 multiletter control sequences out of 15000+600000
  539373 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 76i,20n,103p,859b,982s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/sh
-are/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on CMPE_460_Lab3.pdf (7 pages, 204879 bytes).
+ 76i,16n,103p,859b,1106s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8
+.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/shar
+e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on CMPE_460_Lab3.pdf (9 pages, 287455 bytes).
 PDF statistics:
- 106 PDF objects out of 1000 (max. 8388607)
- 55 compressed objects within 1 object stream
+ 116 PDF objects out of 1000 (max. 8388607)
+ 59 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 182 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 202 words of extra memory for PDF output out of 10000 (max. 10000000)
 

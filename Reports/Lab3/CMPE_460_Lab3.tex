@@ -9,6 +9,7 @@
 % Required packages
 \usepackage{multicol}
 \usepackage{multirow}
+\usepackage{longtable}
 
 % The following should be changed to represent your personal information
 \newcommand{\classCode}{CMPE-460}  % 4 char code with number
@@ -45,10 +46,13 @@ Nicholas Amatruda\\
 \section{Abstract}
 The purpose of this exercise was to develop an understanding behind the 
 functionality and various functional parameters of the OPB745 
-photo-transducer. In order to test its ability to perform as an opto-isolator,
-a tube with an adjustable reflective surface was created, and the OPB745 was placed inside in order to isolate any 
-external light source. With the following implemented, the Opto-Isolator 
-functioned accordingly yielding the expected results. 
+opto-isolator. In order to test its ability to perform as an opto-isolator,
+a tube with an adjustable reflective surface was created, and the OPB745 was placed inside in order to isolate it from any 
+external light source. The sensor was tested in two distinct ways. The first was the voltage and current characteristics
+versus distance from the reflective surface. This was observed by measuring the voltage output across the sensor 
+while loaded while the reflective surface was moved relative to the sensor. The second was the frequency capabilities 
+of the sensor. This was performed using a waveform generator to generate waveforms of various frequencies and measuring 
+the output using an oscilloscope. With the following implemented, the Opto-Isolator functioned accordingly yielding the expected results. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,8 +78,7 @@ and frequency characteristics of the OPB745 sensor. Figures \ref{fig:circuit1} a
 
 \nimg[height=1.5in]{fig:circuit2}{fig/circuit2.png}{Frequency response circuit}
 
-Each circuit will be analyzed twice with two different load resistor values of 
-$10\si{\kilo\ohm}$ and $20\si{\kilo\ohm}$. Equations \ref{equ:circuit1rf1} - \ref{equ:circuit1rf4}
+Equations \ref{equ:circuit1rf1} - \ref{equ:circuit1rf4}
 show the derivation for the $R_f$ resistor for the circuit in Figure \ref{fig:circuit1}. The 
 values for $V_f$ were obtained from the respective datasheets.
 
@@ -100,7 +103,8 @@ values for $V_f$ were obtained from the respective datasheets.
 \end{equation}
 
 The same process was used for deteminging the $R_f$ resistor for the circuit in Figure \ref{fig:circuit2}
-and is shown in Equations \ref{equ:circuit2rf1} - \ref{equ:circuit2rf3}.
+and is shown in Equations \ref{equ:circuit2rf1} - \ref{equ:circuit2rf3}. Again, the values for $V_f$ were
+obtained from the appropriate data sheets.
 
 \begin{equation}
 	\label{equ:circuit2rf1}
@@ -119,12 +123,20 @@ and is shown in Equations \ref{equ:circuit2rf1} - \ref{equ:circuit2rf3}.
 
 
 These circuits were then built using a breadboard, jumper wires and various 
-resistors to get as close as possible to the calculated values above. The circuit
-in Figure \ref{fig:circuit1} was analyzed by using a multimeter to measure the voltage 
+resistors to get as close as possible to the calculated values above.
+Each circuit was analyzed twice with two different load resistor values of 
+$10\si{\kilo\ohm}$ and $20\si{\kilo\ohm}$. \\
+
+The circuit in Figure \ref{fig:circuit1} was analyzed by using a multimeter to measure the voltage 
 at $V_{out}$ while the distance between the reflective surface and the sensor is varried.
+This gives the voltage vs. distance characteristics of the OPB745 sensor.\\
+
 The circuit in Figure \ref{fig:circuit2} was analyzed by using an oscilloscope at $V_{out}$ and 
 a waveform generator at the input of the diode. The output was then measured while the frequency
-of the input waveform was varried.
+of the input waveform was varried starting at $100\si\hertz$ and increasing by $100\si\hertz$ steps
+until the output of the OPB745 sensor no longer resembled the input waveform. A square wave with a duty
+cyle of $50\%$ was used for this lab exercise. This shows the frequency limitations of the OPB745, specifically
+the frequency limitations of the photo-transistor.
 
 
 
@@ -132,41 +144,43 @@ of the input waveform was varried.
 \section{Results \& Analysis}
 
 Table \ref{tbl:circuit1} shows the measurements taken from the multimeter as the distance
-from the OPB745 sensor and the reflective surface was varried.
+from the OPB745 sensor and the reflective surface was varried. Measurments were taken using the
+circuit in Figure \ref{fig:circuit1}.
 
-\begin{table}[H]
-	\caption{Voltage vs. Distance measurements}
-	\label{tbl:circuit1}
-	\centering
-	\begin{tabular}{|c|c|c|c|c|}
-		\hline
+\begin{longtable}[c]{|c|c|c|c|c|}
+\caption{Voltage/Current vs. Distance measurements}
+\label{tbl:circuit1}
+\hline
 		& \multicolumn{2}{c|}{$R_{l,1}$ - $10\si{\kilo\ohm}$} & \multicolumn{2}{c|}{$R_{l,2}$ - $20\si{\kilo\ohm}$} \\ \hline
+\endfirsthead
+%
+\endhead
+%
 		Distance ($\si{\milli\meter}$) & $V_{out}$ ($\si\volt$)       & $I_{R_l}$ ($\si{\milli\ampere}$)      & $V_{out}$ ($\si\volt$)       & $I_{R_l}$ ($\si{\milli\ampere}$)      \\ \hline
-		0             & 4.934          & 0.4934        & 4.859          & 0.24295       \\ \hline
-		1             & 0.866          & 0.0866        & 0.781          & 0.03905       \\ \hline
-		2             & 0.723          & 0.0723        & 0.679          & 0.03395       \\ \hline
-		3             & 0.701          & 0.0701        & 0.653          & 0.03265       \\ \hline
-		4             & 0.703          & 0.0703        & 0.651          & 0.03255       \\ \hline
-		5             & 0.717          & 0.0717        & 0.662          & 0.0331        \\ \hline
-		6             & 0.736          & 0.0736        & 0.681          & 0.03405       \\ \hline
-		7             & 0.757          & 0.0757        & 0.707          & 0.03535       \\ \hline
-		8             & 0.782          & 0.0782        & 0.729          & 0.03645       \\ \hline
-		9             & 0.808          & 0.0808        & 0.729          & 0.03645       \\ \hline
-		10            & 0.844          & 0.0844        & 0.772          & 0.0386        \\ \hline
-		11            & 0.985          & 0.0985        & 0.791          & 0.03955       \\ \hline
-		12            & 2.107          & 0.2107        & 0.809          & 0.04045       \\ \hline
-		13            & 2.800          & 0.2800        & 0.838          & 0.0419        \\ \hline
-		14            & 3.097          & 0.3097        & 0.885          & 0.04425       \\ \hline
-		15            & 3.300          & 0.3300        & 1.137          & 0.05685       \\ \hline
-		20            & 3.582          & 0.3582        & 1.613          & 0.08065       \\ \hline
-		25            & 3.627          & 0.3627        & 1.985          & 0.09925       \\ \hline
-		30            & 3.848          & 0.3848        & 2.246          & 0.1123        \\ \hline
-		35            & 4.243          & 0.4243        & 3.255          & 0.16275       \\ \hline
-		40            & 4.508          & 0.4508        & 3.971          & 0.19855       \\ \hline
-		45            & 4.637          & 0.4637        & 4.287          & 0.2139        \\ \hline
-		50            & 4.695          & 0.4695        & 4.421          & 0.22105       \\ \hline
-	\end{tabular}
-\end{table}
+0             & 4.934          & 0.4934        & 4.859          & 0.24295       \\ \hline
+1             & 0.866          & 0.0866        & 0.781          & 0.03905       \\ \hline
+2             & 0.723          & 0.0723        & 0.679          & 0.03395       \\ \hline
+3             & 0.701          & 0.0701        & 0.653          & 0.03265       \\ \hline
+4             & 0.703          & 0.0703        & 0.651          & 0.03255       \\ \hline
+5             & 0.717          & 0.0717        & 0.662          & 0.0331        \\ \hline
+6             & 0.736          & 0.0736        & 0.681          & 0.03405       \\ \hline
+7             & 0.757          & 0.0757        & 0.707          & 0.03535       \\ \hline
+8             & 0.782          & 0.0782        & 0.729          & 0.03645       \\ \hline
+9             & 0.808          & 0.0808        & 0.729          & 0.03645       \\ \hline
+10            & 0.844          & 0.0844        & 0.772          & 0.0386        \\ \hline
+11            & 0.985          & 0.0985        & 0.791          & 0.03955       \\ \hline
+12            & 2.107          & 0.2107        & 0.809          & 0.04045       \\ \hline
+13            & 2.800          & 0.2800        & 0.838          & 0.0419        \\ \hline
+14            & 3.097          & 0.3097        & 0.885          & 0.04425       \\ \hline
+15            & 3.300          & 0.3300        & 1.137          & 0.05685       \\ \hline
+20            & 3.582          & 0.3582        & 1.613          & 0.08065       \\ \hline
+25            & 3.627          & 0.3627        & 1.985          & 0.09925       \\ \hline
+30            & 3.848          & 0.3848        & 2.246          & 0.1123        \\ \hline
+35            & 4.243          & 0.4243        & 3.255          & 0.16275       \\ \hline
+40            & 4.508          & 0.4508        & 3.971          & 0.19855       \\ \hline
+45            & 4.637          & 0.4637        & 4.287          & 0.2139        \\ \hline
+50            & 4.695          & 0.4695        & 4.421          & 0.22105       \\ \hline
+\end{longtable}
 
 The data in Table \ref{tbl:circuit1} was graphed using Excel and produced Figures \ref{fig:circuit1_voltage}
 and \ref{fig:circuit1_current}. These figures show data produced by the circuit with both the $10\si{\kilo\ohm}$
@@ -177,23 +191,41 @@ to grow, the voltage begins to return to the source value of $5\si\volt$. This i
 \nimg[height=2.5in]{fig:circuit1_voltage}{fig/circuit1_voltage.png}{Voltage vs. Distance of OPB745}
 \nimg[height=2.5in]{fig:circuit1_current}{fig/circuit1_current.png}{Current vs. Distance of OPB745}
 
+The next part of the lab exercise focused on the frequency limitations of the OPB745 sensor. This was done using the circuit in
+Figure \ref{fig:circuit2}, along with a waveform generator to generate input waveforms for the IR LED embedded in the 
+OPB745 and an oscilloscope to measure the output of the photo-transistor. \\
 
+Figures \ref{fig:circuit2_10k_100Hz} and \ref{fig:circuit2_20k_100Hz} show the oscilloscope captures for
+the circuit in Figure \ref{fig:circuit2} for both the $10\si{\kilo\ohm}$ and $20\si{\kilo\ohm}$ load resistors
+with an input waveform of a $100\si\hertz$ and a $50\%$ duty cycle. The top waveform shows the input waveform and
+the bottom waveform is the output waveform.
 
-Results and Analysis go here. Follow lab report guidelines. Remember to introduce Figures (\ref{img:dog}) through (\ref{img:lindbloom} before they appear in the document. Make sure that your figure labels are below the figure itself and that they have a title.
+\nimg[height=2.5in]{fig:circuit2_10k_100Hz}{fig/scope_circuit2_10k_100Hz.png}{Oscilloscope capture with $10\si{\kilo\ohm}$ load at $100\si\hertz$}
+\nimg[height=2.5in]{fig:circuit2_20k_100Hz}{fig/scope_circuit2_20k_100Hz.png}{Oscilloscope capture with $20\si{\kilo\ohm}$ load at $100\si\hertz$}
 
+Figures \ref{fig:circuit2_10k_1kHz} and \ref{fig:circuit2_20k_600Hz} show the oscilloscope captures where the 
+OPB745 is no longer able to handle the input waveform frequency. Instead of seeing a nice square wave output, 
+all that is seen is a steady signal. The point at which this happens is different depending on the load resistor.
+For the $10\si{\kilo\ohm}$ resistor the OPB745 sensor stopped working at around $1\si{\kilo\hertz}$ while for the
+$20\si{\kilo\ohm}$ resistor, the breakdown point was only around $600\si\hertz$. Again, the top signal is the input
+waveform and the bottom signal is the output waveform.
 
-A pair of exemplary segmentations are illustrated in Figures (\ref{img:dog_CPU}) and (\ref{img:dog_GPU}), corresponding to the CPU and GPU implementations respectively. Note that the images are identical.
+\nimg[height=2.5in]{fig:circuit2_10k_1kHz}{fig/scope_circuit2_10k_1kHz.png}{Oscilloscope capture with $10\si{\kilo\ohm}$ load at $1\si{\kilo\hertz}$}
+\nimg[height=2.5in]{fig:circuit2_20k_600Hz}{fig/scope_circuit2_20k_600Hz.png}{Oscilloscope capture with $20\si{\kilo\ohm}$ load at $600\si{\hertz}$}
 
-
-Graphs are very helpful if you're trying to show a trend to the reader. Figures (\ref{fig:time24}), (\ref{fig:time100}), and (\ref{fig:time400}) plot the CPU and GPU execution times of the segmentation of the images of different sizes, with 24, 100, and 400 superpixels respectively. Note that not only does the GPU consistently provide a speedup >1, but that the speedup improves with an increasing image size. Moreover, speedup also improves with an increased superpixel size.
-
-
-Results and Analysis are also pretty tedious :)\\
-
+\section{Questions}
+\begin{enumerate}
+	\item Schmitt inverter reduces noise and produces a more defined square wave when taking an analog signal (opto-isolator) and converting it to a digital signal (oscope). The difference between the two devices are that the 74LS14 with Schmitt trigger will sustain the output value until the input has an adequate amount of change to trigger a change in the output.
+	\item The voltage initially starts off at 5V at 0mm because there is no change in the opto-isolators positioning. As the distance is increased, the voltage drops to close to 0V, the reasoning behind this is due to the operating range of the OPB745. Based on the data sheet, the operating range is from 0 inches to 0.5 inches which is the distance to the reflective surface. At 0mm, the device is out of its range and no IR light from the LED can reach the photo-transistor, meaning no current is flowing through the transistor and therefore, $V_{out} = 5V$.
+	\item The frequency changes when replacing the 10k load resistor with the 20k resistor due to the rise and fall times of the OPB745. The OPB745 rise and fall times increase until it reaches a 1k load resistance, any increase in load resistance from this point on will cause the frequency to drop, therefore the decrease was anticipated. 
+\end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusions}
-Conclusions go here. Follow lab report guidelines.\\
+Opto-isolators are very common devices found in many fields of interest. There are applications 
+where physical measurements are not feasible. Opto-isolators are the solution to these issues as 
+they provide a means of measurement that is isolated from the actual unit. Understanding the fundamentals 
+of how one operates is imperative to being able to create well-designed systems. The exercise proved to be an overall success.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
