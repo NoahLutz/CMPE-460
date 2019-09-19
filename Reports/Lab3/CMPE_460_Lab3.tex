@@ -53,66 +53,140 @@ functioned accordingly yielding the expected results.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Design Methodology}
+The first step in this lab exercise was to build the enclosure for the opto-isolator. 
+Figure \ref{fig:enclosure} shows the logical diagram for the enclosure. 
 
-Design methodology goes here. Follow lab report guidelines. Remember to introduce Figure \ref{img:dog} before it appears in the document. Make sure that your figure labels are below the figure itself and that they have a title.
+\nimg[height=2.0in]{fig:enclosure}{fig/opto-isolator-enclosure.png}{Opto-Isolotor enclosure diagram}
 
-\nimg[height=4.5in]{img:dog}{fig/seg_examples.png}{Image Segmentation Examples}
+Two black ABS plastic tubes were used to create this enclosure. One with roughly a 
+one inch outer diameter with an end cap to hold the OPB754 sensor. The second 
+tube, with a slightly smaller diameter, was used to hold the reflective surface
+at a variable distance from the sensor as well as block out any interfering light from outside
+the tube. A metric ruler was also attached to the inner tube to allow the distance from the
+sensor to the reflective surface to be measured.\\
 
-Note that unlike mere edge detection, the edges of image segments must form closed regions within the image. \\
+Once the enclosure was assembled the next step was to calculate the necessary 
+resistors for the two different circuits used to analyze the voltage vs. distance
+and frequency characteristics of the OPB745 sensor. Figures \ref{fig:circuit1} and 
+\ref{fig:circuit2} show the two circuits. 
 
-You must cite other works if you are using information from them. However, this is not the case for most laboratory exercises.\textsuperscript{[2]} Another nice feature of LaTeX is how easy it is to put equations in-line with text. Given an image consisting of N pixels, the number of pixels per superpixel is $\frac{N}{K}$. Furthermore, it follows that the dimension ("step size") of each superpixel is $\sqrt[]{\frac{N}{K}}$. An example of a numbered list follows this paragraph.
+\nimg[height=2.5in]{fig:circuit1}{fig/circuit1.png}{Voltage vs. Distance circuit}
 
-\begin{enumerate}
-\item{Initialize cluster centers by sampling pixels at regular grid steps S}
-\item{Repeat 10 times:
-	\begin{enumerate}
-    	\item{For each cluster center, do:
-        	\begin{enumerate}
-            	\item{Assign the best matching pixels from a ${2S}\times{2S}$ square neighborhood around the cluster center according to the distance measured as a function of both position and color.}
-            \end{enumerate}
-        }
-        \item{Recalculate cluster centers}
-    \end{enumerate}
-    
-    \item{Enforce connectivity (Merge small regions into large neighboring regions)}
-}
-\end{enumerate}
+\nimg[height=1.5in]{fig:circuit2}{fig/circuit2.png}{Frequency response circuit}
 
-Below are some equations. These must be labeled and numbered like figures. Also like figures, they must be introduced first. In this implementation, these parameters were weighted according to the number of superpixels and the segment size. This distance is computed using equations (\ref{eq:dlab}) through (\ref{eq:dist}). Note that this algorithm operates over the Lab color space, which is perceptually uniform over the entire range of visible light.
+Each circuit will be analyzed twice with two different load resistor values of 
+$10\si{\kilo\ohm}$ and $20\si{\kilo\ohm}$. Equations \ref{equ:circuit1rf1} - \ref{equ:circuit1rf4}
+show the derivation for the $R_f$ resistor for the circuit in Figure \ref{fig:circuit1}. The 
+values for $V_f$ were obtained from the respective datasheets.
 
-\begin{equation}\label{eq:dlab}
-d_{lab} = \sqrt[]{(l_1 - l_0)^2 + (a_1 - a_0)^2 + (b_1 - b_0)^2}
-\end{equation}
-\begin{equation}\label{eq:dxy}
-d_{xy} = \sqrt[]{(x_1 - x_0)^2 + (y_1 - y_0)^2}
-\end{equation}
-\begin{equation}\label{eq:dist}
-distance = \sqrt[]{\frac{d_{lab}^2}{num\_clusters} + \frac{d_{xy}^2}{step\_size}}
+\begin{equation}
+	\label{equ:circuit1rf1}
+	I_f=\frac{V_{dc} - V_f}{R_f}
 \end{equation}
 
-Design Methodology is usually the most tedious part of the lab report.\\
+\begin{equation}
+	\label{equ:circuit1rf2}
+	R_f=\frac{V_{dc} - V_f}{I_f}
+\end{equation}
+
+\begin{equation}
+	\label{equ:circuit1rf3}
+	R_f=\frac{5\si\volt - 1.7\si\volt}{40 \si{\milli\ampere}}
+\end{equation}
+
+\begin{equation}
+	\label{equ:circuit1rf4}
+	R_f= 82.5 \si\ohm
+\end{equation}
+
+The same process was used for deteminging the $R_f$ resistor for the circuit in Figure \ref{fig:circuit2}
+and is shown in Equations \ref{equ:circuit2rf1} - \ref{equ:circuit2rf3}.
+
+\begin{equation}
+	\label{equ:circuit2rf1}
+	R_f=\frac{V_{dc} - (V_{f,inverter} - V_{f,diode})}{I_f}
+\end{equation}
+
+\begin{equation}
+	\label{equ:circuit2rf2}
+	R_f=\frac{5 - (1.7\si\volt - 0.8\si\volt)}{40\si{\milli\ampere}}
+\end{equation}
+
+\begin{equation}
+	\label{equ:circuit2rf3}
+	R_f=65\si\ohm
+\end{equation}
+
+
+These circuits were then built using a breadboard, jumper wires and various 
+resistors to get as close as possible to the calculated values above. The circuit
+in Figure \ref{fig:circuit1} was analyzed by using a multimeter to measure the voltage 
+at $V_{out}$ while the distance between the reflective surface and the sensor is varried.
+The circuit in Figure \ref{fig:circuit2} was analyzed by using an oscilloscope at $V_{out}$ and 
+a waveform generator at the input of the diode. The output was then measured while the frequency
+of the input waveform was varried.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results \& Analysis}
+
+Table \ref{tbl:circuit1} shows the measurements taken from the multimeter as the distance
+from the OPB745 sensor and the reflective surface was varried.
+
+\begin{table}[H]
+	\caption{Voltage vs. Distance measurements}
+	\label{tbl:circuit1}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		& \multicolumn{2}{c|}{$R_{l,1}$ - $10\si{\kilo\ohm}$} & \multicolumn{2}{c|}{$R_{l,2}$ - $20\si{\kilo\ohm}$} \\ \hline
+		Distance ($\si{\milli\meter}$) & $V_{out}$ ($\si\volt$)       & $I_{R_l}$ ($\si{\milli\ampere}$)      & $V_{out}$ ($\si\volt$)       & $I_{R_l}$ ($\si{\milli\ampere}$)      \\ \hline
+		0             & 4.934          & 0.4934        & 4.859          & 0.24295       \\ \hline
+		1             & 0.866          & 0.0866        & 0.781          & 0.03905       \\ \hline
+		2             & 0.723          & 0.0723        & 0.679          & 0.03395       \\ \hline
+		3             & 0.701          & 0.0701        & 0.653          & 0.03265       \\ \hline
+		4             & 0.703          & 0.0703        & 0.651          & 0.03255       \\ \hline
+		5             & 0.717          & 0.0717        & 0.662          & 0.0331        \\ \hline
+		6             & 0.736          & 0.0736        & 0.681          & 0.03405       \\ \hline
+		7             & 0.757          & 0.0757        & 0.707          & 0.03535       \\ \hline
+		8             & 0.782          & 0.0782        & 0.729          & 0.03645       \\ \hline
+		9             & 0.808          & 0.0808        & 0.729          & 0.03645       \\ \hline
+		10            & 0.844          & 0.0844        & 0.772          & 0.0386        \\ \hline
+		11            & 0.985          & 0.0985        & 0.791          & 0.03955       \\ \hline
+		12            & 2.107          & 0.2107        & 0.809          & 0.04045       \\ \hline
+		13            & 2.800          & 0.2800        & 0.838          & 0.0419        \\ \hline
+		14            & 3.097          & 0.3097        & 0.885          & 0.04425       \\ \hline
+		15            & 3.300          & 0.3300        & 1.137          & 0.05685       \\ \hline
+		20            & 3.582          & 0.3582        & 1.613          & 0.08065       \\ \hline
+		25            & 3.627          & 0.3627        & 1.985          & 0.09925       \\ \hline
+		30            & 3.848          & 0.3848        & 2.246          & 0.1123        \\ \hline
+		35            & 4.243          & 0.4243        & 3.255          & 0.16275       \\ \hline
+		40            & 4.508          & 0.4508        & 3.971          & 0.19855       \\ \hline
+		45            & 4.637          & 0.4637        & 4.287          & 0.2139        \\ \hline
+		50            & 4.695          & 0.4695        & 4.421          & 0.22105       \\ \hline
+	\end{tabular}
+\end{table}
+
+The data in Table \ref{tbl:circuit1} was graphed using Excel and produced Figures \ref{fig:circuit1_voltage}
+and \ref{fig:circuit1_current}. These figures show data produced by the circuit with both the $10\si{\kilo\ohm}$
+and $20\si{\kilo\ohm}$ load resistors. From inspection the voltage at the $0\si{\milli\meter}$ mark reads close to that
+of the source, $5\si\volt$. As the distance initially increases, the voltage drops close to 0 and as the distance continues
+to grow, the voltage begins to return to the source value of $5\si\volt$. This is due to the operating range of the device. 
+
+\nimg[height=2.5in]{fig:circuit1_voltage}{fig/circuit1_voltage.png}{Voltage vs. Distance of OPB745}
+\nimg[height=2.5in]{fig:circuit1_current}{fig/circuit1_current.png}{Current vs. Distance of OPB745}
+
+
+
 Results and Analysis go here. Follow lab report guidelines. Remember to introduce Figures (\ref{img:dog}) through (\ref{img:lindbloom} before they appear in the document. Make sure that your figure labels are below the figure itself and that they have a title.
 
 
-\nimg[height=3.0in]{img:dog}{fig/dog.png}{Dog (${420}\times{240}$, 76800 pixels)}
-\nimg[height=3.0in]{img:elephants}{fig/elephants.jpg}{Elephants (${481}\times{321}$, 154401 pixels)}
-\nimg[height=3.0in]{img:toucan}{fig/toucan.jpg}{Toucan (${960}\times{640}$, 614400 pixels)}
-\nimg[height=1.5in]{img:lindbloom}{fig/Lindbloom.jpg}{Lindbloom (${148}\times{95}$, 14060 pixels)}
-
 A pair of exemplary segmentations are illustrated in Figures (\ref{img:dog_CPU}) and (\ref{img:dog_GPU}), corresponding to the CPU and GPU implementations respectively. Note that the images are identical.
 
-\nimg[height=3.0in]{img:dog_CPU}{fig/dog_40_100_cpu.png}{CPU Dog Segmentation, 100 Superpixels}
-\nimg[height=3.0in]{img:dog_GPU}{fig/dog_40_100_gpu.png}{GPU Dog Segmentation, 100 Superpixels}
 
 Graphs are very helpful if you're trying to show a trend to the reader. Figures (\ref{fig:time24}), (\ref{fig:time100}), and (\ref{fig:time400}) plot the CPU and GPU execution times of the segmentation of the images of different sizes, with 24, 100, and 400 superpixels respectively. Note that not only does the GPU consistently provide a speedup >1, but that the speedup improves with an increasing image size. Moreover, speedup also improves with an increased superpixel size.
 
-\nimg[height=3.0in]{fig:time24}{fig/time24.png}{Basic Superpixels Performance, 24 Superpixels}
-\nimg[height=3.0in]{fig:time100}{fig/time100.png}{Basic Superpixels Performance, 100 Superpixels}
-\nimg[height=3.0in]{fig:time400}{fig/time400.png}{Basic Superpixels Performance, 400 Superpixels}
 
 Results and Analysis are also pretty tedious :)\\
 
