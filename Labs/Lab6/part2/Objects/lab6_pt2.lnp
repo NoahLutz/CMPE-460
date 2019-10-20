@@ -1,0 +1,10 @@
+--cpu=Cortex-M4.fp
+".\objects\main.o"
+".\objects\stepper.o"
+".\objects\uart.o"
+".\objects\startup_mk64f12.o"
+".\objects\system_mk64f12.o"
+--strict --scatter ".\Objects\lab6_pt2.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\lab6_pt2.map" -o .\Objects\lab6_pt2.axf

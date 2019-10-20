@@ -1,0 +1,12 @@
+--cpu=Cortex-M4.fp
+".\objects\main.o"
+".\objects\uart.o"
+".\objects\gpio.o"
+".\objects\timer.o"
+".\objects\adc.o"
+".\objects\startup_mk64f12.o"
+".\objects\system_mk64f12.o"
+--strict --scatter ".\Objects\lab5_pt3.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\Listings\lab5_pt3.map" -o .\Objects\lab5_pt3.axf

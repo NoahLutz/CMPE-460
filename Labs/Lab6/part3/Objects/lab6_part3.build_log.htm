@@ -1,0 +1,73 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.24.2.0
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Rick Tolleson Rochester Institute of Technology Flex license: MDK-ARM Professional: 200 user(s) (mdk_pro) Operation stops: 13 Aug 2020
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional: 200 user(s)  Version: 5.24.1
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 5 (build 528)
+Assembler:       Armasm.exe V5.06 update 5 (build 528)
+Linker/Locator:  ArmLink.exe V5.06 update 5 (build 528)
+Library Manager: ArmAr.exe V5.06 update 5 (build 528)
+Hex Converter:   FromElf.exe V5.06 update 5 (build 528)
+CPU DLL:         SARMCM3.DLL V5.24.1
+Dialog DLL:      DCM.DLL V1.16.0.0
+Target DLL:      CMSIS_AGDI.dll V1.28.3.0
+Dialog DLL:      TCM.DLL V1.32.0.0
+ 
+<h2>Project:</h2>
+D:\CMPE-460\Labs\Lab6\part3\lab6_part3.uvprojx
+Project File Date:  10/17/2019
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'Target 1'
+compiling main.c...
+main.c(14): warning:  #1295-D: Deprecated declaration initialize - give arg types
+  void initialize();
+main.c(15): warning:  #1295-D: Deprecated declaration en_interrupts - give arg types
+  void en_interrupts();
+main.c(16): warning:  #1295-D: Deprecated declaration delay - give arg types
+  void delay();
+main.c(78): warning:  #111-D: statement is unreachable
+  	return 0;
+main.c: 4 warnings, 0 errors
+linking...
+Program Size: Code=1124 RO-data=1040 RW-data=0 ZI-data=1120  
+".\Objects\lab6_part3.axf" - 0 Error(s), 4 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.6.0.pack
+                ARM.CMSIS.5.6.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.3.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.Kinetis_K60_DFP.1.5.0.pack
+                Keil.Kinetis_K60_DFP.1.5.0
+                NXP Kinetis K60 Series Device Support and Examples
+   * Component: Startup Version: 1.0.0
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_Target_1
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include
+  C:\Keil_v5\ARM\PACK\Keil\Kinetis_K60_DFP\1.5.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: Keil::Device:Startup:1.0.0
+      Source file:   Device\Source\system_MK64F12.c
+      Source file:   Device\Source\ARM\startup_MK64F12.s
+
+   * Component: ARM::CMSIS:CORE:5.3.0
+Build Time Elapsed:  00:00:04
+</pre>
+</body>
+</html>
