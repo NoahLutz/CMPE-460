@@ -1,0 +1,63 @@
+
+**** 10/29/19 17:41:55 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
+
+ ** Profile: "SCHEMATIC1-sweep"  [ D:\CMPE-460\Labs\Lab7\lab7-pspicefiles\schematic1\sweep.sim ] 
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+
+** Creating circuit file "sweep.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+* From [PSPICE NETLIST] section of C:\Users\cnl9674\cdssetup\OrCAD_PSpice/16.6.0/PSpice.ini file:
+.lib "nom.lib" 
+
+*Analysis directives: 
+.AC DEC 10 1 1e6
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+
+**** INCLUDING SCHEMATIC1.net ****
+* source LAB7
+C_C1         0 N00105  1.59155e-8  TC=0,0 
+R_R1         N00098 N00105  10k TC=0,0 
+V_V1         N00098 0 DC 0Vdc AC 1Vac 
+V_V2         N01052 0 DC 0Vdc AC 1Vac 
+R_R2         N01052 N01059  1k TC=0,0 
+R_R3         N01059 N01063  1k TC=0,0 
+R_R4         N01082 N01067  1k TC=0,0 
+R_R5         0 N01082  1k TC=0,0 
+C_C2         0 N01063  1.591e-7  TC=0,0 
+C_C3         N01067 N01059  1.591e-7  TC=0,0 
+X_U1         N01063 N01082 VDC+ VDC- N01067 uA741
+V_V3         VDC+ 0 5
+V_V4         0 VDC- 5
+X_U2         N02681 N02697 VDC+ VDC- N02685 uA741
+V_V6         VDC+ 0 10
+R_R9         0 N02697  53 TC=0,0 
+V_V5         N02645 0 DC 0Vdc AC 1Vac 
+R_R6         N02645 N02677  7 TC=0,0 
+C_C4         0 N02681  1.36e-6  TC=0,0 
+V_V7         0 VDC- 10
+R_R7         N02677 N02681  41 TC=0,0 
+C_C5         N02685 N02677  0.68e-6  TC=0,0 
+R_R8         N02697 N02685  600 TC=0,0 
+.PARAM  cap2=1e-9 cap=10e-9
+
+**** RESUMING sweep.cir ****
+.END
+
+ERROR(ORPSIM-15143): Voltage source and/or inductor loop involving V_V6. You may break the loop by adding a series resistance
+

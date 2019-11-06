@@ -1,0 +1,218 @@
+
+**** 11/01/19 09:12:41 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
+
+ ** Profile: "SCHEMATIC1-hrm_simulation"  [ D:\CMPE-460\LABS\Lab8\HRM-PSpiceFiles\SCHEMATIC1\hrm_simulation.sim ] 
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+
+** Creating circuit file "hrm_simulation.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+* From [PSPICE NETLIST] section of C:\Users\cnl9674\cdssetup\OrCAD_PSpice/16.6.0/PSpice.ini file:
+.lib "nom.lib" 
+
+*Analysis directives: 
+.AC DEC 1000 0.5 10
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+
+**** INCLUDING SCHEMATIC1.net ****
+* source HRM
+V_V1         N00050 0 DC 2Vdc AC 0.010Vac 
+X_U1         N00050 N00136 VDC+ 0 N00136 uA741
+V_V2         VDC+ 0 5Vdc
+C_C1         N00136 HPF_OUT  3.48uF  TC=0,0 
+R_R1         0 HPF_OUT  57.3k TC=0,0 
+X_U2         HPF_OUT N00795 VDC+ 0 N00795 uA741
+R_R2         N00795 N00953  8.14k TC=0,0 
+R_R3         N00953 N00991  8.1k TC=0,0 
+C_C2         0 N00991  1uF  TC=0,0 
+X_U3         N00991 N01275 VDC+ 0 LPF_OUT uA741
+R_R4         0 N01275  0.981k TC=0,0 
+R_R5         N01275 LPF_OUT  98k TC=0,0 
+
+**** RESUMING hrm_simulation.cir ****
+.END
+
+**** 11/01/19 09:12:41 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
+
+ ** Profile: "SCHEMATIC1-hrm_simulation"  [ D:\CMPE-460\LABS\Lab8\HRM-PSpiceFiles\SCHEMATIC1\hrm_simulation.sim ] 
+
+
+ ****     Diode MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               X_U1.dx         X_U1.dy         X_U2.dx         X_U2.dy         
+          IS  800.000000E-18  800.000000E-18  800.000000E-18  800.000000E-18 
+          RS    1               1.000000E-03    1               1.000000E-03 
+         CJO                   10.000000E-12                   10.000000E-12 
+
+
+               X_U3.dx         X_U3.dy         
+          IS  800.000000E-18  800.000000E-18 
+          RS    1               1.000000E-03 
+         CJO                   10.000000E-12 
+
+
+**** 11/01/19 09:12:41 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
+
+ ** Profile: "SCHEMATIC1-hrm_simulation"  [ D:\CMPE-460\LABS\Lab8\HRM-PSpiceFiles\SCHEMATIC1\hrm_simulation.sim ] 
+
+
+ ****     BJT MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               X_U1.qx         X_U2.qx         X_U3.qx         
+               NPN             NPN             NPN             
+       LEVEL    1               1               1            
+          IS  800.000000E-18  800.000000E-18  800.000000E-18 
+          BF   93.75           93.75           93.75         
+          NF    1               1               1            
+          BR    1               1               1            
+          NR    1               1               1            
+         ISS    0               0               0            
+          RE    0               0               0            
+          RC    0               0               0            
+         CJE    0               0               0            
+         VJE     .75             .75             .75         
+         CJC    0               0               0            
+         VJC     .75             .75             .75         
+         MJC     .33             .33             .33         
+        XCJC    1               1               1            
+         CJS    0               0               0            
+         VJS     .75             .75             .75         
+          KF    0               0               0            
+          AF    1               1               1            
+          CN    2.42            2.42            2.42         
+           D     .87             .87             .87         
+
+
+**** 11/01/19 09:12:41 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
+
+ ** Profile: "SCHEMATIC1-hrm_simulation"  [ D:\CMPE-460\LABS\Lab8\HRM-PSpiceFiles\SCHEMATIC1\hrm_simulation.sim ] 
+
+
+ ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+( VDC+)    5.0000  (N00050)    2.0000 (N00136)    2.0000 (N00795)     .1837     
+
+(N00953)     .1825 (N00991)     .1812 (N01275)     .0477 (X_U1.6) 47.12E-06     
+
+(X_U1.7)    2.0000 (X_U1.8)    2.0000 (X_U1.9)    0.0000 (X_U2.6)    1.4691     
+
+(X_U2.7)   -1.8465 (X_U2.8)   -1.8465 (X_U2.9)    0.0000 (X_U3.6)   -1.4330     
+
+(X_U3.7)    6.8464 (X_U3.8)    6.8464 (X_U3.9)    0.0000 (HPF_OUT)-20.97E-06    
+
+(LPF_OUT)    4.8162                   (X_U1.10)    1.3924                       
+
+(X_U1.11)    4.9604                   (X_U1.12)    4.9605                       
+
+(X_U1.13)    1.4063                   (X_U1.14)    1.4063                       
+
+(X_U1.53)    4.0000                   (X_U1.54)    1.0000                       
+
+(X_U1.90) 79.59E-06                   (X_U1.91)   40.0000                       
+
+(X_U1.92)  -40.0000                   (X_U1.99)    2.5000                       
+
+(X_U2.10)    -.4550                   (X_U2.11)    4.9218                       
+
+(X_U2.12)    4.9998                   (X_U2.13)    -.4276                       
+
+(X_U2.14)    -.4549                   (X_U2.53)    4.0000                       
+
+(X_U2.54)    1.0000                   (X_U2.90)  -40.6050                       
+
+(X_U2.91)   40.0000                   (X_U2.92)  -40.0000                       
+
+(X_U2.99)    2.5000                   (X_U3.10)    -.4568                       
+
+(X_U3.11)    4.9988                   (X_U3.12)    4.9228                       
+
+(X_U3.13)    -.4563                   (X_U3.14)    -.4298                       
+
+(X_U3.53)    4.0000                   (X_U3.54)    1.0000                       
+
+(X_U3.90)   40.6040                   (X_U3.91)   40.0000                       
+
+(X_U3.92)  -40.0000                   (X_U3.99)    2.5000                   
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_V1        -7.952E-08
+    V_V2         3.969E-02
+    X_U1.vb      4.712E-10
+    X_U1.vc      2.001E-12
+    X_U1.ve      9.769E-13
+    X_U1.vlim    7.959E-08
+    X_U1.vlp    -4.000E-11
+    X_U1.vln    -4.000E-11
+    X_U2.vb      1.469E-05
+    X_U2.vc      3.817E-12
+    X_U2.ve     -4.061E-02
+    X_U2.vlim   -4.061E-02
+    X_U2.vlp    -8.061E-11
+    X_U2.vln     1.152E-05
+    X_U3.vb     -1.433E-05
+    X_U3.vc     -4.056E-02
+    X_U3.ve      3.793E-12
+    X_U3.vlim    4.060E-02
+    X_U3.vlp     1.114E-05
+    X_U3.vln    -8.061E-11
+
+    TOTAL POWER DISSIPATION  -1.18E-01  WATTS
+
+
+
+          JOB CONCLUDED
+
+**** 11/01/19 09:12:41 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
+
+ ** Profile: "SCHEMATIC1-hrm_simulation"  [ D:\CMPE-460\LABS\Lab8\HRM-PSpiceFiles\SCHEMATIC1\hrm_simulation.sim ] 
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  Total job time (using Solver 1)   =        4.22
+

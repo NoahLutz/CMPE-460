@@ -18,8 +18,8 @@
 #define FTM0_MOD_VALUE			(CLOCK/PWM_FREQUENCY)
 #define FTM3_MOD_VALUE			(CLOCK/16/SERVO_FREQUENCY)
 
-#define SERVO_DEGREE_MULT	100
-#define SERVO_MOD_ADJUST	0
+#define SERVO_DEGREE_MULT	15
+#define SERVO_MOD_ADJUST	460
 #define SERVO_MOD_MAX		2650
 #define SERVO_MOD_MIN		1350
 #define SERVO_MOD_MID		(SERVO_MOD_MAX - ((SERVO_MOD_MAX-SERVO_MOD_MIN)>>1))
@@ -78,7 +78,7 @@ void SetMotor2DutyCycle(uint16_t dutyCycle, uint16_t freq, uint8_t dir)
 
 /*
  * Change the Servo angle
- * @param degrees (-45 to 45)
+ * @param degrees (-35 to 30)
  */
 void SetServoDutyCycle(int8_t degrees)
 {

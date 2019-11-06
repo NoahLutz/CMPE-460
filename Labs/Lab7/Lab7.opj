@@ -1,0 +1,141 @@
+(ExpressProject "Lab7"
+  (ProjectVersion "19981106")
+  (ProjectType "Analog or A/D Mixed Mode")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (NoModify)
+    (File ".\lab7.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (PSPICE_Regenerate_Netlist_Flag "FALSE"))
+  (Folder "Outputs"
+    (File ".\lab7-pspicefiles\schematic1\schematic1.net"
+      (Type "Report")))
+  (Folder "PSpice Resources"
+    (Folder "Simulation Profiles"
+      (File.PSpice.{09528990-3187-11D2-BC7B-00A0C90CBF91}
+         ".\lab7-pspicefiles\schematic1\sweep.sim"
+        (DisplayName "SCHEMATIC1-sweep")
+        (Type "PSpice Profile"))
+      (File.PSpice.{09528990-3187-11D2-BC7B-00A0C90CBF91}
+         ".\lab7-pspicefiles\schematic1\csweep.sim"
+        (DisplayName "SCHEMATIC1-Csweep")
+        (Type "PSpice Profile"))
+      (File.PSpice.{09528990-3187-11D2-BC7B-00A0C90CBF91}
+         ".\lab7-pspicefiles\schematic1\100hzsweep.sim"
+        (DisplayName "SCHEMATIC1-100HzSweep")
+        (Type "PSpice Profile"))
+      (File.PSpice.{09528990-3187-11D2-BC7B-00A0C90CBF91}
+         ".\lab7-pspicefiles\schematic1\biquadsweep.sim"
+        (DisplayName "SCHEMATIC1-biquadSweep")
+        (Type "PSpice Profile"))
+      (ActiveProfile ".\lab7-pspicefiles\schematic1\100hzsweep.sim"))
+    (Folder "Model Libraries"
+      (Sort User))
+    (Folder "Stimulus Files"
+      (Sort User))
+    (Folder "Include Files"
+      (Sort User)))
+  (DefaultLibraryBrowseDirectory "library\PSpice")
+  (PartMRUSelector
+    (0
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
+      (DeviceIndex "0"))
+    (R
+      (FullPartName "R.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\ANALOG.OLB")
+      (DeviceIndex "0"))
+    (VDC
+      (FullPartName "VDC.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\SOURCE.OLB")
+      (DeviceIndex "0"))
+    (uA741
+      (FullPartName "uA741.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\EVAL.OLB")
+      (DeviceIndex "0"))
+    (C
+      (FullPartName "C.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\ANALOG.OLB")
+      (DeviceIndex "0"))
+    (OPAMP
+      (FullPartName "OPAMP.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\ANALOG.OLB")
+      (DeviceIndex "0"))
+    (VAC
+      (FullPartName "VAC.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\SOURCE.OLB")
+      (DeviceIndex "0"))
+    (VSIN
+      (FullPartName "VSIN.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\SOURCE.OLB")
+      (DeviceIndex "0"))
+    (PARAM
+      (FullPartName "PARAM.Normal")
+      (LibraryName
+         "C:\SOFTWARE\CADENCE\SPB_16.6\TOOLS\CAPTURE\LIBRARY\PSPICE\SPECIAL.OLB")
+      (DeviceIndex "0")))
+  (LastUsedLibraryBrowseDirectory
+     "C:\Software\Cadence\SPB_16.6\tools\capture\library\pspice")
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" "D:\CMPE-460\Labs\Lab7\lab7.dsn")
+      (Path "Design Resources" "D:\CMPE-460\Labs\Lab7\lab7.dsn" "SCHEMATIC1")
+      (Path "Outputs")
+      (Select "Design Resources"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -31 0 200 0 391"))
+      (Tab 0))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -31 52 1448 52 482")
+        (Scroll "-189 0")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path "D:\CMPE-460\LABS\LAB7\LAB7.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "part1"))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -8 -31 104 1740 104 564")
+        (Scroll "280 183")
+        (Zoom "174")
+        (Occurrence "/"))
+      (Path "D:\CMPE-460\LABS\LAB7\LAB7.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "Butterworth10Hz"))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -31 156 1792 156 616")
+        (Scroll "-309 0")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path "D:\CMPE-460\LABS\LAB7\LAB7.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "SallenKey1kHz"))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -31 182 1818 182 642")
+        (Scroll "0 47")
+        (Zoom "174")
+        (Occurrence "/"))
+      (Path "D:\CMPE-460\LABS\LAB7\LAB7.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "biquad500Hz")))
+  (MPSSessionName "cnl9674"))

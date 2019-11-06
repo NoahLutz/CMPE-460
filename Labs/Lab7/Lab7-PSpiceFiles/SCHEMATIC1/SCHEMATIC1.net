@@ -1,0 +1,39 @@
+* source LAB7
+C_C1         0 N00105  1.59155e-8  TC=0,0 
+R_R1         N00098 N00105  10k TC=0,0 
+V_V1         N00098 0 DC 0Vdc AC 1Vac 
+V_V2         N01052 0 DC 0Vdc AC 1Vac 
+R_R2         N01052 N01059  1k TC=0,0 
+R_R3         N01059 N01063  1k TC=0,0 
+R_R4         N01082 N01067  1k TC=0,0 
+R_R5         0 N01082  1k TC=0,0 
+C_C2         0 N01063  1.591e-7  TC=0,0 
+C_C3         N01067 N01059  1.591e-7  TC=0,0 
+X_U1         N01063 N01082 VDC+ VDC- N01067 uA741
+V_V3         VDC+ 0 5
+V_V4         0 VDC- 5
+X_U2         N02681 N02697 V1DC+ V1DC- N02685 uA741
+V_V6         V1DC+ 0 15
+R_R9         0 N02697  54k TC=0,0 
+V_V5         N02645 0 DC 0Vdc AC 1Vac 
+R_R6         N02645 N02677  7k TC=0,0 
+C_C4         0 N02681  1.36e-6  TC=0,0 
+V_V7         0 V1DC- 15
+R_R7         N02677 N02681  41k TC=0,0 
+C_C5         N02685 N02677  0.68e-6  TC=0,0 
+R_R8         N02697 N02685  600k TC=0,0 
+X_U3         N03679 0 V15DC+ V15DC- N04087 uA741
+X_U4         N04442 0 V15DC+ V15DC- N04519 uA741
+X_U5         0 N04301 V15DC+ V15DC- N04243 uA741
+R_R10         N03727 N03679  77.5k TC=0,0 
+V_V8         N03727 0 DC 0Vdc AC 1Vac 
+R_R11         N03679 N04087  775k TC=0,0 
+V_V10         0 V15DC- 15
+V_V9         V15DC+ 0 15
+C_C6         N04087 N03679  0.01e-6  TC=0,0 
+R_R12         N03679 N04243  31k TC=0,0 
+C_C7         N04301 N04243  0.01e-6  TC=0,0 
+R_R13         N04301 N04519  31k TC=0,0 
+R_R14         N04087 N04442  31k TC=0,0 
+R_R15         N04442 N04519  31k TC=0,0 
+.PARAM  cap2=1e-9 cap=10e-9

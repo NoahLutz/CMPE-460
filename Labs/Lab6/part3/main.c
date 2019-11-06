@@ -41,14 +41,42 @@ int main(void)
 	// 0 to 100% duty cycle in forward direction
 	for(;;) {
 		uint8_t i;
-		/*for (i=0; i<100; i++){
+        
+        int8_t j;
+        
+        for (i=0; i<30; i++){
 			SetMotor1DutyCycle(i, 10000, 0);
 			SetMotor2DutyCycle(i, 10000, 0);
 			delay(2);
 		}
+        delay(100);
+        
+		for(j=-35; j<31; j++) {
+			SetServoDutyCycle(j);
+			delay(10);
+		}
+        for (j = 31; j > -36; j--) {
+            SetServoDutyCycle(j);
+            delay(10);
+        }
+        
 		
+        
+        SetMotor1DutyCycle(0, 10000, 0);
+        SetMotor2DutyCycle(0, 10000, 0);
+        
+        for (i=0; i<30; i++){
+			SetMotor1DutyCycle(i, 10000, 1);
+			SetMotor2DutyCycle(i, 10000, 1);
+			delay(2);
+		}
+        
+        delay(100);
+        SetMotor1DutyCycle(0, 10000, 0);
+        SetMotor2DutyCycle(0, 10000, 0);
+        
 		// 100% down to 0% duty cycle in the forward direction
-		for (i=100; i>=0; i--){
+		/*for (i=30; i>=0; i--){
 			SetMotor1DutyCycle(i, 10000, 0);
 			SetMotor2DutyCycle(i, 10000, 0);
 			delay(2);
@@ -68,10 +96,10 @@ int main(void)
 			delay(2);
 		}*/
 		
-		for(i=1; i<8; i++) {
-			SetServoDutyCycle(1350);
-			delay(1000);
-		}
+        //SetServoDutyCycle(0);
+        //delay(1000);
+        //-35 - 30
+        //SetServoDutyCycle(30);
 	}
 		
 	//for(;;);
