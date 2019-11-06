@@ -19,6 +19,7 @@ void setFTM0Chan0Mod(uint16_t mod);
 void setFTM0Chan1Mod(uint16_t mod);
 void setFTM0Chan2Mod(uint16_t mod);
 void setFTM0Chan3Mod(uint16_t mod);
+void setFMT3Chan4Mod(uint16_t mod);
 void setFTM2Mod(uint16_t mod);
 void setFTM3Mod(uint16_t mod);
 

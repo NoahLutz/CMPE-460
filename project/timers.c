@@ -51,8 +51,8 @@ void InitFTM0(void)
 	// Use drive strength enable flag to high drive strength
 	//These port/pins may need to be updated for the K64 <Yes, they do. Here are two that work.>
 	
-   PORTC_PCR1  = PORT_PCR_MUX(4)  | PORT_PCR_DSE_MASK; //Ch0
-   PORTC_PCR2  = PORT_PCR_MUX(4)  | PORT_PCR_DSE_MASK;//Ch1
+	PORTC_PCR1  = PORT_PCR_MUX(4)  | PORT_PCR_DSE_MASK; //Ch0
+	PORTC_PCR2  = PORT_PCR_MUX(4)  | PORT_PCR_DSE_MASK;//Ch1
 	PORTC_PCR3 = PORT_PCR_MUX(4) | PORT_PCR_DSE_MASK; // ch2
 	PORTC_PCR4 = PORT_PCR_MUX(4) | PORT_PCR_DSE_MASK; // ch3
 	
@@ -284,6 +284,14 @@ void setFTM0Chan2Mod(uint16_t mod)
 void setFTM0Chan3Mod(uint16_t mod)
 {
    FTM0_C3V = mod;
+}
+
+/*
+ * Set FTM3 Channel 4 mod value
+ */
+void setFTM3Chan4Mod(uint16_t mod)
+{
+   FTM3_C4V = mod;
 }
 
 /* 
