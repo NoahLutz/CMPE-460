@@ -13,6 +13,7 @@
 #include "adc.h"
 #include "camera.h"
 #include "gpio.h"
+#include "motor.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -32,18 +33,13 @@ int main(void)
 	// Print welcome over serial
 	uart_put("Running... \n\r");
 	
-	PORTB_PCR2 |= PORT_PCR_MUX(1);
-	PORTB_PCR3 |= PORT_PCR_MUX(1);
 	
-	GPIOB_PDDR |= (1 << 2) | (1 << 3);
-	//GPIOB_PSOR |= (1 << 2) | (1 << 3);
-	GPIOB_PCOR |= (1 << 2) | (1 << 3);
-
 	// Set Motors at constatnt speed for now
 	SetMotor1DutyCycle(30,  10000, 0);
 	SetMotor2DutyCycle(30, 10000, 0);
 	
-	
+   EnableMotor1();
+   EnableMotor2();
 		
 	for(;;) {
 		if (debugcamdata) {

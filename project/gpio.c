@@ -21,6 +21,8 @@
 GPIOPin_t clk = {PTB, 9};
 GPIOPin_t si = {PTB, 23};
 GPIOPin_t redLed = {PTB, 22};
+GPIOPin_t motor1Enable = {PTB, 2};
+GPIOPin_t motor2Enable = {PTB, 3};
  
 /* Set up pins for GPIO
 *     PTB9 		- camera clk
@@ -37,11 +39,16 @@ void init_GPIO(void){
 	PORTB_PCR9 |= PORT_PCR_MUX(1);
 	PORTB_PCR22 |= PORT_PCR_MUX(1);
 	PORTB_PCR23 |= PORT_PCR_MUX(1);
+
+	PORTB_PCR2 |= PORT_PCR_MUX(1);
+	PORTB_PCR3 |= PORT_PCR_MUX(1);
 	
 	// set data direction for GPIO pins
 	clk.port->PDDR |= (1U << clk.pin);
 	si.port->PDDR |= (1U << si.pin);
 	redLed.port->PDDR |= (1U << redLed.pin);
+	motor1Enable.port->PDDR |= (1 << motor1Enable.pin);
+	motor2Enable.port->PDDR |= (1 << motor2Enable.pin);
 
    gpio_high(&redLed);
 	

@@ -3,16 +3,25 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+uint16_t adcCopy[128];
+uint16_t smoothedData[128];
+uint16_t derivData[128];
+
 // Private function declarations
 
 
 
 // Public Function Definitions
-uint8_t processCameraData(uint16_t *adcData, uint8_t length)
+uint8_t processCameraData(uint16_t *adcData, size_t length)
 {
-	
+	memcpy(adcCopy, adcData, length);
+
+
 }
 
+
+
+// Private Function Definitions
 
 void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, size_t length)
 {
@@ -27,5 +36,3 @@ void derivitaveFilter(const uint16_t * const adcData, uint16_t * const dest, siz
 		dest[i] = abs((adcData[i-1]*-1 + adcData[i+1]))/3;
 	}
 }
-
-// Private Function Definitions

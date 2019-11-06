@@ -286,64 +286,6 @@ void setFTM0Chan3Mod(uint16_t mod)
    FTM0_C3V = mod;
 }
 
-
-/*
- * Change the Motor Duty Cycle and Frequency
- * @param DutyCycle (0 to 100)
- * @param Frequency (~1000 Hz to 20000 Hz)
- * @param dir: 1 for C4 active, else C3 active 
- */
-void SetMotor1DutyCycle(uint16_t dutyCycle, uint16_t freq, uint8_t dir)
-{
-	// Calculate the new cutoff value
-	uint16_t mod = (uint16_t) (((CLOCK/freq) * dutyCycle) / 100);
-  
-	// Set outputs 
-	if(dir==1) {
-		FTM0_C0V = mod;
-		FTM0_C1V=0;
-	}
-	else {
-		FTM0_C1V = mod;
-		FTM0_C0V=0;
-	}
-
-	// Update the clock to the new frequency
-	FTM0_MOD = (CLOCK/freq);
-}
-
-/*
- * Change the Motor Duty Cycle and Frequency
- * @param DutyCycle (0 to 100)
- * @param Frequency (~1000 Hz to 20000 Hz)
- * @param dir: 1 for C4 active, else C3 active 
- */
-void SetMotor2DutyCycle(uint16_t dutyCycle, uint16_t freq, uint8_t dir)
-{
-	// Calculate the new cutoff value
-	uint16_t mod = (uint16_t) (((CLOCK/freq) * dutyCycle) / 100);
-  
-	// Set outputs 
-	if(dir==1) {
-		FTM0_C2V = mod;
-		FTM0_C3V=0;
-	}
-	else {
-		FTM0_C3V = mod;
-		FTM0_C2V=0;
-	}
-
-	// Update the clock to the new frequency
-	FTM0_MOD = (CLOCK/freq);
-}
-
-
-
-
-
-
-
-
 /* 
 * FTM2 handles the camera driving logic
 *	This ISR gets called once every integration period
@@ -357,7 +299,6 @@ void FTM2_IRQHandler(void){ //For FTM timer
   FTM2_SC &= ~FTM_SC_TOF_MASK;
 	
 	// Toggle clk
-	//gpio_toggle(&clk);
 	if (clkval == 1) {
 		gpio_low(&clk);
 		clkval = 0;

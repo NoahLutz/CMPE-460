@@ -25,6 +25,8 @@ typedef struct {
 extern GPIOPin_t clk;
 extern GPIOPin_t si;
 extern GPIOPin_t redLed;
+extern GPIOPin_t motor1Enable;
+extern GPIOPin_t motor2Enable;
 
  
 void init_GPIO(void);
