@@ -20,7 +20,7 @@ uint8_t prevMid = 63;
 
 // Private function declarations
 void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, uint8_t length);
-void derivitaveFilter(const uint16_t * const adcData, uint16_t * const dest, uint8_t length);
+void derivitiveFilter(const uint16_t * const adcData, uint16_t * const dest, uint8_t length);
 uint16_t maxValue(const uint16_t * const data, uint8_t length);
 
 
@@ -47,9 +47,9 @@ uint8_t processCameraData(uint16_t *adcData, uint8_t length)
 	smoothRawCameraData(adcCopy, smoothedData, length);
 
 	memcpy(smoothedDataCopy, smoothedData, length);
-	derivativeFilter(smoothedDataCopy, derivData, length);
+	derivitiveFilter(smoothedDataCopy, derivData, length);
 
-	maxDerivValue = maxValue(&derivData, length);
+	maxDerivValue = maxValue( (const uint16_t*)&derivData, length);
 
 	// Find the inner two spikes
 	for (uint8_t i = prevMid; i < 127; i++) {
@@ -114,7 +114,7 @@ void getDerivData(uint16_t *dest, size_t length)
  * 
  * Returns: N/A
  */
-void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, size_t length)
+void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, uint8_t length)
 {
 	for (uint8_t i = 2; i < length-3; i++) {
 		dest[i] = (adcData[i-2] + adcData[i-1] + adcData[i] + adcData[i+1] + adcData[i+2])/5;
@@ -132,7 +132,7 @@ void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, 
  * 
  * Returns: N/A
  */
-void derivitaveFilter(const uint16_t * const adcData, uint16_t * const dest, size_t length)
+void derivitiveFilter(const uint16_t * const adcData, uint16_t * const dest, uint8_t length)
 {
 	for (uint8_t i = 1; i < length-2; i++) {
 		dest[i] = abs(adcData[i+1] - adcData[i-1])/3;

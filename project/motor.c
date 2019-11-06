@@ -8,8 +8,12 @@
 
 #include "motor.h"
 #include "gpio.h"
+#include "timers.h"
+
+#define CLOCK					20485760u
 
 #define MOTOR_FREQ   10000U // 10kHz
+#define SERVO_FREQUENCY			50
 
 #define FTM0_MOD_VALUE			(CLOCK/PWM_FREQUENCY)
 #define FTM3_MOD_VALUE			(CLOCK/16/SERVO_FREQUENCY)
@@ -62,7 +66,7 @@ void SetMotor1DutyCycle(uint16_t dutyCycle, uint8_t dir)
 	}
 
 	// Update the clock to the new frequency
-   setFMT0Mod(CLOCK/MOTOR_FREQ);
+   setFTM0Mod(CLOCK/MOTOR_FREQ);
 }
 
 /*
@@ -77,8 +81,8 @@ void SetMotor2DutyCycle(uint16_t dutyCycle, uint8_t dir)
   
 	// Set outputs 
 	if(dir==1) {
-      setFMT0Chan2Mod(mod);
-      setFMT0Chan3Mod(0);
+      setFTM0Chan2Mod(mod);
+      setFTM0Chan3Mod(0);
 	}
 	else {
       setFTM0Chan3Mod(mod);
@@ -100,7 +104,7 @@ void SetServoDutyCycle(int8_t degrees)
 	uint16_t mod = (uint16_t) (SERVO_MOD_MID + (degrees * SERVO_DEGREE_MULT)) - SERVO_MOD_ADJUST;
   
 	// Set outputs 
-	setFMT3Chan4Mod(mod);
+	setFTM3Chan4Mod(mod);
 
 	// Update the clock to the new frequency
 	setFTM3Mod(FTM3_MOD_VALUE);

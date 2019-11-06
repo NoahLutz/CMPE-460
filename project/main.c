@@ -22,8 +22,8 @@ int capcnt = 0;
 uint16_t line[128];
 char str[100];
 
-void initialize();
-void delay();
+void initialize(void);
+void delay(int del);
 
 int main(void)
 {
@@ -35,16 +35,23 @@ int main(void)
 	
 	
 	// Set Motors at constatnt speed for now
-	SetMotor1DutyCycle(30,  10000, 0);
-	SetMotor2DutyCycle(30, 10000, 0);
+	SetMotor1DutyCycle(30, 0);
+	SetMotor2DutyCycle(30, 0);
 	
    EnableMotor1();
    EnableMotor2();
 		
 	for(;;) {
+		// Process new camera data
+		processCameraData(line, 128);
+		
+		// adjust servo
+		
+		
+		// send debug data if necessary
 		if (debugcamdata) {
 			// Every 2 seconds
-			if (capcnt >= (500)) {
+			if (capcnt >= (100)) {
 				
 				uint16_t data[128];
 				uint16_t smoothedData[128];
@@ -53,8 +60,10 @@ int main(void)
 				memset(smoothedData, 0, sizeof(smoothedData));
 				memset(derivData, 0, sizeof(derivData));
 				
-				smoothRawCameraData(line, smoothedData, sizeof(line));
-				derivitaveFilter(smoothedData, derivData, sizeof(smoothedData));
+				getSmoothedData(smoothedData, sizeof(smoothedData));
+				getDerivData(derivData, sizeof(smoothedData));
+				//smoothRawCameraData(line, smoothedData, sizeof(line));
+				//derivitaveFilter(smoothedData, derivData, sizeof(smoothedData));
 				
 				memcpy(data, line, sizeof(data));
 				
@@ -72,11 +81,6 @@ int main(void)
 				GPIOB_PSOR |= (1 << 22);
 			}
 		}
-		
-		// Process new camera data
-		
-		// adjust servo
-		
 	}
 		
 	return 0;
