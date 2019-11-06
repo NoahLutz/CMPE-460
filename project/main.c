@@ -13,14 +13,19 @@
 #include "adc.h"
 #include "camera.h"
 #include "gpio.h"
+#include "servo.h"
 #include "motor.h"
 #include <stdio.h>
 #include <string.h>
+
+#define IDEAL_CENTER 63
 
 int debugcamdata = 1;
 int capcnt = 0;
 uint16_t line[128];
 char str[100];
+
+uint8_t centerPoint = 0;
 
 void initialize(void);
 void delay(int del);
@@ -38,15 +43,16 @@ int main(void)
 	SetMotor1DutyCycle(30, 0);
 	SetMotor2DutyCycle(30, 0);
 	
-   EnableMotor1();
-   EnableMotor2();
+	
+  //EnableMotor1();
+  //EnableMotor2();
 		
 	for(;;) {
 		// Process new camera data
-		processCameraData(line, 128);
+		centerPoint = processCameraData(line, 128);
 		
 		// adjust servo
-		
+		adjustServoAngle(100, IDEAL_CENTER);
 		
 		// send debug data if necessary
 		if (debugcamdata) {
@@ -62,8 +68,7 @@ int main(void)
 				
 				getSmoothedData(smoothedData, sizeof(smoothedData));
 				getDerivData(derivData, sizeof(smoothedData));
-				//smoothRawCameraData(line, smoothedData, sizeof(line));
-				//derivitaveFilter(smoothedData, derivData, sizeof(smoothedData));
+				
 				
 				memcpy(data, line, sizeof(data));
 				
