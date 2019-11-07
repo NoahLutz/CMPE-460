@@ -17,13 +17,16 @@
 #include "motor.h"
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define IDEAL_CENTER 63
 
-int debugcamdata = 1;
+int debugcamdata = 0;
 int capcnt = 0;
 uint16_t line[128];
 char str[100];
+
+bool processCameraFlag = false;
 
 uint8_t centerPoint = 0;
 
@@ -40,50 +43,63 @@ int main(void)
 	
 	
 	// Set Motors at constatnt speed for now
-	SetMotor1DutyCycle(30, 0);
-	SetMotor2DutyCycle(30, 0);
+	//SetMotor1DutyCycle(30, 0);
+	//SetMotor2DutyCycle(30, 0);
 	
 	
   //EnableMotor1();
   //EnableMotor2();
 		
 	for(;;) {
-		// Process new camera data
-		centerPoint = processCameraData(line, 128);
 		
-		// adjust servo
-		adjustServoAngle(100, IDEAL_CENTER);
-		
-		// send debug data if necessary
-		if (debugcamdata) {
-			// Every 2 seconds
-			if (capcnt >= (100)) {
-				
-				uint16_t data[128];
-				uint16_t smoothedData[128];
-				uint16_t derivData[128];
-				
-				memset(smoothedData, 0, sizeof(smoothedData));
-				memset(derivData, 0, sizeof(derivData));
-				
-				getSmoothedData(smoothedData, sizeof(smoothedData));
-				getDerivData(derivData, sizeof(smoothedData));
-				
-				
-				memcpy(data, line, sizeof(data));
-				
-				GPIOB_PCOR |= (1 << 22);
-				// send the array over uart
-				sprintf(str,"%i\n\r",-1); // start value
-				uart_put(str);
-				for (int i = 0; i < 127; i++) {
-					sprintf(str,"%i\n", data[i]);
+		if (processCameraFlag == true) {
+			processCameraFlag = false;
+			
+			// Process new camera data
+			centerPoint = processCameraData(line, 128);
+			
+			//sprintf(str, "Center Point: %i\r\n", centerPoint);
+			//uart_put(str);
+			
+			// adjust servo
+			adjustServoAngle(centerPoint, IDEAL_CENTER);
+			
+			delay(10);
+			
+			// send debug data if necessary
+			if (debugcamdata) {
+				// Every 2 seconds
+				if (capcnt >= (1)) {
+					
+					uint16_t data[128];
+					uint16_t smoothedData[128];
+					uint16_t derivData[128];
+					uint16_t thresholdData[128];
+					
+					memset(smoothedData, 0, sizeof(smoothedData));
+					memset(derivData, 0, sizeof(derivData));
+					memset(thresholdData, 0, sizeof(thresholdData));
+					
+					getSmoothedData(smoothedData, 128);
+					getDerivData(derivData, 128);
+					getThresholdData(thresholdData, 128);
+					
+					
+					memcpy(data, thresholdData, sizeof(data));
+					
+					GPIOB_PCOR |= (1 << 22);
+					// send the array over uart
+					sprintf(str,"%i\n\r",-1); // start value
 					uart_put(str);
+					for (int i = 0; i < 127; i++) {
+						sprintf(str,"%i\n", data[i]);
+						uart_put(str);
+					}
+					sprintf(str,"%i\n\r",-2); // end value
+					uart_put(str);
+					capcnt = 0;
+					GPIOB_PSOR |= (1 << 22);
 				}
-				sprintf(str,"%i\n\r",-2); // end value
-				uart_put(str);
-				capcnt = 0;
-				GPIOB_PSOR |= (1 << 22);
 			}
 		}
 	}

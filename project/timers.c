@@ -340,7 +340,9 @@ void FTM2_IRQHandler(void){ //For FTM timer
 		// Disable FTM2 interrupts (until PIT0 overflows
 		//   again and triggers another line capture)
 		FTM2_SC &= ~FTM_SC_TOIE_MASK;
-	
+		
+		// Set flag to process camera data
+		processCameraFlag = true;
 	}
 	return;
 }

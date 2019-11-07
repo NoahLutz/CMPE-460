@@ -19,7 +19,7 @@
 function plot_cams 
 
 %Send over bluetooth or serial
-serialPort = 'COM87';
+serialPort = 'COM91';
 serialObject = serial(serialPort);
 %configure serial connection
 serialObject.BaudRate = 9600; %(Default)
@@ -46,7 +46,7 @@ while (1)
         %val
         if ((val == -1) || (val == -3)) % -1 and -3 are start keywords
             count = 1;
-            val
+            %val
         elseif (val == -2) % End camera1 tx
             if (count == 128)
                 plotdata(trace, 1);

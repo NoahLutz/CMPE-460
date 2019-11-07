@@ -32,10 +32,10 @@ void adjustServoAngle(uint8_t centerPoint, uint8_t idealCenter)
 	uint8_t diff;
 	if (centerPoint > idealCenter) {
 		diff = centerPoint - idealCenter;
-		mod = SERVO_CENTER + (diff * SERVO_INCREMENT);
+		mod = SERVO_CENTER - (diff * SERVO_INCREMENT);
 	} else if (centerPoint < idealCenter) {
 		diff = idealCenter - centerPoint;
-		mod = SERVO_CENTER - (diff * SERVO_INCREMENT);
+		mod = SERVO_CENTER + (diff * SERVO_INCREMENT);
 	}
 	if (centerPoint == idealCenter) {
 		mod = SERVO_CENTER;

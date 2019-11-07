@@ -3,3 +3,5 @@
 .\objects\camera.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\camera.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\camera.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\camera.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\camera.o: uart.h
