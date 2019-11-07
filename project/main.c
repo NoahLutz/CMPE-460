@@ -43,12 +43,12 @@ int main(void)
 	
 	
 	// Set Motors at constatnt speed for now
-	//SetMotor1DutyCycle(30, 0);
-	//SetMotor2DutyCycle(30, 0);
+	SetMotor1DutyCycle(30, 0);
+	SetMotor2DutyCycle(30, 0);
 	
 	
-  //EnableMotor1();
-  //EnableMotor2();
+  EnableMotor1();
+  EnableMotor2();
 		
 	for(;;) {
 		
