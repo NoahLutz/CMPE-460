@@ -17,8 +17,8 @@
 
 
 #define SERVO_CENTER		1850
-#define SERVO_MIN				1500
-#define SERVO_MAX				2200
+#define SERVO_MIN				1200
+#define SERVO_MAX				2400
 #define SERVO_INCREMENT	35
 
 /*

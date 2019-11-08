@@ -19,7 +19,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define IDEAL_CENTER 63
+#define IDEAL_CENTER 55
 
 int debugcamdata = 0;
 int capcnt = 0;
