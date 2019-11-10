@@ -23,12 +23,13 @@
 
 int debugcamdata = 0;
 int capcnt = 0;
-uint16_t line[128];
+uint16_t line[ARRAY_SIZE];
 char str[100];
 
 bool processCameraFlag = false;
 
 uint8_t centerPoint = 0;
+uint32_t area = 0;
 
 void initialize(void);
 void delay(int del);
@@ -47,8 +48,8 @@ int main(void)
 	SetMotor2DutyCycle(30, 0);
 	
 	
-  EnableMotor1();
-  EnableMotor2();
+   EnableMotor1();
+   EnableMotor2();
 		
 	for(;;) {
 		
@@ -56,10 +57,14 @@ int main(void)
 			processCameraFlag = false;
 			
 			// Process new camera data
-			centerPoint = processCameraData(line, 128);
-			
-			//sprintf(str, "Center Point: %i\r\n", centerPoint);
-			//uart_put(str);
+			processCameraData(line, ARRAY_SIZE);
+
+         centerPoint = findCenterPoint();
+
+         area = calculateArea();
+
+			sprintf(str, "Center Point: %i\r\nArea: %i\r\n", centerPoint, area);
+			uart_put(str);
 			
 			// adjust servo
 			adjustServoAngle(centerPoint, IDEAL_CENTER);
@@ -71,21 +76,21 @@ int main(void)
 				// Every 2 seconds
 				if (capcnt >= (1)) {
 					
-					uint16_t data[128];
-					uint16_t smoothedData[128];
-					uint16_t derivData[128];
-					uint16_t thresholdData[128];
+					uint16_t data[ARRAY_SIZE];
+					uint16_t smoothedData[ARRAY_SIZE];
+					uint16_t derivData[ARRAY_SIZE];
+					uint16_t thresholdData[ARRAY_SIZE];
 					
 					memset(smoothedData, 0, sizeof(smoothedData));
 					memset(derivData, 0, sizeof(derivData));
 					memset(thresholdData, 0, sizeof(thresholdData));
 					
-					getSmoothedData(smoothedData, 128);
-					getDerivData(derivData, 128);
-					getThresholdData(thresholdData, 128);
+					getSmoothedData(smoothedData, ARRAY_SIZE);
+					getDerivData(derivData, ARRAY_SIZE);
+					getThresholdData(thresholdData, ARRAY_SIZE);
 					
 					
-					memcpy(data, thresholdData, sizeof(data));
+					memcpy(data, thresholdData, ARRAY_SIZE * sizeof(uint16_t));
 					
 					GPIOB_PCOR |= (1 << 22);
 					// send the array over uart

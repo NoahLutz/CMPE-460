@@ -18,59 +18,80 @@
 uint8_t startOffset = 0;
 
 
-uint16_t smoothedData[128];
-uint16_t thresholdData[128];
-uint16_t derivData[128];
+uint16_t smoothedData[ARRAY_SIZE];
+uint16_t thresholdData[ARRAY_SIZE];
+uint16_t derivData[ARRAY_SIZE];
 
-uint16_t adcCopy[128];
-uint16_t smoothedDataCopy[128];
-uint16_t derivDataCopy[128];
+uint16_t adcCopy[ARRAY_SIZE];
+uint16_t smoothedDataCopy[ARRAY_SIZE];
+uint16_t derivDataCopy[ARRAY_SIZE];
 
 uint8_t prevMid = 63;
 
 // Private function declarations
-void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, uint8_t length);
-void derivitiveFilter(const uint16_t * const adcData, uint16_t * const dest, uint8_t length);
-void thresholdFilter(const uint16_t * const data, uint16_t * const dest, uint8_t length);
+void smoothRawCameraData(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
+void derivitiveFilter(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
+void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length);
+
 uint16_t maxValue(const uint16_t * const data, uint8_t length);
 
 
 // Public Function Definitions
 
+
 /*
  * Name: processCameraData
  * 
- * Description: processes camera data and returns the center point of the white
- *				portion of the camera data
+ * Description: processes raw ADC data and produces filtered data
+ *              used by other functions
  *
  * Params:	*adcData - raw data from the camera ADC
  *			length - length of ADC data
  * 
+ * Returns: N/A
+ */
+void processCameraData(uint16_t *adcData, uint8_t length)
+{
+   
+	// Copy data into temporary buffer so it's not accidentially clobbered...
+	memcpy(adcCopy, adcData, length * sizeof(uint16_t));
+	
+   // smooth out raw ADC data
+	smoothRawCameraData(adcCopy, smoothedData, length);
+   
+   // copy smoothed data   
+	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
+	
+	// run smoothed data through threshold filter
+	thresholdFilter(smoothedDataCopy, thresholdData, length);
+	
+   //derivitiveFilter(smoothedDataCopy, derivData, length);
+	//memcpy(derivDataCopy, derivData, length*sizeof(uint16_t));
+	
+	//thresholdFilter(derivDataCopy, thresholdDeriv, length);
+	
+	//maxDerivValue = maxValue(derivData, length);
+}
+
+
+/*
+ * Name: findCenterPoint
+ * 
+ * Description: processes camera data and returns the center point of the white
+ *				portion of the camera data
+ *
+ * Params:	N/A
+ * 
  * Returns: center point
  */
-uint8_t processCameraData(uint16_t *adcData, uint8_t length)
+uint8_t findCenterPoint(void)
 {
 
 	uint16_t maxDerivValue;
 	int8_t rightSpike = -1;
 	int8_t leftSpike = -1;
 
-	// Copy data into temporary buffer so it's not accidentially clobbered...
-	memcpy(adcCopy, adcData, length * sizeof(uint16_t));
 	
-	smoothRawCameraData(adcCopy, smoothedData, length);
-	
-	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
-	
-	
-	thresholdFilter(smoothedDataCopy, thresholdData, length);
-	
-	//derivitiveFilter(smoothedDataCopy, derivData, length);
-	//memcpy(derivDataCopy, derivData, length*sizeof(uint16_t));
-	
-	//thresholdFilter(derivDataCopy, thresholdDeriv, length);
-	
-	//maxDerivValue = maxValue(derivData, length);
 	
 	for (uint8_t i = 64; i < 127; i++) {
 		if(thresholdData[i] == 0){
@@ -94,6 +115,25 @@ uint8_t processCameraData(uint16_t *adcData, uint8_t length)
 	uart_put(str);
 
 	return prevMid;
+}
+
+
+/*
+ * Name: calculateArea
+ * 
+ * Description: Calculates area underneath signal
+ *
+ * Params:	N/A
+ * 
+ * Returns: Area under signal
+ */
+uint32_t calculateArea(void)
+{
+   uint32_t area = 0;
+   for (uint8_t i = 0; i < length-1; i++) {
+      area+=smoothedData[i];
+   }
+   return area;
 }
 
 /*
@@ -225,4 +265,5 @@ uint16_t maxValue(const uint16_t * const data, uint8_t length)
 	}
 	return maxVal;
 }
+
 

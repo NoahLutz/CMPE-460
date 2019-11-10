@@ -12,7 +12,11 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-uint8_t processCameraData(uint16_t *adcData, uint8_t length);
+#define ARRAY_SIZE   128U
+
+void processCameraData(uint16_t *adcData, uint8_t length);
+uint8_t findCenterPoint(void);
+uint32_t calculateArea(void);
 
 void getSmoothedData(uint16_t *dest, uint8_t length);
 void getDerivData(uint16_t *dest, uint8_t length);
