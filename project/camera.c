@@ -65,12 +65,12 @@ void processCameraData(uint16_t *adcData, uint8_t length)
 	// run smoothed data through threshold filter
 	thresholdFilter(smoothedDataCopy, thresholdData, length);
 	
-   //derivitiveFilter(smoothedDataCopy, derivData, length);
-	//memcpy(derivDataCopy, derivData, length*sizeof(uint16_t));
+   // copy smoothed data   
+	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
+   
+   // run derivitave filter over smoothed data
+   derivitiveFilter(smoothedDataCopy, derivData, length);
 	
-	//thresholdFilter(derivDataCopy, thresholdDeriv, length);
-	
-	//maxDerivValue = maxValue(derivData, length);
 }
 
 
@@ -134,6 +134,42 @@ uint32_t calculateArea(void)
       area+=smoothedData[i];
    }
    return area;
+}
+
+
+/*
+ * Name: hasEdges
+ * 
+ * Description: Checks if camera has detected all white or all dark (no edges)
+ *
+ * Params:	N/A
+ * 
+ * Returns: 0 - has edges
+ *          1 - all white camera data
+ *          2 - all dark camera data
+ *          3 - unable to determine
+ */
+uint8_t hasEdges(void)
+{
+   uint8_t retVal = 3;
+   uint16_t maxDerivValue;
+   uint16_t area;
+   
+   maxDerivValue = maxValue(derivData, ARRAY_SIZE);
+   if (maxDerivValue >= DERIV_EDGE_THRESHOLD) {
+      retVal = 0;
+   }
+   else {
+      area = calculateArea();
+
+      if (area >= COLOR_WHITE_AREA_THRESHOLD) {
+         retVal = 1;
+      } else if (area <= COLOR_DARK_AREA_THRESHOLD) {
+         retVal = 2;
+      }
+   }
+
+   return retVal;
 }
 
 /*

@@ -222,6 +222,7 @@ getThresholdData	camera.c	/^void getThresholdData(uint16_t *dest, uint8_t length
 gpio_high	gpio.c	/^void gpio_high(GPIOPin_t *ptr) {$/;"	f
 gpio_low	gpio.c	/^void gpio_low(GPIOPin_t *ptr) {$/;"	f
 gpio_toggle	gpio.c	/^void gpio_toggle(GPIOPin_t *ptr) {$/;"	f
+hasEdges	camera.c	/^uint8_t hasEdges(void)$/;"	f
 init_ADC0	adc.c	/^void init_ADC0(void) {$/;"	f
 init_GPIO	gpio.c	/^void init_GPIO(void){$/;"	f
 init_data_bss	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^init_data_bss   PROC$/;"	l
