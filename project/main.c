@@ -126,7 +126,8 @@ void initialize()
 	init_GPIO();
 	
 	// Initialize UART
-	uart_init();
+	uart_init(UART0);
+   uart_init(UART3);
 	
 	// Init the ADC
 	init_ADC0();

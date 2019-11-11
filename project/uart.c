@@ -28,7 +28,7 @@ void uart_init(UART_Type *uart)
    //define variables for baud rate and baud rate fine adjust
    uint16_t ubd, brfa;
 	 
-   //Enable clock for UART
+   //Enable clock and pins for UART
    if (uart == UART0) {
       SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;
       SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;
@@ -40,10 +40,6 @@ void uart_init(UART_Type *uart)
       PORTB_PCR10 |= PORT_PCR_MUX(3);
       PORTB_PCR11 |= PORT_PCR_MUX(3);
    }
-
-   //Configure the port control register to alternative 3 (which is UART mode for K64)
-
-
 
    /*Configure the UART for establishing serial communication*/
 
