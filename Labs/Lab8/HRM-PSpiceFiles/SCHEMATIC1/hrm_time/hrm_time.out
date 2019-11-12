@@ -1,0 +1,220 @@
+
+**** 11/11/19 17:34:27 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-hrm_time"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_time.sim ] 
+
+
+ ****     CIRCUIT DESCRIPTION
+
+
+******************************************************************************
+
+
+
+
+** Creating circuit file "hrm_time.cir" 
+** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
+
+*Libraries: 
+* Profile Libraries :
+* Local Libraries :
+* From [PSPICE NETLIST] section of C:\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
+.lib "nomd.lib" 
+
+*Analysis directives: 
+.TRAN  0 1000ns 0 
+.OPTIONS ADVCONV
+.PROBE64 V(alias(*)) I(alias(*)) W(alias(*)) D(alias(*)) NOISE(alias(*)) 
+.INC "..\SCHEMATIC1.net" 
+
+
+
+**** INCLUDING SCHEMATIC1.net ****
+* source HRM
+V_V1         N00050 0 DC 0.2Vdc AC 0.035Vac 
+X_U1         N00050 N00136 VDC+ VDC- N00136 uA741
+V_V2         VDC+ 0 5Vdc
+C_C1         N00136 N00339  3.48uF  TC=0,0 
+R_R1         0 N00339  57.3k TC=0,0 
+V_V3         0 VDC- 5Vdc
+X_U3         N03589 N03645 VDC+ VDC- N03611 uA741
+R_R3         N03583 N03589  8.14 TC=0,0 
+C_C2         0 N03589  1u  TC=0,0 
+R_R5         N03611 N03645  98k TC=0,0 
+R_R4         0 N03645  0.981k TC=0,0 
+R_R2         N03571 N03583  8.1k TC=0,0 
+X_U2         N00339 N03571 VDC+ VDC- N03571 uA741
+
+**** RESUMING hrm_time.cir ****
+.END
+
+**** 11/11/19 17:34:27 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-hrm_time"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_time.sim ] 
+
+
+ ****     Diode MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               X_U1.dx         X_U1.dy         X_U3.dx         X_U3.dy         
+          IS  800.000000E-18  800.000000E-18  800.000000E-18  800.000000E-18 
+          RS    1               1.000000E-03    1               1.000000E-03 
+         CJO                   10.000000E-12                   10.000000E-12 
+
+
+               X_U2.dx         X_U2.dy         
+          IS  800.000000E-18  800.000000E-18 
+          RS    1               1.000000E-03 
+         CJO                   10.000000E-12 
+
+
+**** 11/11/19 17:34:27 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-hrm_time"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_time.sim ] 
+
+
+ ****     BJT MODEL PARAMETERS
+
+
+******************************************************************************
+
+
+
+
+               X_U1.qx         X_U3.qx         X_U2.qx         
+               NPN             NPN             NPN             
+       LEVEL    1               1               1            
+          IS  800.000000E-18  800.000000E-18  800.000000E-18 
+          BF   93.75           93.75           93.75         
+          NF    1               1               1            
+          BR    1               1               1            
+          NR    1               1               1            
+         ISS    0               0               0            
+          RE    0               0               0            
+          RC    0               0               0            
+         CJE    0               0               0            
+         VJE     .75             .75             .75         
+         CJC    0               0               0            
+         VJC     .75             .75             .75         
+         MJC     .33             .33             .33         
+        XCJC    1               1               1            
+         CJS    0               0               0            
+         VJS     .75             .75             .75         
+          KF    0               0               0            
+          AF    1               1               1            
+          CN    2.42            2.42            2.42         
+           D     .87             .87             .87         
+
+
+**** 11/11/19 17:34:27 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-hrm_time"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_time.sim ] 
+
+
+ ****     INITIAL TRANSIENT SOLUTION       TEMPERATURE =   27.000 DEG C
+
+
+******************************************************************************
+
+
+
+ NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+
+
+( VDC+)    5.0000  ( VDC-)   -5.0000  (N00050)     .2000 (N00136)     .2000     
+
+(N00339)    -.0046 (N03571)    -.0045 (N03583)    -.0052 (N03589)    -.0052     
+
+(N03611)    -.5142 (N03645)    -.0052 (X_U1.6)-18.85E-06 (X_U1.7)     .2000     
+
+(X_U1.8)     .2000 (X_U1.9)    0.0000 (X_U2.6) 426.2E-09 (X_U2.7)    -.0045     
+
+(X_U2.8)    -.0045 (X_U2.9)    0.0000 (X_U3.6) 48.54E-06 (X_U3.7)    -.5144     
+
+(X_U3.8)    -.5144 (X_U3.9)    0.0000 (X_U1.10)    -.4077                       
+
+(X_U1.11)    4.9603                   (X_U1.12)    4.9603                       
+
+(X_U1.13)    -.3938                   (X_U1.14)    -.3938                       
+
+(X_U1.53)    4.0000                   (X_U1.54)   -4.0000                       
+
+(X_U1.90) 79.84E-06                   (X_U1.91)   40.0000                       
+
+(X_U1.92)  -40.0000                   (X_U1.99)    0.0000                       
+
+(X_U2.10)    -.6122                   (X_U2.11)    4.9603                       
+
+(X_U2.12)    4.9603                   (X_U2.13)    -.5984                       
+
+(X_U2.14)    -.5984                   (X_U2.53)    4.0000                       
+
+(X_U2.54)   -4.0000                   (X_U2.90) 159.5E-06                       
+
+(X_U2.91)   40.0000                   (X_U2.92)  -40.0000                       
+
+(X_U2.99)    0.0000                   (X_U3.10)    -.6129                       
+
+(X_U3.11)    4.9603                   (X_U3.12)    4.9603                       
+
+(X_U3.13)    -.5990                   (X_U3.14)    -.5990                       
+
+(X_U3.53)    4.0000                   (X_U3.54)   -4.0000                       
+
+(X_U3.90)    -.0052                   (X_U3.91)   40.0000                       
+
+(X_U3.92)  -40.0000                   (X_U3.99)    0.0000                   
+
+
+
+
+    VOLTAGE SOURCE CURRENTS
+    NAME         CURRENT
+
+    V_V1        -7.982E-08
+    V_V2        -1.697E-03
+    V_V3        -1.697E-03
+    X_U1.vb     -1.885E-10
+    X_U1.vc      3.801E-12
+    X_U1.ve      4.748E-12
+    X_U1.vlim    7.984E-08
+    X_U1.vlp    -4.000E-11
+    X_U1.vln    -4.000E-11
+    X_U3.vb      4.854E-10
+    X_U3.vc      4.515E-12
+    X_U3.ve      4.034E-12
+    X_U3.vlim   -5.194E-06
+    X_U3.vlp    -4.001E-11
+    X_U3.vln    -4.000E-11
+    X_U2.vb      4.262E-12
+    X_U2.vc      4.005E-12
+    X_U2.ve      4.544E-12
+    X_U2.vlim    1.595E-07
+    X_U2.vlp    -4.000E-11
+    X_U2.vln    -4.000E-11
+
+    TOTAL POWER DISSIPATION   1.70E-02  WATTS
+
+
+
+          JOB CONCLUDED
+
+**** 11/11/19 17:34:27 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+
+ ** Profile: "SCHEMATIC1-hrm_time"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_time.sim ] 
+
+
+ ****     JOB STATISTICS SUMMARY
+
+
+******************************************************************************
+
+
+
+  Total job time (using Solver 1)   =         .03
+

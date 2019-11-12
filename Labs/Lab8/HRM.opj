@@ -63,34 +63,26 @@
   (GlobalState
     (FileView
       (Path "Design Resources")
-      (Path "Design Resources" "D:\CMPE-460\LABS\Lab8\hrm.dsn")
-      (Path "Design Resources" "D:\CMPE-460\LABS\Lab8\hrm.dsn" "SCHEMATIC1")
+      (Path "Design Resources" "C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm.dsn")
+      (Path "Design Resources" "C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm.dsn"
+         "SCHEMATIC1")
       (Path "Outputs")
-      (Select "Design Resources" "D:\CMPE-460\LABS\Lab8\hrm.dsn" "SCHEMATIC1"
-         "Stage 2 - LPF"))
+      (Select "Design Resources" "C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm.dsn"
+         "SCHEMATIC1" "HRM"))
     (HierarchyView)
     (Doc
       (Type "COrCapturePMDoc")
       (Frame
-        (Placement "44 0 1 -1 -1 -8 -31 0 200 0 391"))
+        (Placement "44 2 3 -1 -1 -8 -31 0 200 0 391"))
       (Tab 0))
     (Doc
       (Type "COrSchematicDoc")
       (Frame
-        (Placement "44 2 3 -1 -1 -8 -31 52 1448 52 482")
-        (Scroll "-154 104")
+        (Placement "44 0 1 -1 -1 -8 -31 52 1688 52 511")
+        (Scroll "-309 0")
         (Zoom "100")
         (Occurrence "/"))
-      (Path "D:\CMPE-460\LABS\LAB8\HRM.DSN")
+      (Path "C:\USERS\NOAH\SRC\CMPE-460\LABS\LAB8\HRM.DSN")
       (Schematic "SCHEMATIC1")
-      (Page "Stage 1 - HPF"))
-    (Doc
-      (Type "COrSchematicDoc")
-      (Frame
-        (Placement "44 0 1 -1 -1 -8 -31 78 1181 78 508")
-        (Scroll "-42 0")
-        (Zoom "100")
-        (Occurrence "/"))
-      (Path "D:\CMPE-460\LABS\LAB8\HRM.DSN")
-      (Schematic "SCHEMATIC1")
-      (Page "Stage 2 - LPF"))))
+      (Page "HRM")))
+  (MPSSessionName "noah"))
