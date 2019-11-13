@@ -1,4 +1,4 @@
-** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
+** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\cnl9674\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
 
 ** Creating circuit file "hrm_freq.cir" 
 ** WARNING: THIS AUTOMATICALLY GENERATED FILE MAY BE OVERWRITTEN BY SUBSEQUENT SIMULATIONS
@@ -6,8 +6,8 @@
 *Libraries: 
 * Profile Libraries :
 * Local Libraries :
-* From [PSPICE NETLIST] section of C:\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
-.lib "nomd.lib" 
+* From [PSPICE NETLIST] section of C:\Users\cnl9674\cdssetup\OrCAD_PSpice/16.6.0/PSpice.ini file:
+.lib "nom.lib" 
 
 *Analysis directives: 
 .AC DEC 1000 0.5 10

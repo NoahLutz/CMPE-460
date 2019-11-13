@@ -1,7 +1,7 @@
-
-**** 11/11/19 21:40:16 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
 
- ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
+**** 11/12/19 16:28:53 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
+
+ ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\cnl9674\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
 
 
  ****     CIRCUIT DESCRIPTION
@@ -18,8 +18,8 @@
 *Libraries: 
 * Profile Libraries :
 * Local Libraries :
-* From [PSPICE NETLIST] section of C:\SPB_Data\cdssetup\OrCAD_PSpice\17.2.0\PSpice.ini file:
-.lib "nomd.lib" 
+* From [PSPICE NETLIST] section of C:\Users\cnl9674\cdssetup\OrCAD_PSpice/16.6.0/PSpice.ini file:
+.lib "nom.lib" 
 
 *Analysis directives: 
 .AC DEC 1000 0.5 10
@@ -48,9 +48,9 @@ X_U2         N00339 N03571 VDC+ VDC- N03571 uA741
 **** RESUMING hrm_freq.cir ****
 .END
 
-**** 11/11/19 21:40:16 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+**** 11/12/19 16:28:53 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
 
- ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
+ ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\cnl9674\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
 
 
  ****     Diode MODEL PARAMETERS
@@ -73,9 +73,9 @@ X_U2         N00339 N03571 VDC+ VDC- N03571 uA741
          CJO                   10.000000E-12 
 
 
-**** 11/11/19 21:40:16 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+**** 11/12/19 16:28:53 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
 
- ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
+ ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\cnl9674\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
 
 
  ****     BJT MODEL PARAMETERS
@@ -111,9 +111,9 @@ X_U2         N00339 N03571 VDC+ VDC- N03571 uA741
            D     .87             .87             .87         
 
 
-**** 11/11/19 21:40:16 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+**** 11/12/19 16:28:53 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
 
- ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
+ ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\cnl9674\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
 
 
  ****     SMALL SIGNAL BIAS SOLUTION       TEMPERATURE =   27.000 DEG C
@@ -181,19 +181,19 @@ X_U2         N00339 N03571 VDC+ VDC- N03571 uA741
     V_V3        -1.697E-03
     X_U1.vb     -1.885E-10
     X_U1.vc      3.801E-12
-    X_U1.ve      4.748E-12
+    X_U1.ve      4.293E-12
     X_U1.vlim    7.984E-08
     X_U1.vlp    -4.000E-11
     X_U1.vln    -4.000E-11
     X_U3.vb      5.471E-10
     X_U3.vc      4.580E-12
-    X_U3.ve      3.969E-12
+    X_U3.ve      3.513E-12
     X_U3.vlim   -5.855E-06
     X_U3.vlp    -4.001E-11
     X_U3.vln    -4.000E-11
     X_U2.vb      4.262E-12
     X_U2.vc      4.005E-12
-    X_U2.ve      4.544E-12
+    X_U2.ve      4.088E-12
     X_U2.vlim    1.595E-07
     X_U2.vlp    -4.000E-11
     X_U2.vln    -4.000E-11
@@ -204,9 +204,9 @@ X_U2         N00339 N03571 VDC+ VDC- N03571 uA741
 
           JOB CONCLUDED
 
-**** 11/11/19 21:40:16 ******* PSpice Lite (March 2016) ******* ID# 10813 ****
+**** 11/12/19 16:28:53 ***** PSpice 16.6.0 (October 2012) ***** ID# 0 ********
 
- ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\noah\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
+ ** Profile: "SCHEMATIC1-hrm_freq"  [ C:\Users\cnl9674\src\CMPE-460\Labs\Lab8\hrm-pspicefiles\schematic1\hrm_freq.sim ] 
 
 
  ****     JOB STATISTICS SUMMARY
@@ -216,5 +216,5 @@ X_U2         N00339 N03571 VDC+ VDC- N03571 uA741
 
 
 
-  Total job time (using Solver 1)   =         .06
+  Total job time (using Solver 1)   =         .13
 
