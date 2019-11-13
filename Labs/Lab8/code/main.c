@@ -70,10 +70,10 @@ int main(void)
 {
 	int i;
 	
-	uart_init();
+	//uart_init();
 	init_GPIO(); // For CLK and SI output on GPIO
 	init_FTM2(); // To generate CLK, SI, and trigger ADC
-	init_ADC0();
+	//init_ADC0();
 //	init_PIT();	// To trigger camera read based on integration time
    
 	//FTM2_SC |= 1U << FTM_SC_CLKS_SHIFT;
