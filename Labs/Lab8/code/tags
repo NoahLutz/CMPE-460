@@ -1,0 +1,29 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	/3fdf28bc/
+ADC0VAL	adc.c	/^uint16_t ADC0VAL;$/;"	v	typeref:typename:uint16_t
+ADC0_IRQHandler	adc.c	/^void ADC0_IRQHandler(void) {$/;"	f	typeref:typename:void
+ADC_H	adc.h	/^ #define ADC_H$/;"	d
+DEFAULT_SYSTEM_CLOCK	timer.c	/^#define DEFAULT_SYSTEM_CLOCK /;"	d	file:
+FTM2_IRQHandler	timer.c	/^void FTM2_IRQHandler(void){ \/\/For FTM timer$/;"	f	typeref:typename:void
+FTM2_MOD_10US	timer.c	/^#define FTM2_MOD_10US /;"	d	file:
+INTEGRATION_TIME	main.c	/^#define INTEGRATION_TIME /;"	d	file:
+INTEGRATION_TIME	timer.c	/^#define INTEGRATION_TIME /;"	d	file:
+MAIN_H	main.h	/^#define MAIN_H$/;"	d
+PIT0_IRQHandler	timer.c	/^void PIT0_IRQHandler(void){$/;"	f	typeref:typename:void
+PIT_LDVAL_1290US	timer.c	/^#define PIT_LDVAL_1290US	/;"	d	file:
+TIMER_H	timer.h	/^#define TIMER_H$/;"	d
+capcnt	main.c	/^int capcnt = 0;$/;"	v	typeref:typename:int
+clkval	main.c	/^int clkval = 1;$/;"	v	typeref:typename:int
+debugcamdata	main.c	/^int debugcamdata = 1;$/;"	v	typeref:typename:int
+init_ADC0	adc.c	/^void init_ADC0(void) {$/;"	f	typeref:typename:void
+init_FTM2	timer.c	/^void init_FTM2() {$/;"	f	typeref:typename:void
+init_PIT	timer.c	/^void init_PIT(void){$/;"	f	typeref:typename:void
+line	main.c	/^uint16_t line[128];$/;"	v	typeref:typename:uint16_t[128]
+main	main.c	/^int main(void)$/;"	f	typeref:typename:int
+pixcnt	main.c	/^int pixcnt = -2;$/;"	v	typeref:typename:int
+str	main.c	/^char str[100];$/;"	v	typeref:typename:char[100]
