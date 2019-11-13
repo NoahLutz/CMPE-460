@@ -15,9 +15,13 @@
 
 #define MIN_DIFF	10
 
+#define DERIV_EDGE_THRESHOLD  5500ULL
+#define COLOR_WHITE_AREA_THRESHOLD 5000000ULL
+#define COLOR_DARK_AREA_THRESHOLD	 1500000ULL
+
 uint8_t startOffset = 0;
 
-
+char str1[100];
 uint16_t smoothedData[ARRAY_SIZE];
 uint16_t thresholdData[ARRAY_SIZE];
 uint16_t derivData[ARRAY_SIZE];
@@ -57,19 +61,19 @@ void processCameraData(uint16_t *adcData, uint8_t length)
 	memcpy(adcCopy, adcData, length * sizeof(uint16_t));
 	
    // smooth out raw ADC data
-	smoothRawCameraData(adcCopy, smoothedData, length);
+	smoothRawCameraData(smoothedData, adcData, length);
    
    // copy smoothed data   
 	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
 	
 	// run smoothed data through threshold filter
-	thresholdFilter(smoothedDataCopy, thresholdData, length);
+	thresholdFilter(thresholdData, smoothedDataCopy, length);
 	
    // copy smoothed data   
 	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
    
-   // run derivitave filter over smoothed data
-   derivitiveFilter(smoothedDataCopy, derivData, length);
+  // run derivitave filter over smoothed data
+  derivitiveFilter(derivData, smoothedDataCopy, length);
 	
 }
 
@@ -112,7 +116,7 @@ uint8_t findCenterPoint(void)
 	
 	char str[100];
 	sprintf(str, "left: %i\r\n right: %i\r\n mid:%i\r\n", leftSpike, rightSpike, prevMid);
-	uart_put(str);
+	//uart_put(str);
 
 	return prevMid;
 }
@@ -130,7 +134,7 @@ uint8_t findCenterPoint(void)
 uint32_t calculateArea(void)
 {
    uint32_t area = 0;
-   for (uint8_t i = 0; i < length-1; i++) {
+   for (uint8_t i = 0; i < ARRAY_SIZE-1; i++) {
       area+=smoothedData[i];
    }
    return area;
@@ -153,9 +157,11 @@ uint8_t hasEdges(void)
 {
    uint8_t retVal = 3;
    uint16_t maxDerivValue;
-   uint16_t area;
+   uint32_t area;
    
    maxDerivValue = maxValue(derivData, ARRAY_SIZE);
+	sprintf(str1, "derivMaxValue: %i\r\n", maxDerivValue);
+	uart_put(str1);
    if (maxDerivValue >= DERIV_EDGE_THRESHOLD) {
       retVal = 0;
    }
@@ -231,7 +237,7 @@ void getThresholdData(uint16_t *dest, uint8_t length)
  * 
  * Returns: N/A
  */
-void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, uint8_t length)
+void smoothRawCameraData(uint16_t * const dest, const uint16_t * const adcData, uint8_t length)
 {
 	for (uint8_t i = 2; i < length-3; i++) {
 		dest[i] = (adcData[i-2] + adcData[i-1] + adcData[i] + adcData[i+1] + adcData[i+2])/5;
@@ -249,7 +255,7 @@ void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, 
  * 
  * Returns: N/A
  */
-void derivitiveFilter(const uint16_t * const adcData, uint16_t * const dest, uint8_t length)
+void derivitiveFilter(uint16_t * const dest, const uint16_t * const adcData, uint8_t length)
 {
 	for (uint8_t i = 1; i < length-2; i++) {
 		dest[i] = abs(adcData[i+1] - adcData[i-1])/3;
@@ -268,7 +274,7 @@ void derivitiveFilter(const uint16_t * const adcData, uint16_t * const dest, uin
  * 
  * Returns: N/A
  */
-void thresholdFilter(const uint16_t * const data, uint16_t * const dest, uint8_t length)
+void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length)
 {
 	float threshold = maxValue(data, length)/1.6f;
 

@@ -19,7 +19,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-#define IDEAL_CENTER 55
+#define IDEAL_CENTER 64
 
 int debugcamdata = 0;
 int capcnt = 0;
@@ -44,12 +44,12 @@ int main(void)
 	
 	
 	// Set Motors at constatnt speed for now
-	SetMotor1DutyCycle(30, 0);
-	SetMotor2DutyCycle(30, 0);
+	SetMotor1DutyCycle(40, 0);
+	SetMotor2DutyCycle(40, 0);
 	
-	
-   EnableMotor1();
-   EnableMotor2();
+	delay(100);
+  //EnableMotor1();
+  //EnableMotor2();
 		
 	for(;;) {
 		
@@ -58,13 +58,40 @@ int main(void)
 			
 			// Process new camera data
 			processCameraData(line, ARRAY_SIZE);
+			area = calculateArea();
+			
+			uint8_t edgeVal = hasEdges();
+			if (edgeVal == 2 || edgeVal == 3) {
+				sprintf(str, "Disabling Motors\r\n");
+				DisableMotor1();
+				DisableMotor2();
+				centerPoint = IDEAL_CENTER;
+			} else if (edgeVal == 1) {
+				sprintf(str, "all white\r\n");
 
-         centerPoint = findCenterPoint();
+				centerPoint = IDEAL_CENTER;
+			} else if (edgeVal == 0) {
+				sprintf(str, "has edges\r\n");
 
-         area = calculateArea();
-
-			sprintf(str, "Center Point: %i\r\nArea: %i\r\n", centerPoint, area);
+				centerPoint = findCenterPoint();
+			}
+			
+			//uint16_t derivMaxVal = 
 			uart_put(str);
+			sprintf(str, "area: %i\r\n", area);
+			uart_put(str);
+			
+				
+
+      //centerPoint = findCenterPoint();
+
+      //area = calculateArea();
+			
+			//sprintf(str, "areaData: %i\r\n", area);
+			//uart_put(str);
+
+			//sprintf(str, "Center Point: %i\r\nArea: %i\r\n", centerPoint, area);
+			//uart_put(str);
 			
 			// adjust servo
 			adjustServoAngle(centerPoint, IDEAL_CENTER);
@@ -90,7 +117,7 @@ int main(void)
 					getThresholdData(thresholdData, ARRAY_SIZE);
 					
 					
-					memcpy(data, thresholdData, ARRAY_SIZE * sizeof(uint16_t));
+					memcpy(data, derivData, ARRAY_SIZE * sizeof(uint16_t));
 					
 					GPIOB_PCOR |= (1 << 22);
 					// send the array over uart

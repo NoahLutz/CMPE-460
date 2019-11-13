@@ -2,6 +2,9 @@
 
 #include "servo.h"
 #include "timers.h"
+#include "string.h"
+#include "stdio.h"
+#include "uart.h"
 
 
 /*
@@ -17,36 +20,56 @@
 
 
 #define SERVO_CENTER		1850
-#define SERVO_MIN				1200
-#define SERVO_MAX				2400
+#define SERVO_MIN				500
+#define SERVO_MAX				4000
 #define SERVO_INCREMENT	35
+
+float kp = 0.45;
+float ki = 0.15; // 0.15
+float kd = 0.00; // 0.25
+
+float adjustment_n1;
+
+int32_t err;
+int32_t err_n1;
+int32_t err_n2;
+
+float calculatAdjustmentPID(uint8_t targetCenter, uint8_t currentCenter);
+
+char str2[100];
 
 /*
  * adjustServoAngle()
  *
  * Change the Servo angle based on given centerpoint data
  */
-void adjustServoAngle(uint8_t centerPoint, uint8_t idealCenter)
+void adjustServoAngle(uint8_t targetCenter, uint8_t currentCenter)
 {
-	uint16_t mod;
-	uint8_t diff;
-	if (centerPoint > idealCenter) {
-		diff = centerPoint - idealCenter;
-		mod = SERVO_CENTER - (diff * SERVO_INCREMENT);
-	} else if (centerPoint < idealCenter) {
-		diff = idealCenter - centerPoint;
-		mod = SERVO_CENTER + (diff * SERVO_INCREMENT);
-	}
-	if (centerPoint == idealCenter) {
-		mod = SERVO_CENTER;
-	}
+	float adj = calculatAdjustmentPID(targetCenter, currentCenter);
 	
-	if (mod > SERVO_MAX) {
-		mod = SERVO_MAX;
-	} else if (mod < SERVO_MIN) {
-		mod = SERVO_MIN;
-	}
+	uint16_t mod = SERVO_CENTER - (adj * SERVO_INCREMENT);
 	
+	sprintf(str2, "mod:%i\r\n", mod);
+	uart_put(str2);
 	setFTM3Chan4Mod(mod);
 	setFTM3Mod(FTM3_MOD_VALUE);
+}
+	
+float calculatAdjustmentPID(uint8_t targetCenter, uint8_t currentCenter)
+{
+	float adjustment = 0;
+	err = targetCenter - currentCenter;
+	adjustment = adjustment_n1
+							+ kp * (err - err_n1)
+							+ ki * 0.5f * (err + err_n1)
+							+ kd * (err + 2*err_n1 + err_n2);
+	if (adjustment >= 64) {
+		adjustment = 63;
+	}else if (adjustment <= -64) {
+		adjustment = -63;
+	}
+	adjustment_n1 = adjustment;
+	err_n2 = err_n1;
+	err_n1 = err;
+	return adjustment;
 }

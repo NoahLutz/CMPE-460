@@ -19,7 +19,7 @@
 function plot_cams 
 
 %Send over bluetooth or serial
-serialPort = 'COM91';
+serialPort = 'COM5';
 serialObject = serial(serialPort);
 %configure serial connection
 serialObject.BaudRate = 9600; %(Default)
