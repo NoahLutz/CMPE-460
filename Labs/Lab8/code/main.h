@@ -15,8 +15,8 @@
 
 extern uint16_t ADC0VAL;
 
-extern int pixcnt;
-extern int clkval;
+//extern int pixcnt;
+//extern int clkval;
 extern uint16_t line[128];
 
 extern int debugcamdata;

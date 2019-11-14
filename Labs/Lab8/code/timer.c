@@ -21,11 +21,11 @@
 //	(camera clk is the mod value set in FTM2)
 #define INTEGRATION_TIME .0075f
 
-//#define FTM2_MOD_10US     410U   // 410 = 10[us] / (1 / 20[MHz])
-#define FTM2_MOD_33MS		2*42679U
+#define FTM2_MOD_33MS		43462U		// with div by 8 prescaler
 
 //#define PIT_LDVAL_1290US	69500U * 4	// 64500 = 1.29[ms] / (1 / 50[MHz]) 
 
+uint8_t clkval = 0;
 
 
 /* Initialization of FTM2 for camera */
@@ -60,7 +60,7 @@ void init_FTM2() {
 	FTM2_EXTTRIG |= FTM_EXTTRIG_CH0TRIG_MASK;
 	
 	// 16x prescaler, system clock
-	FTM2_SC |= 7U << FTM_SC_PS_SHIFT;
+	FTM2_SC |= 3U << FTM_SC_PS_SHIFT;
 	FTM2_SC |= 1U << FTM_SC_CLKS_SHIFT;
 	
 	// Don't enable interrupts yet (disable)
@@ -79,8 +79,16 @@ void init_FTM2() {
 */
 void FTM2_IRQHandler(void)
 {
+	FTM2_SC &= ~FTM_SC_TOF_MASK;
 	//For FTM timer
-	gpio_toggle(&clk);
+	if (clkval == 0) {
+		gpio_high(&clk);
+		clkval = 1;
+	} else {
+		gpio_low(&clk);
+		clkval = 0;
+	}
+	//gpio_toggle(&clk);
 	return;
 }
 

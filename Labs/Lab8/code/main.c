@@ -52,9 +52,9 @@ void ADC0_IRQHandler(void);
 // Pixel counter for camera logic
 // Starts at -2 so that the SI pulse occurs
 //		ADC reads start
-int pixcnt = -2;
+//int pixcnt = -2;
 // clkval toggles with each FTM interrupt
-int clkval = 1;
+//int clkval = 1;
 // line stores the current array of camera data
 uint16_t line[128];
 
