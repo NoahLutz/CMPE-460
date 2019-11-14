@@ -162,7 +162,7 @@ uint8_t hasEdges(void)
    
    maxDerivValue = maxValue(derivData, ARRAY_SIZE);
 	sprintf(str1, "derivMaxValue: %i\r\n", maxDerivValue);
-	uart_put(UART3,str1);
+	//uart_put(UART3,str1);
    if (maxDerivValue >= DERIV_EDGE_THRESHOLD) {
       retVal = 0;
    }

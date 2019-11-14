@@ -19,13 +19,13 @@
 #define FTM3_MOD_VALUE			(CLK/16/SERVO_FREQUENCY)
 
 
-#define SERVO_CENTER		1850
-#define SERVO_MIN				500
-#define SERVO_MAX				4000
+#define SERVO_CENTER		1750
+#define SERVO_MIN				1300	// left turn
+#define SERVO_MAX				2200 // right turn
 #define SERVO_INCREMENT	35
 
 float kp = 0.45;
-float ki = 0.15; // 0.15
+float ki = 0.00; // 0.15
 float kd = 0.00; // 0.25
 
 float adjustment_n1;
@@ -49,8 +49,14 @@ void adjustServoAngle(uint8_t targetCenter, uint8_t currentCenter)
 	
 	uint16_t mod = SERVO_CENTER - (adj * SERVO_INCREMENT);
 	
+	if (mod > SERVO_MAX) {
+		mod = SERVO_MAX;
+	} else if (mod < SERVO_MIN) {
+		mod = SERVO_MIN;
+	}
+	
 	sprintf(str2, "mod:%i\r\n", mod);
-	uart_put(UART3, str2);
+	//uart_put(UART3, str2);
 	setFTM3Chan4Mod(mod);
 	setFTM3Mod(FTM3_MOD_VALUE);
 }

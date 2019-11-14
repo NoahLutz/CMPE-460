@@ -44,15 +44,17 @@ int main(void)
 	
 	
 	// Set Motors at constatnt speed for now
-	SetMotor1DutyCycle(40, 0);
-	SetMotor2DutyCycle(40, 0);
+	SetMotor1DutyCycle(30, 0);
+	SetMotor2DutyCycle(30, 0);
 	
 	delay(100);
 	
-  //EnableMotor1();
-  //EnableMotor2();
+  EnableMotor1();
+  EnableMotor2();
 		
 	for(;;) {
+		
+		//updatePIDVars();
 		
 		if (processCameraFlag == true) {
 			processCameraFlag = false;
@@ -77,10 +79,12 @@ int main(void)
 				centerPoint = findCenterPoint();
 			}
 			
+			//centerPoint = IDEAL_CENTER;
+			
 			//uint16_t derivMaxVal = 
-			uart_put(UART3, str);
+			//uart_put(UART3, str);
 			sprintf(str, "area: %i\r\n", area);
-			uart_put(UART3, str);
+			//uart_put(UART3, str);
 			
 				
 

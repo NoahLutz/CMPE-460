@@ -7,10 +7,20 @@
  */
 #include "uart.h"
 #include "MK64F12.h"
+#include "servo.h"
 #include <stddef.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define BAUD_RATE 9600      //default baud rate 
 #define SYS_CLOCK 20485760 //default system clock (see DEFAULT_SYSTEM_CLOCK  in system_MK64F12.c)
+
+char buffer[100];
+char packet[100];
+uint8_t bufferIdx = 0;
+bool validPacket = false;
 
 /**************************************************
 * 
@@ -39,6 +49,9 @@ void uart_init(UART_Type *uart)
       SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;
       PORTB_PCR10 |= PORT_PCR_MUX(3);
       PORTB_PCR11 |= PORT_PCR_MUX(3);
+		 
+		 //uart->C2 |= UART_C2_TIE_MASK | UART_C2_RIE_MASK | UART_C2_TIE_MASK;
+		 //NVIC_EnableIRQ(UART3_RX_TX_IRQn);
    }
 
    /*Configure the UART for establishing serial communication*/
@@ -86,13 +99,22 @@ void uart_init(UART_Type *uart)
 * Returns: 			char received via UART0
 *
 ***************************************************/
-uint8_t uart_getchar(UART_Type *uart)
+void uart_getchar(UART_Type *uart)
 {
    /* Wait until there is space for more data in the receiver buffer*/
-   while ((uart->S1 & UART_S1_RDRF_MASK) == 0);
+   if ((uart->S1 & UART_S1_RDRF_MASK) != 0){
+		 buffer[bufferIdx] = uart->D;
+		 bufferIdx++;
+		 
+		 if (buffer[bufferIdx] == 0x0D || buffer[bufferIdx] == 0x0A) {
+			 buffer[bufferIdx + 1] = 0x00;
+			 bufferIdx = 0;
+			 memcpy(packet, buffer, 100);
+		 }
+	 }
 
 	/* Return the 8-bit data from the receiver */
-   return uart->D;
+  // return uart->D;
 }
 
 /**************************************************
@@ -131,4 +153,35 @@ void uart_put(UART_Type *uart, char *ptr_str){
    while (*ptr_str != NULL) {
       uart_putchar(uart, *ptr_str++);
    }
+}
+
+
+/**************************************************
+* 
+* updatePIDVars()
+*
+* Description: 	Sends a string via UART0
+*
+* Parameters:		ptr_str - string to send
+*
+* Returns: 			None
+*
+***************************************************/
+void updatePIDVars(void)
+{
+	//float temp_kp, temp_ki, temp_kd;
+	char *tempStr1, *tempStr2;
+	
+	uart_getchar(UART3);
+	
+	if (validPacket == true) {
+		validPacket = false;
+		kp = strtof(packet, &tempStr1);
+		ki = strtof(tempStr1, &tempStr2); 
+		kd = strtof(tempStr2, NULL);
+		
+		char resp[100];
+		sprintf(resp, "updated PID values to Kp:%f, Ki: %f, Kd: %f\r\n", kp, ki, kd);
+		uart_put(UART3, resp);
+	}
 }
