@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #define DEFAULT_SYSTEM_CLOCK 20485760u /* Default System clock value */
-#define CLOCK					20485760u
+#define CLK					20485760u
 
 
 

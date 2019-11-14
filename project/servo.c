@@ -16,7 +16,7 @@
 */
 
 #define SERVO_FREQUENCY			50
-#define FTM3_MOD_VALUE			(CLOCK/16/SERVO_FREQUENCY)
+#define FTM3_MOD_VALUE			(CLK/16/SERVO_FREQUENCY)
 
 
 #define SERVO_CENTER		1850
@@ -50,7 +50,7 @@ void adjustServoAngle(uint8_t targetCenter, uint8_t currentCenter)
 	uint16_t mod = SERVO_CENTER - (adj * SERVO_INCREMENT);
 	
 	sprintf(str2, "mod:%i\r\n", mod);
-	uart_put(str2);
+	uart_put(UART3, str2);
 	setFTM3Chan4Mod(mod);
 	setFTM3Mod(FTM3_MOD_VALUE);
 }
