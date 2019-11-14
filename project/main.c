@@ -40,7 +40,7 @@ int main(void)
 	initialize();
 
 	// Print welcome over serial
-	uart_put("Running... \n\r");
+	uart_put(UART3,"Running... \n\r");
 	
 	
 	// Set Motors at constatnt speed for now
@@ -48,6 +48,7 @@ int main(void)
 	SetMotor2DutyCycle(40, 0);
 	
 	delay(100);
+	
   //EnableMotor1();
   //EnableMotor2();
 		
@@ -77,9 +78,9 @@ int main(void)
 			}
 			
 			//uint16_t derivMaxVal = 
-			uart_put(str);
+			uart_put(UART3, str);
 			sprintf(str, "area: %i\r\n", area);
-			uart_put(str);
+			uart_put(UART3, str);
 			
 				
 
@@ -122,13 +123,13 @@ int main(void)
 					GPIOB_PCOR |= (1 << 22);
 					// send the array over uart
 					sprintf(str,"%i\n\r",-1); // start value
-					uart_put(str);
+					uart_put(UART0,str);
 					for (int i = 0; i < 127; i++) {
 						sprintf(str,"%i\n", data[i]);
-						uart_put(str);
+						uart_put(UART0, str);
 					}
 					sprintf(str,"%i\n\r",-2); // end value
-					uart_put(str);
+					uart_put(UART0,str);
 					capcnt = 0;
 					GPIOB_PSOR |= (1 << 22);
 				}
@@ -158,7 +159,8 @@ void initialize()
 	init_GPIO();
 	
 	// Initialize UART
-	uart_init();
+	uart_init(UART0);
+   uart_init(UART3);
 	
 	// Init the ADC
 	init_ADC0();

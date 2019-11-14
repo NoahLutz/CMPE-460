@@ -9,7 +9,6 @@ ADC0_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^ADC0_IRQHandler$/;
 ADC0_IRQHandler	adc.c	/^void ADC0_IRQHandler(void) {$/;"	f
 ADC1_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^ADC1_IRQHandler$/;"	l
 ADC_H	adc.h	10;"	d
-ARRAY_SIZE	camera.h	15;"	d
 BAUD_RATE	uart.c	12;"	d	file:
 BackDoorK0	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^BackDoorK0      EQU     0xFF$/;"	d
 BackDoorK1	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^BackDoorK1      EQU     0xFF$/;"	d
@@ -191,7 +190,6 @@ UART4_ERR_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^UART4_ERR_IRQ
 UART4_RX_TX_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^UART4_RX_TX_IRQHandler$/;"	l
 UART5_ERR_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^UART5_ERR_IRQHandler$/;"	l
 UART5_RX_TX_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^UART5_RX_TX_IRQHandler$/;"	l
-UART_H	uart.h	11;"	d
 USB0_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^USB0_IRQHandler$/;"	l
 USBDCD_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^USBDCD_IRQHandler$/;"	l
 Watchdog_IRQHandler	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^Watchdog_IRQHandler$/;"	l
@@ -202,32 +200,28 @@ __heap_base	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^__heap_base$/;"	l
 __heap_limit	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^__heap_limit$/;"	l
 __initial_sp	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^__initial_sp$/;"	l
 __user_initial_stackheap	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^__user_initial_stackheap$/;"	l
-adcCopy	camera.c	/^uint16_t adcCopy[ARRAY_SIZE];$/;"	v
+adcCopy	camera.c	/^uint16_t adcCopy[128];$/;"	v
 adjustServoAngle	servo.c	/^void adjustServoAngle(uint8_t centerPoint, uint8_t idealCenter)$/;"	f
-area	main.c	/^uint32_t area = 0;$/;"	v
-calculateArea	camera.c	/^uint32_t calculateArea(void)$/;"	f
 capcnt	main.c	/^int capcnt = 0;$/;"	v
 centerPoint	main.c	/^uint8_t centerPoint = 0;$/;"	v
 clk	gpio.c	/^GPIOPin_t clk = {PTB, 9};$/;"	v
 clkval	timers.c	/^int clkval = 1;$/;"	v
 debugcamdata	main.c	/^int debugcamdata = 0;$/;"	v
 delay	main.c	/^void delay(int del){$/;"	f
-derivData	camera.c	/^uint16_t derivData[ARRAY_SIZE];$/;"	v
-derivDataCopy	camera.c	/^uint16_t derivDataCopy[ARRAY_SIZE];$/;"	v
+derivData	camera.c	/^uint16_t derivData[128];$/;"	v
+derivDataCopy	camera.c	/^uint16_t derivDataCopy[128];$/;"	v
 derivitiveFilter	camera.c	/^void derivitiveFilter(const uint16_t * const adcData, uint16_t * const dest, uint8_t length)$/;"	f
-findCenterPoint	camera.c	/^uint8_t findCenterPoint(void)$/;"	f
 getDerivData	camera.c	/^void getDerivData(uint16_t *dest, uint8_t length)$/;"	f
 getSmoothedData	camera.c	/^void getSmoothedData(uint16_t *dest, uint8_t length)$/;"	f
 getThresholdData	camera.c	/^void getThresholdData(uint16_t *dest, uint8_t length)$/;"	f
 gpio_high	gpio.c	/^void gpio_high(GPIOPin_t *ptr) {$/;"	f
 gpio_low	gpio.c	/^void gpio_low(GPIOPin_t *ptr) {$/;"	f
 gpio_toggle	gpio.c	/^void gpio_toggle(GPIOPin_t *ptr) {$/;"	f
-hasEdges	camera.c	/^uint8_t hasEdges(void)$/;"	f
 init_ADC0	adc.c	/^void init_ADC0(void) {$/;"	f
 init_GPIO	gpio.c	/^void init_GPIO(void){$/;"	f
 init_data_bss	RTE/Device/MK64FN1M0xxx12/startup_MK64F12.s	/^init_data_bss   PROC$/;"	l
 initialize	main.c	/^void initialize()$/;"	f
-line	main.c	/^uint16_t line[ARRAY_SIZE];$/;"	v
+line	main.c	/^uint16_t line[128];$/;"	v
 main	main.c	/^int main(void)$/;"	f
 maxValue	camera.c	/^uint16_t maxValue(const uint16_t * const data, uint8_t length)$/;"	f
 motor1Enable	gpio.c	/^GPIOPin_t motor1Enable = {PTB, 2};$/;"	v
@@ -245,7 +239,7 @@ plot_cams	Lab_5_plot_cameras_serial_blank.m	/^function plot_cams $/;"	f
 plotdata	Lab_5_plot_cameras_serial_blank.m	/^function plotdata(trace, cam)$/;"	f
 port	gpio.h	/^   GPIO_Type* port;$/;"	m	struct:__anon1
 prevMid	camera.c	/^uint8_t prevMid = 63;$/;"	v
-processCameraData	camera.c	/^void processCameraData(uint16_t *adcData, uint8_t length)$/;"	f
+processCameraData	camera.c	/^uint8_t processCameraData(uint16_t *adcData, uint8_t length)$/;"	f
 processCameraFlag	main.c	/^bool processCameraFlag = false;$/;"	v
 redLed	gpio.c	/^GPIOPin_t redLed = {PTB, 22};$/;"	v
 setFTM0Chan0Mod	timers.c	/^void setFTM0Chan0Mod(uint16_t mod)$/;"	f
@@ -258,13 +252,13 @@ setFTM3Chan4Mod	timers.c	/^void setFTM3Chan4Mod(uint16_t mod)$/;"	f
 setFTM3Mod	timers.c	/^void setFTM3Mod(uint16_t mod)$/;"	f
 si	gpio.c	/^GPIOPin_t si = {PTB, 23};$/;"	v
 smoothRawCameraData	camera.c	/^void smoothRawCameraData(const uint16_t * const adcData, uint16_t * const dest, uint8_t length)$/;"	f
-smoothedData	camera.c	/^uint16_t smoothedData[ARRAY_SIZE];$/;"	v
-smoothedDataCopy	camera.c	/^uint16_t smoothedDataCopy[ARRAY_SIZE];$/;"	v
+smoothedData	camera.c	/^uint16_t smoothedData[128];$/;"	v
+smoothedDataCopy	camera.c	/^uint16_t smoothedDataCopy[128];$/;"	v
 startOffset	camera.c	/^uint8_t startOffset = 0;$/;"	v
 str	main.c	/^char str[100];$/;"	v
-thresholdData	camera.c	/^uint16_t thresholdData[ARRAY_SIZE];$/;"	v
+thresholdData	camera.c	/^uint16_t thresholdData[128];$/;"	v
 thresholdFilter	camera.c	/^void thresholdFilter(const uint16_t * const data, uint16_t * const dest, uint8_t length)$/;"	f
-uart_getchar	uart.c	/^uint8_t uart_getchar()$/;"	f
-uart_init	uart.c	/^void uart_init()$/;"	f
-uart_put	uart.c	/^void uart_put(char *ptr_str){$/;"	f
-uart_putchar	uart.c	/^void uart_putchar(char ch)$/;"	f
+uart_getchar	uart.c	/^uint8_t uart_getchar(UART_Type *uart)$/;"	f
+uart_init	uart.c	/^void uart_init(UART_Type *uart)$/;"	f
+uart_put	uart.c	/^void uart_put(UART_Type *uart, char *ptr_str){$/;"	f
+uart_putchar	uart.c	/^void uart_putchar(UART_Type *uart, char ch)$/;"	f
