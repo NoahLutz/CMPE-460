@@ -91,7 +91,7 @@ uint8_t processCameraData(uint16_t *adcData, uint8_t length)
 	
 	char str[100];
 	sprintf(str, "left: %i\r\n right: %i\r\n mid:%i\r\n", leftSpike, rightSpike, prevMid);
-	uart_put(str);
+	uart_put(UART3, str);
 
 	return prevMid;
 }

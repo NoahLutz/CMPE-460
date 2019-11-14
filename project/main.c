@@ -39,7 +39,7 @@ int main(void)
 	initialize();
 
 	// Print welcome over serial
-	uart_put("Running... \n\r");
+	uart_put(UART3,"Running... \n\r");
 	
 	
 	// Set Motors at constatnt speed for now
@@ -47,8 +47,8 @@ int main(void)
 	SetMotor2DutyCycle(30, 0);
 	
 	
-  EnableMotor1();
-  EnableMotor2();
+  //EnableMotor1();
+  //EnableMotor2();
 		
 	for(;;) {
 		
@@ -90,13 +90,13 @@ int main(void)
 					GPIOB_PCOR |= (1 << 22);
 					// send the array over uart
 					sprintf(str,"%i\n\r",-1); // start value
-					uart_put(str);
+					uart_put(UART0,str);
 					for (int i = 0; i < 127; i++) {
 						sprintf(str,"%i\n", data[i]);
-						uart_put(str);
+						uart_put(UART0, str);
 					}
 					sprintf(str,"%i\n\r",-2); // end value
-					uart_put(str);
+					uart_put(UART0,str);
 					capcnt = 0;
 					GPIOB_PSOR |= (1 << 22);
 				}
