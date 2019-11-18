@@ -49,12 +49,12 @@ int main(void)
 	
 	delay(100);
 	
-  EnableMotor1();
-  EnableMotor2();
+   //EnableMotor1();
+   //EnableMotor2();
 		
 	for(;;) {
 		
-		//updatePIDVars();
+		updatePIDVars();
 		
 		if (processCameraFlag == true) {
 			processCameraFlag = false;

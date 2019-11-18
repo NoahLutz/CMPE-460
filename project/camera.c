@@ -90,8 +90,6 @@ void processCameraData(uint16_t *adcData, uint8_t length)
  */
 uint8_t findCenterPoint(void)
 {
-
-	uint16_t maxDerivValue;
 	int8_t rightSpike = -1;
 	int8_t leftSpike = -1;
 

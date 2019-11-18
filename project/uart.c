@@ -16,11 +16,14 @@
 
 #define BAUD_RATE 9600      //default baud rate 
 #define SYS_CLOCK 20485760 //default system clock (see DEFAULT_SYSTEM_CLOCK  in system_MK64F12.c)
+#define BUFFER_SIZE  100
 
-char buffer[100];
-char packet[100];
+#define CHAR_CR      0x0D
+#define CHAR_LF      0x0A
+
+char buffer[BUFFER_SIZE];
+char packet[BUFFER_SIZE];
 uint8_t bufferIdx = 0;
-bool validPacket = false;
 
 /**************************************************
 * 
@@ -49,9 +52,11 @@ void uart_init(UART_Type *uart)
       SIM_SCGC5 |= SIM_SCGC5_PORTB_MASK;
       PORTB_PCR10 |= PORT_PCR_MUX(3);
       PORTB_PCR11 |= PORT_PCR_MUX(3);
-		 
+		
+      // Enable RX interrupts for UART3
+      uart->c2 |= UART_C2_RIE_MASK;
 		 //uart->C2 |= UART_C2_TIE_MASK | UART_C2_RIE_MASK | UART_C2_TIE_MASK;
-		 //NVIC_EnableIRQ(UART3_RX_TX_IRQn);
+      NVIC_EnableIRQ(UART3_RX_TX_IRQn);
    }
 
    /*Configure the UART for establishing serial communication*/
@@ -99,22 +104,15 @@ void uart_init(UART_Type *uart)
 * Returns: 			char received via UART0
 *
 ***************************************************/
-void uart_getchar(UART_Type *uart)
+uint8_t uart_getchar(UART_Type *uart)
 {
+   uint8_t retVal = 0;
    /* Wait until there is space for more data in the receiver buffer*/
    if ((uart->S1 & UART_S1_RDRF_MASK) != 0){
-		 buffer[bufferIdx] = uart->D;
-		 bufferIdx++;
-		 
-		 if (buffer[bufferIdx] == 0x0D || buffer[bufferIdx] == 0x0A) {
-			 buffer[bufferIdx + 1] = 0x00;
-			 bufferIdx = 0;
-			 memcpy(packet, buffer, 100);
-		 }
-	 }
+      retVal = uart->D;
+	}
 
-	/* Return the 8-bit data from the receiver */
-  // return uart->D;
+   return retVal;
 }
 
 /**************************************************
@@ -155,33 +153,51 @@ void uart_put(UART_Type *uart, char *ptr_str){
    }
 }
 
+void UART3_RX_TX_IRQHandler(void)
+{
+   
+}
+
 
 /**************************************************
 * 
 * updatePIDVars()
 *
-* Description: 	Sends a string via UART0
+* Description: 	checks for update for PID variables
 *
-* Parameters:		ptr_str - string to send
+* Parameters:		None
 *
 * Returns: 			None
 *
 ***************************************************/
 void updatePIDVars(void)
 {
+   bool validPacket = false;
 	//float temp_kp, temp_ki, temp_kd;
 	char *tempStr1, *tempStr2;
 	
-	uart_getchar(UART3);
+   // get char from uart if available
+	char c = uart_getchar(UART3);
+   
+   if (c != NULL) {
+      if (c != CHAR_CR && bufferIdx < BUFFER_SIZE) {
+         buffer[bufferIdx] = c;
+         bufferIdx++;
+      } else {
+         bufferIdx = 0;
+         validPacket = true;
+         memcpy(packet, buffer, sizeof(uint8_t) * BUFFER_SIZE);
+      }
+   }
 	
 	if (validPacket == true) {
-		validPacket = false;
 		kp = strtof(packet, &tempStr1);
 		ki = strtof(tempStr1, &tempStr2); 
 		kd = strtof(tempStr2, NULL);
 		
-		char resp[100];
+		char resp[BUFFER_SIZE];
 		sprintf(resp, "updated PID values to Kp:%f, Ki: %f, Kd: %f\r\n", kp, ki, kd);
 		uart_put(UART3, resp);
 	}
 }
+
