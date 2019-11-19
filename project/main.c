@@ -44,13 +44,13 @@ int main(void)
 	
 	
 	// Set Motors at constatnt speed for now
-	SetMotor1DutyCycle(30, 0);
-	SetMotor2DutyCycle(30, 0);
+	SetMotor1DutyCycle(35, 0);
+	SetMotor2DutyCycle(35, 0);
 	
 	delay(100);
 	
-   //EnableMotor1();
-   //EnableMotor2();
+   EnableMotor1();
+   EnableMotor2();
 		
 	for(;;) {
 		
@@ -66,6 +66,7 @@ int main(void)
 			uint8_t edgeVal = hasEdges();
 			if (edgeVal == 2 || edgeVal == 3) {
 				sprintf(str, "Disabling Motors\r\n");
+				uart_put(UART3, "DISABLING MOTORS\r\n");
 				DisableMotor1();
 				DisableMotor2();
 				centerPoint = IDEAL_CENTER;

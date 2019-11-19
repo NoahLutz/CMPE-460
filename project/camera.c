@@ -170,6 +170,7 @@ uint8_t hasEdges(void)
       if (area >= COLOR_WHITE_AREA_THRESHOLD) {
          retVal = 1;
       } else if (area <= COLOR_DARK_AREA_THRESHOLD) {
+				uart_put(UART3, "below dark area threshold\r\n");
          retVal = 2;
       }
    }

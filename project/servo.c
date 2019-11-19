@@ -21,7 +21,7 @@
 
 #define SERVO_CENTER		1750
 #define SERVO_MIN				1300	// left turn
-#define SERVO_MAX				2200 // right turn
+#define SERVO_MAX				2200 //  right turn
 #define SERVO_INCREMENT	35
 
 float kp = 0.45;
