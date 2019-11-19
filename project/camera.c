@@ -77,6 +77,10 @@ void processCameraData(uint16_t *adcData, uint8_t length)
 	
 }
 
+void calibrateThresholds(void)
+{
+	
+}
 
 /*
  * Name: findCenterPoint

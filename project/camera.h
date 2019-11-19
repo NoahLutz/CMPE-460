@@ -15,6 +15,7 @@
 #define ARRAY_SIZE   128U
 
 void processCameraData(uint16_t *adcData, uint8_t length);
+void calibrateThresholds(void);
 uint8_t findCenterPoint(void);
 uint32_t calculateArea(void);
 uint8_t hasEdges(void);
