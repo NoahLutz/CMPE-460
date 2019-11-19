@@ -6,6 +6,9 @@
  *
  */
 
+#ifndef QUEUE_H
+#define QUEUE_H
+
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -22,3 +25,5 @@ bool queueAdd(QueueInfo_t *queuePtr, uint8_t data);
 bool queuePop(QueueInfo_t *queuePtr, uint8_t *data);
 bool queuePeek(QueueInfo_t *queuePtr, uint8_t *data);
 bool queueDrop(QueueInfo_t *queuePtr);
+
+#endif

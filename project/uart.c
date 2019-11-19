@@ -5,6 +5,7 @@
  * Notes:		
  *
  */
+#include "queue.h"
 #include "uart.h"
 #include "MK64F12.h"
 #include "servo.h"
@@ -13,6 +14,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
+#include <math.h>
 
 #define BAUD_RATE 9600      //default baud rate 
 #define SYS_CLOCK 20485760 //default system clock (see DEFAULT_SYSTEM_CLOCK  in system_MK64F12.c)
@@ -24,6 +27,11 @@
 char buffer[BUFFER_SIZE];
 char packet[BUFFER_SIZE];
 uint8_t bufferIdx = 0;
+
+QueueInfo_t rxQueue;
+uint8_t queueBuf [BUFFER_SIZE];
+
+float strToFloat(char* str);
 
 /**************************************************
 * 
@@ -40,6 +48,9 @@ void uart_init(UART_Type *uart)
 {
    //define variables for baud rate and baud rate fine adjust
    uint16_t ubd, brfa;
+
+   // Initialze RX Queue
+   initQueue(&rxQueue, queueBuf, BUFFER_SIZE);
 	 
    //Enable clock and pins for UART
    if (uart == UART0) {
@@ -54,7 +65,7 @@ void uart_init(UART_Type *uart)
       PORTB_PCR11 |= PORT_PCR_MUX(3);
 		
       // Enable RX interrupts for UART3
-      uart->c2 |= UART_C2_RIE_MASK;
+      uart->C2 |= UART_C2_RIE_MASK;
 		 //uart->C2 |= UART_C2_TIE_MASK | UART_C2_RIE_MASK | UART_C2_TIE_MASK;
       NVIC_EnableIRQ(UART3_RX_TX_IRQn);
    }
@@ -155,49 +166,115 @@ void uart_put(UART_Type *uart, char *ptr_str){
 
 void UART3_RX_TX_IRQHandler(void)
 {
-   
+   if ((UART3->S1 & UART_S1_RDRF_MASK) != 0) {
+      if (queueAdd(&rxQueue, UART3->D) == false) {
+         //uart_put(UART0, "Failed to send via BT\r\n");
+      }
+   }
 }
 
 
 /**************************************************
 * 
-* updatePIDVars()
+* Name: 		updatePIDVars()
 *
 * Description: 	checks for update for PID variables
 *
-* Parameters:		None
+* Parameters:	None
 *
-* Returns: 			None
+* Returns: 		None
 *
 ***************************************************/
 void updatePIDVars(void)
 {
-   bool validPacket = false;
-	//float temp_kp, temp_ki, temp_kd;
-	char *tempStr1, *tempStr2;
+	bool validPacket = false;
+	float temp_kp, temp_ki, temp_kd;
+	char *kp_str, *ki_str, *kd_str;
+	
+	char kp_str_cpy[100];
+	char ki_str_cpy[100];
+	char kd_str_cpy[100];
+
+	char delim1[2] = " ";
+	uint8_t c;
 	
    // get char from uart if available
-	char c = uart_getchar(UART3);
-   
-   if (c != NULL) {
-      if (c != CHAR_CR && bufferIdx < BUFFER_SIZE) {
-         buffer[bufferIdx] = c;
-         bufferIdx++;
-      } else {
-         bufferIdx = 0;
-         validPacket = true;
-         memcpy(packet, buffer, sizeof(uint8_t) * BUFFER_SIZE);
+   if (rxQueue.numItems > 0) {
+      if (queuePop(&rxQueue, &c)) {
+         if (c != CHAR_CR && c != CHAR_LF && bufferIdx < BUFFER_SIZE) {
+            buffer[bufferIdx] = c;
+            bufferIdx++;
+         } else if (c == CHAR_LF) {
+            bufferIdx = 0;
+            validPacket = true;
+            memcpy(packet, buffer, sizeof(uint8_t) * BUFFER_SIZE);
+         }
       }
    }
 	
 	if (validPacket == true) {
-		kp = strtof(packet, &tempStr1);
-		ki = strtof(tempStr1, &tempStr2); 
-		kd = strtof(tempStr2, NULL);
+		// Chop up string by delemiter
+		kp_str = strtok(packet, delim1);
+		strcpy(kp_str_cpy, kp_str);
+		ki_str = strtok(NULL, delim1);
+		strcpy(ki_str_cpy, ki_str);
+		kd_str = strtok(NULL, delim1);
+		strcpy(kd_str_cpy, kd_str);
 		
+		//Convert substrings to floats
+		temp_kp = strToFloat(kp_str_cpy);
+		temp_ki = strToFloat(ki_str_cpy);
+		temp_kd = strToFloat(kd_str_cpy);
+		
+		//Update true values
+		kp = temp_kp;
+		ki = temp_ki;
+		kd = temp_kd;
+		
+		// send response
 		char resp[BUFFER_SIZE];
 		sprintf(resp, "updated PID values to Kp:%f, Ki: %f, Kd: %f\r\n", kp, ki, kd);
 		uart_put(UART3, resp);
 	}
 }
+
+/**************************************************
+* 
+* Name: 		strToFloat()
+*
+* Description: 	Custom strtof function because the stdlib ones don't work 
+*				NOTE: will return bad values if string is not clean
+*
+* Parameters:	*str - ptr to string to convert
+*						must follow following format : "xx.xxxx"		
+*
+* Returns: 		parsed float value of string
+*
+***************************************************/
+float strToFloat(char *str)
+{
+	char delim[2] = ".";
+	char strBuf[BUFFER_SIZE];
+	char *upper, *lower;
+	float value = 0.0f;
+
+	strcpy(strBuf, str);
+	
+	upper = strtok(strBuf, delim);
+	for (uint8_t i = strlen(upper); i>0; i--) {
+		uint8_t power = i - 1;
+		float currentVal = upper[i-1] - '0';
+		value += currentVal * pow(10.0, power);
+	}
+
+	lower = strtok(NULL, delim);
+	for (uint8_t i = 0; i < strlen(lower); i++) {
+		uint8_t power = i + 1;
+		float currentVal = lower[i] - '0';
+		value += currentVal * pow(10.0, -1.0f*power);
+	}
+
+	return value;
+}
+
 

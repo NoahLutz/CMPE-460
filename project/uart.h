@@ -5,7 +5,14 @@
  * Notes:		
  *
  */
+
+#ifndef UART_H
+#define UART_H
+
 #include <stdint.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "MK64F12.h"
 
 void uart_put(UART_Type *uart, char *ptr_str);
@@ -14,3 +21,5 @@ uint8_t uart_getchar(UART_Type *uart);
 void uart_putchar(UART_Type *uart, char ch);
 
 void updatePIDVars(void);
+
+#endif
