@@ -10,14 +10,15 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include <stdio.h>
 #include "uart.h"
 
 #define MIN_DIFF	10
 
-#define DERIV_EDGE_THRESHOLD  5500ULL
-#define COLOR_WHITE_AREA_THRESHOLD 5000000ULL
-#define COLOR_DARK_AREA_THRESHOLD	 1500000ULL
+#define DERIV_EDGE_THRESHOLD  1500ULL //5500ULL
+#define COLOR_WHITE_AREA_THRESHOLD 5000000ULL //5000000ULL
+#define COLOR_DARK_AREA_THRESHOLD	 1000000ULL //1500000ULL
 
 uint8_t startOffset = 0;
 
@@ -170,9 +171,15 @@ uint8_t hasEdges(void)
       if (area >= COLOR_WHITE_AREA_THRESHOLD) {
          retVal = 1;
       } else if (area <= COLOR_DARK_AREA_THRESHOLD) {
-				uart_put(UART3, "below dark area threshold\r\n");
+				char tempBuf[100];
+				sprintf(tempBuf, "below dark area threshold: %"PRIu32"\r\n", area);
+				uart_put(UART3, tempBuf);
          retVal = 2;
-      }
+      } else {
+				char tempBuf[100];
+				sprintf(tempBuf, "unable to determine: %"PRIu32"\r\nderiv threshold: %"PRIu32"\r\n", area, maxDerivValue);
+				uart_put(UART3, tempBuf);
+			}
    }
 
    return retVal;

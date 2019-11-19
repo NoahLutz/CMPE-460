@@ -49,8 +49,8 @@ int main(void)
 	
 	delay(100);
 	
-   EnableMotor1();
-   EnableMotor2();
+  //EnableMotor1();
+  //EnableMotor2();
 		
 	for(;;) {
 		
@@ -67,14 +67,23 @@ int main(void)
 			if (edgeVal == 2 || edgeVal == 3) {
 				sprintf(str, "Disabling Motors\r\n");
 				uart_put(UART3, "DISABLING MOTORS\r\n");
+				
+				
+				SetMotor1DutyCycle(35, 1);
+				SetMotor2DutyCycle(35, 1);
+				delay(20);
 				DisableMotor1();
 				DisableMotor2();
+				SetMotor1DutyCycle(35, 0);
+				SetMotor2DutyCycle(35, 0);
 				centerPoint = IDEAL_CENTER;
 			} else if (edgeVal == 1) {
 				sprintf(str, "all white\r\n");
 
 				centerPoint = IDEAL_CENTER;
 			} else if (edgeVal == 0) {
+				EnableMotor1();
+				EnableMotor2();
 				sprintf(str, "has edges\r\n");
 
 				centerPoint = findCenterPoint();
@@ -100,7 +109,7 @@ int main(void)
 			//uart_put(str);
 			
 			// adjust servo
-			adjustServoAngle(centerPoint, IDEAL_CENTER);
+			adjustServoAngle(IDEAL_CENTER, centerPoint);
 			
 			delay(10);
 			
