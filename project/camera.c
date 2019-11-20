@@ -19,6 +19,20 @@
 #define COLOR_WHITE_AREA_THRESHOLD 5000000ULL
 #define COLOR_DARK_AREA_THRESHOLD	 1500000ULL
 
+typedef enum {
+	THRESHOLD_NO_CAL = 0,
+	THRESHOLD_GOOD_CAL = 1,
+	THRESHOLD_BAD_CAL = 2,
+	THRESHOLD_NUM_CAL = 3
+} ThresholdCalState_t;
+
+typedef struct {
+	ThresholdCalState_t state;
+	uint32_t derivThreshold;
+	uint32_t whiteThreshold;
+	uint32_t darkThreshold;
+} ThresholdCal_t;
+
 uint8_t startOffset = 0;
 
 char str1[100];
