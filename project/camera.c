@@ -15,9 +15,7 @@
 
 #define MIN_DIFF	10
 
-#define DERIV_EDGE_THRESHOLD  5500ULL
-#define COLOR_WHITE_AREA_THRESHOLD 5000000ULL
-#define COLOR_DARK_AREA_THRESHOLD	 1500000ULL
+#define RECAL_COUNTER_INIT	50
 
 typedef enum {
 	THRESHOLD_NO_CAL = 0,
@@ -28,8 +26,9 @@ typedef enum {
 
 typedef struct {
 	ThresholdCalState_t state;
+	uint16_t recalCounter;
 	uint32_t derivThreshold;
-	uint32_t whiteDarkThreshold;
+	uint32_t whiteDarkAreaThreshold;
 } ThresholdCal_t;
 
 ThresholdCal_t threshCal;
@@ -49,7 +48,7 @@ uint8_t prevMid = 63;
 void calibrateThresholds(void);
 void smoothRawCameraData(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
 void derivitiveFilter(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
-void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length);
+void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length, uint32_t threshold);
 
 uint16_t maxValue(const uint16_t * const data, uint8_t length);
 
@@ -69,8 +68,9 @@ void initCamera(void)
 {
 	// Initialize threshCal values
 	threshCal.state = THRESHOLD_NO_CAL;
+	thresCal.recalCounter = RECAL_COUNTER_INIT;
 	threshCal.derivThreshold = 0;
-	threshCal.whiteDarkThreshold = 0;
+	threshCal.whiteDarkAreaThreshold = 0;
 
 	// zero out all data arrays
 	memset(smoothedData, 0U, sizeof(uint16_t) * ARRAY_SIZE);
@@ -82,74 +82,138 @@ void initCamera(void)
 }
 
 /*
- * Name: processCameraData
+ * Name: 		processCameraData
  * 
  * Description: processes raw ADC data and produces filtered data
  *              used by other functions
  *
- * Params:	*adcData - raw data from the camera ADC
- *			length - length of ADC data
+ * Params:		*adcData - raw data from the camera ADC
+ *				length - length of ADC data
  * 
- * Returns: N/A
+ * Returns: 	None
  */
 void processCameraData(uint16_t *adcData, uint8_t length)
 {
+	//TODO: may want to zero out first 10 and last 10 values...
+
+	// Copy data into temporary buffer so it's not accidentially clobbered...
+	memcpy(adcCopy, adcData, length * sizeof(uint16_t));
+	
+	// smooth out raw ADC data
+	smoothRawCameraData(smoothedData, adcData, length);
+   
+	// copy smoothed data   
+	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
+	
+	// run derivitave filter over smoothed data
+	derivitiveFilter(derivData, smoothedDataCopy, length);
+
+
+	// Update calibration state
 	if (threshCal.state == THRESHOLD_NO_CAL || threshCal.state == THRESHOLD_BAD_CAL) {
 		calibrateThresholds();
+		thresCal.recalCounter = RECAL_COUNTER_INIT;
 	} else {
-		//TODO: decrement counter for recalibration
-   
-		// Copy data into temporary buffer so it's not accidentially clobbered...
-		memcpy(adcCopy, adcData, length * sizeof(uint16_t));
-		
-	   // smooth out raw ADC data
-		smoothRawCameraData(smoothedData, adcData, length);
-	   
-	   // copy smoothed data   
-		memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
-		
-		// run smoothed data through threshold filter
-		thresholdFilter(thresholdData, smoothedDataCopy, length);
-		
-	   // copy smoothed data   
-		memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
-	   
-		// run derivitave filter over smoothed data
-		derivitiveFilter(derivData, smoothedDataCopy, length);
-	}
-	
-}
+		// decrement counter for recalibration
+		thresCal.recalCounter--;
 
-void calibrateThresholds(void)
-{
-	
+		// recalibrate next once counter reaches zero
+		if (threshCal.recalCounter == 0) {
+			threshCal.state = THRESHOLD_BAD_CAL;
+		}
+	}
+
+	// Only run threshold filter if good calibration
+	if (treshCal.state == THRESHOLD_GOOD_CAL) {
+		// copy smoothed data   
+		memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
+
+		// run smoothed data through threshold filter
+		thresholdFilter(thresholdData, smoothedDataCopy, length, threshCal.whiteDarkThreshold);
+	}
 }
 
 /*
- * Name: findCenterPoint
+ * Name: 		calibrateThresholds
+ * 
+ * Description: calibrates thresholds based on ADC data
+ *
+ * Params:		*adcData - raw data from the camera ADC
+ *				length - length of ADC data
+ * 
+ * Returns: 	None
+ */
+void calibrateThresholds(void)
+{
+	uint16_t derivMaxRight = derivData[64];
+	uint16_t derivMaxLeft = derivData[63];
+	uint16_t derivMax = 0;
+	uint16_t smoothedMax = smoothedData[10];
+	
+	// analyze derivitive peaks
+	// NOTE: first and last 10 values are not included
+	for(uint8_t i = 65; i < 117; i++) {
+		if (derivData[i] > derivMaxRight) {
+			derivMaxRight = derivData[i];
+		}
+	}
+	for (uint8_t i = 62; i >= 10; i--) {
+		if (derivData[i] > derivMaxLeft) {
+			derivMaxLeft = derivData[i];
+		}
+	}
+	if (derivMaxRight > derivMaxLeft) {
+		derivMax = derivMaxRight;
+	} else {
+		derivMax = derivMaxLeft;
+	}
+
+	//TODO: may need to adjust what division value is
+	threshCal.derivThreshold = derivMax/2;
+
+	// calculate areas based on smoothed data max values
+	// NOTE: first and last 10 values are ignored
+	for(uint8_t i = 11; i < 117; i++) {
+		if(smoothedData[i] > smoothedMax) {
+			smoothedMax = smoothedData[i];
+		}
+	}
+	
+	//TODO: may need to adjust what division value is
+	threshCal.whiteDarkAreaThreshold = (smoothedMax/2) * 108; // 1/2 smoothedMax * [num data elements]
+
+	// Check that we have good threshold values
+	if (threshCal.derivThreshold != 0 && threshCal.whiteDarkAreaThreshold != 0) {
+		threshCal.state = THRESHOLD_GOOD_CAL;
+	} else {
+		threshCal.state = THRESHOLD_BAD_CAL;
+	}
+}
+
+/*
+ * Name: 		findCenterPoint
  * 
  * Description: processes camera data and returns the center point of the white
  *				portion of the camera data
  *
- * Params:	N/A
+ * Params:		None
  * 
- * Returns: center point
+ * Returns: 	center point
  */
 uint8_t findCenterPoint(void)
 {
-	int8_t rightSpike = -1;
-	int8_t leftSpike = -1;
+	uint8_t rightSpike = 127;
+	uint8_t leftSpike = 0;
 
-	
-	
-	for (uint8_t i = 64; i < 127; i++) {
+	//TODO: might want to use prevMid as starting point rather than starting at 64
+	for (uint8_t i = 64; i < 117; i++) {
 		if(thresholdData[i] == 0){
 			rightSpike = i;
 			break;
 		}
 	}
 	
-	for (uint8_t i = 64 - 1; i >= 0; i--) {
+	for (uint8_t i = 64 - 1; i >= 10; i--) {
 		if (thresholdData[i] == 0) {
 			leftSpike = i;
 			break;
@@ -158,11 +222,6 @@ uint8_t findCenterPoint(void)
 
 	//return mid-point
 	prevMid = leftSpike + ((rightSpike - leftSpike)/2);
-	
-	char str[100];
-	sprintf(str, "left: %i\r\n right: %i\r\n mid:%i\r\n", leftSpike, rightSpike, prevMid);
-
-	//uart_put(UART3, str);
 
 	return prevMid;
 }
@@ -180,7 +239,7 @@ uint8_t findCenterPoint(void)
 uint32_t calculateArea(void)
 {
    uint32_t area = 0;
-   for (uint8_t i = 0; i < ARRAY_SIZE-1; i++) {
+   for (uint8_t i = 10; i < 117; i++) {
       area+=smoothedData[i];
    }
    return area;
@@ -188,37 +247,49 @@ uint32_t calculateArea(void)
 
 
 /*
- * Name: hasEdges
+ * Name: 		analyzeCameraData
  * 
  * Description: Checks if camera has detected all white or all dark (no edges)
  *
- * Params:	N/A
+ * Params:		N/A
  * 
- * Returns: 0 - has edges
- *          1 - all white camera data
- *          2 - all dark camera data
- *          3 - unable to determine
+ * Returns: 	-1 - no valid data could be determined
+ *				0 - has edges
+ *          	1 - has one edge
+ *          	2 - all white camera data
+ *          	3 - all dark camera data
  */
-uint8_t hasEdges(void)
+int8_t analyzeCameraData(void)
 {
-   uint8_t retVal = 3;
-   uint16_t maxDerivValue;
-   uint32_t area;
+   int8_t retVal = -1;
+   uint16_t maxDerivValue = 0;
+   uint8_t derivPeaks = 0;
+   uint32_t area = 0;
    
-   maxDerivValue = maxValue(derivData, ARRAY_SIZE);
-	sprintf(str1, "derivMaxValue: %i\r\n", maxDerivValue);
-	//uart_put(UART3,str1);
-   if (maxDerivValue >= DERIV_EDGE_THRESHOLD) {
-      retVal = 0;
+	maxDerivValue = maxValue(derivData, ARRAY_SIZE);
+
+	if (maxDerivValue >= threshCal.derivThreshold) {
+	   for (uint8_t i = 0; i < ARRAY_SIZE; i++){
+		   if (derivData[i] >= threshCal.derivThreshold) {
+			   derivPeaks++;
+		   }
+	   }
+	   if (derivPeaks >= 2) {
+		  retVal = 0;
+	   } else if (derivPeaks == 1) {
+		   retVal = 1;
+	   } else {
+		   uart_put(UART3, "Should never get here, no peaks found?\r\n");
+	   }
    }
-   else {
+	else {
       area = calculateArea();
 
-      if (area >= COLOR_WHITE_AREA_THRESHOLD) {
-         retVal = 1;
-      } else if (area <= COLOR_DARK_AREA_THRESHOLD) {
-				uart_put(UART3, "below dark area threshold\r\n");
-         retVal = 2;
+      if (area >= threshCal.whiteDarkAreaThreshold) {
+		retVal = 2;
+      } else {
+		uart_put(UART3, "below dark area threshold\r\n");
+		retVal = 3;
       }
    }
 
@@ -321,9 +392,9 @@ void derivitiveFilter(uint16_t * const dest, const uint16_t * const adcData, uin
  * 
  * Returns: N/A
  */
-void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length)
+void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length, uint32_t threshold)
 {
-	float threshold = maxValue(data, length)/1.6f;
+	//float threshold = maxValue(data, length)/1.6f;
 
 	for (uint8_t i = 0; i < length-1; i++) {
 		if (data[i] <= threshold) {

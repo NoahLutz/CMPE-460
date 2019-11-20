@@ -18,7 +18,7 @@ void initCamera(void);
 void processCameraData(uint16_t *adcData, uint8_t length);
 uint8_t findCenterPoint(void);
 uint32_t calculateArea(void);
-uint8_t hasEdges(void);
+uint8_t analyzeCameraData(void);
 
 void getSmoothedData(uint16_t *dest, uint8_t length);
 void getDerivData(uint16_t *dest, uint8_t length);

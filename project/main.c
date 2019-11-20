@@ -61,48 +61,33 @@ int main(void)
 			
 			// Process new camera data
 			processCameraData(line, ARRAY_SIZE);
-			area = calculateArea();
 			
-			uint8_t edgeVal = hasEdges();
-			if (edgeVal == 2 || edgeVal == 3) {
+			uint8_t edgeVal = analyzeCameraData();
+
+			if (edgeVal == 3) {
 				sprintf(str, "Disabling Motors\r\n");
 				uart_put(UART3, "DISABLING MOTORS\r\n");
 				DisableMotor1();
 				DisableMotor2();
 				centerPoint = IDEAL_CENTER;
-			} else if (edgeVal == 1) {
-				sprintf(str, "all white\r\n");
-
+			} else if (edgeVal == 2) {
 				centerPoint = IDEAL_CENTER;
-			} else if (edgeVal == 0) {
-				sprintf(str, "has edges\r\n");
-
+			} else if (edgeVal == 1) {
+				sprintf(str, "has only one edge\r\n");
+				//uart_put(UART3, str);
+				//TODO: use different function for finding centerpoint if one edge is missing
 				centerPoint = findCenterPoint();
+			} else if (edgeVal == 0) {
+				sprintf(str, "has both edges\r\n");
+				//uart_put(UART3, str);
+				centerPoint = findCenterPoint();
+			} else if (edgeVal == -1) {
+				sprintf(str, "[ERROR] unable to process camera data\r\n");
+				uart_put(UART3, str);
 			}
-			
-			//centerPoint = IDEAL_CENTER;
-			
-			//uint16_t derivMaxVal = 
-			//uart_put(UART3, str);
-			sprintf(str, "area: %i\r\n", area);
-			//uart_put(UART3, str);
-			
-				
-
-      //centerPoint = findCenterPoint();
-
-      //area = calculateArea();
-			
-			//sprintf(str, "areaData: %i\r\n", area);
-			//uart_put(str);
-
-			//sprintf(str, "Center Point: %i\r\nArea: %i\r\n", centerPoint, area);
-			//uart_put(str);
 			
 			// adjust servo
 			adjustServoAngle(centerPoint, IDEAL_CENTER);
-			
-			delay(10);
 			
 			// send debug data if necessary
 			if (debugcamdata) {
