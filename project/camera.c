@@ -130,6 +130,9 @@ void processCameraData(uint16_t *adcData, uint8_t length)
 
 		// run smoothed data through threshold filter
 		thresholdFilter(thresholdData, smoothedDataCopy, length, threshCal.whiteDarkThreshold);
+	} else {
+		// If calibration is bad, zero out threshold data
+		memset(thresholdData, 0U, sizeof(uint6_t) * ARRAY_SIZE);
 	}
 }
 
@@ -267,31 +270,33 @@ int8_t analyzeCameraData(void)
    uint32_t area = 0;
    
 	maxDerivValue = maxValue(derivData, ARRAY_SIZE);
-
-	if (maxDerivValue >= threshCal.derivThreshold) {
-	   for (uint8_t i = 0; i < ARRAY_SIZE; i++){
-		   if (derivData[i] >= threshCal.derivThreshold) {
-			   derivPeaks++;
+	
+	if (threshCal.state == THRESHOLD_GOOD_CAL) {
+		if (maxDerivValue >= threshCal.derivThreshold) {
+		   for (uint8_t i = 0; i < ARRAY_SIZE; i++){
+			   if (derivData[i] >= threshCal.derivThreshold) {
+				   derivPeaks++;
+			   }
+		   }
+		   if (derivPeaks >= 2) {
+			  retVal = 0;
+		   } else if (derivPeaks == 1) {
+			   retVal = 1;
+		   } else {
+			   uart_put(UART3, "Should never get here, no peaks found?\r\n");
 		   }
 	   }
-	   if (derivPeaks >= 2) {
-		  retVal = 0;
-	   } else if (derivPeaks == 1) {
-		   retVal = 1;
-	   } else {
-		   uart_put(UART3, "Should never get here, no peaks found?\r\n");
-	   }
-   }
-	else {
-      area = calculateArea();
+		else {
+		  area = calculateArea();
 
-      if (area >= threshCal.whiteDarkAreaThreshold) {
-		retVal = 2;
-      } else {
-		uart_put(UART3, "below dark area threshold\r\n");
-		retVal = 3;
-      }
-   }
+		  if (area >= threshCal.whiteDarkAreaThreshold) {
+			retVal = 2;
+		  } else {
+			uart_put(UART3, "below dark area threshold\r\n");
+			retVal = 3;
+		  }
+	   }
+	}
 
    return retVal;
 }

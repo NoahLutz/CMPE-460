@@ -65,24 +65,29 @@ int main(void)
 			uint8_t edgeVal = analyzeCameraData();
 
 			if (edgeVal == 3) {
+				// no edges, all dark camera data
 				sprintf(str, "Disabling Motors\r\n");
 				uart_put(UART3, "DISABLING MOTORS\r\n");
 				DisableMotor1();
 				DisableMotor2();
 				centerPoint = IDEAL_CENTER;
 			} else if (edgeVal == 2) {
+				// no edges, all white camera data
 				centerPoint = IDEAL_CENTER;
 			} else if (edgeVal == 1) {
+				// only one edge
 				sprintf(str, "has only one edge\r\n");
 				//uart_put(UART3, str);
 				//TODO: use different function for finding centerpoint if one edge is missing
 				centerPoint = findCenterPoint();
 			} else if (edgeVal == 0) {
+				// two good edges
 				sprintf(str, "has both edges\r\n");
 				//uart_put(UART3, str);
 				centerPoint = findCenterPoint();
 			} else if (edgeVal == -1) {
-				sprintf(str, "[ERROR] unable to process camera data\r\n");
+				// only here if we get bad/no calibration
+				sprintf(str, "[ERROR] unable to process camera data\r\n[ERROR] bad/no calibration\r\n");
 				uart_put(UART3, str);
 			}
 			
