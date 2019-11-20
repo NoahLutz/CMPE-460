@@ -175,4 +175,7 @@ void initialize()
 	InitFTM3();
 	InitFTM2();
 	InitPIT();
+
+	//Init higher level modules
+	initCamera();
 }

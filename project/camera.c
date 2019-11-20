@@ -29,11 +29,10 @@ typedef enum {
 typedef struct {
 	ThresholdCalState_t state;
 	uint32_t derivThreshold;
-	uint32_t whiteThreshold;
-	uint32_t darkThreshold;
+	uint32_t whiteDarkThreshold;
 } ThresholdCal_t;
 
-uint8_t startOffset = 0;
+ThresholdCal_t threshCal;
 
 char str1[100];
 uint16_t smoothedData[ARRAY_SIZE];
@@ -47,6 +46,7 @@ uint16_t derivDataCopy[ARRAY_SIZE];
 uint8_t prevMid = 63;
 
 // Private function declarations
+void calibrateThresholds(void);
 void smoothRawCameraData(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
 void derivitiveFilter(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
 void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length);
@@ -56,6 +56,30 @@ uint16_t maxValue(const uint16_t * const data, uint8_t length);
 
 // Public Function Definitions
 
+/*
+ * Name: 		initCamera
+ * 
+ * Description: Initializes the camera module
+ *
+ * Params:		None
+ * 
+ * Returns: 	None
+ */
+void initCamera(void)
+{
+	// Initialize threshCal values
+	threshCal.state = THRESHOLD_NO_CAL;
+	threshCal.derivThreshold = 0;
+	threshCal.whiteDarkThreshold = 0;
+
+	// zero out all data arrays
+	memset(smoothedData, 0U, sizeof(uint16_t) * ARRAY_SIZE);
+	memset(smoothedDataCopy, 0U, sizeof(uint16_t) * ARRAY_SIZE);
+	memset(thresholdData, 0U, sizeof(uint16_t) * ARRAY_SIZE);
+	memset(thresholdDataCopy, 0U, sizeof(uint16_t) * ARRAY_SIZE);
+	memset(derivData, 0U, sizeof(uint16_t) * ARRAY_SIZE);
+	memset(derivDataCopy, 0U, sizeof(uint16_t) * ARRAY_SIZE);
+}
 
 /*
  * Name: processCameraData
@@ -70,24 +94,29 @@ uint16_t maxValue(const uint16_t * const data, uint8_t length);
  */
 void processCameraData(uint16_t *adcData, uint8_t length)
 {
+	if (threshCal.state == THRESHOLD_NO_CAL || threshCal.state == THRESHOLD_BAD_CAL) {
+		calibrateThresholds();
+	} else {
+		//TODO: decrement counter for recalibration
    
-	// Copy data into temporary buffer so it's not accidentially clobbered...
-	memcpy(adcCopy, adcData, length * sizeof(uint16_t));
-	
-   // smooth out raw ADC data
-	smoothRawCameraData(smoothedData, adcData, length);
-   
-   // copy smoothed data   
-	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
-	
-	// run smoothed data through threshold filter
-	thresholdFilter(thresholdData, smoothedDataCopy, length);
-	
-   // copy smoothed data   
-	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
-   
-  // run derivitave filter over smoothed data
-  derivitiveFilter(derivData, smoothedDataCopy, length);
+		// Copy data into temporary buffer so it's not accidentially clobbered...
+		memcpy(adcCopy, adcData, length * sizeof(uint16_t));
+		
+	   // smooth out raw ADC data
+		smoothRawCameraData(smoothedData, adcData, length);
+	   
+	   // copy smoothed data   
+		memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
+		
+		// run smoothed data through threshold filter
+		thresholdFilter(thresholdData, smoothedDataCopy, length);
+		
+	   // copy smoothed data   
+		memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
+	   
+		// run derivitave filter over smoothed data
+		derivitiveFilter(derivData, smoothedDataCopy, length);
+	}
 	
 }
 
