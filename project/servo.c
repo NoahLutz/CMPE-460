@@ -20,13 +20,13 @@
 
 
 
-#define SERVO_CENTER		1500 //1750
-#define SERVO_MIN				((SERVO_CENTER-650)) // left turn
-#define SERVO_MAX				((SERVO_CENTER+650)) // right turn
+#define SERVO_CENTER		1232 //1750
+#define SERVO_MIN				((SERVO_CENTER-250)) // left turn
+#define SERVO_MAX				((SERVO_CENTER+250)) // right turn
 #define SERVO_INCREMENT	35
 
-float kp = 0.50;
-float ki = 0.00; // 0.15
+float kp = 1.12;
+float ki = 0.0; // 0.15
 float kd = 0.00; // 0.25
 
 float adjustment_n1;

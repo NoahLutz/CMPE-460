@@ -19,6 +19,7 @@
 #define DERIV_EDGE_THRESHOLD  1500ULL //5500ULL
 #define COLOR_WHITE_AREA_THRESHOLD 5000000ULL //5000000ULL
 #define COLOR_DARK_AREA_THRESHOLD	 1000000ULL //1500000ULL
+#define DERIV_THRESHOLD_OFFSET	1000;
 
 uint8_t startOffset = 0;
 
@@ -37,6 +38,7 @@ uint8_t prevMid = 63;
 void smoothRawCameraData(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
 void derivitiveFilter(uint16_t * const dest, const uint16_t * const adcData, uint8_t length);
 void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t length);
+void derivThresholdFilter(uint16_t * const dest, const uint16_t * const derivData, uint8_t length);
 
 uint16_t maxValue(const uint16_t * const data, uint8_t length);
 
@@ -63,18 +65,25 @@ void processCameraData(uint16_t *adcData, uint8_t length)
 	
    // smooth out raw ADC data
 	smoothRawCameraData(smoothedData, adcData, length);
-   
-   // copy smoothed data   
-	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
-	
-	// run smoothed data through threshold filter
-	thresholdFilter(thresholdData, smoothedDataCopy, length);
+  
 	
    // copy smoothed data   
 	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
    
   // run derivitave filter over smoothed data
   derivitiveFilter(derivData, smoothedDataCopy, length);
+	
+	// copy derivdata
+	memcpy(derivDataCopy, derivData, length * sizeof(uint16_t));
+	
+	   // copy smoothed data   
+	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
+	
+	// run smoothed data through threshold filter
+	//thresholdFilter(thresholdData, smoothedDataCopy, length);
+	
+	// run derivData through derivThresholdFilter
+	derivThresholdFilter(thresholdData, derivDataCopy, length);
 	
 }
 
@@ -114,9 +123,9 @@ uint8_t findCenterPoint(void)
 	prevMid = leftSpike + ((rightSpike - leftSpike)/2);
 	
 	char str[100];
-	sprintf(str, "left: %i\r\n right: %i\r\n mid:%i\r\n", leftSpike, rightSpike, prevMid);
+	sprintf(str, "left: %i right: %i mid:%i\r\n", leftSpike, rightSpike, prevMid);
 
-	//uart_put(UART3, str);
+	uart_put(UART3, str);
 
 	return prevMid;
 }
@@ -293,6 +302,46 @@ void thresholdFilter(uint16_t * const dest, const uint16_t * const data, uint8_t
 		}
 	}
 }
+
+/*
+ * Name: deriv threshold flter
+ * 
+ * Description: Runs a threshold filter over array of values
+ * 							threshold is half of maximum value found in array
+ *
+ * Params:	*adcData - point to data 
+ *			*dest - destination array
+ *			length - length of data array
+ * 
+ * Returns: N/A
+ */
+void derivThresholdFilter(uint16_t * const dest, const uint16_t * const derivData, uint8_t length)
+{
+	uint16_t threshold = maxValue(derivData, length) - DERIV_THRESHOLD_OFFSET;
+	
+	memset(dest, 0U, sizeof(uint16_t) * length);
+	
+	// Look for right edge
+	for (uint8_t i = 64; i < length-1; i++) {
+		if (derivData[i] <= threshold) {
+			dest[i] = 1;
+		} else {
+			//Found our edge, stop looping
+			break;
+		}
+	}
+	
+	// Look for left edge
+	for (uint8_t i = 64 - 1; i > 0; i--) {
+		if (derivData[i] <= threshold) {
+			dest[i] = 1;
+		} else {
+			//Found our edge, stop looping
+			break;
+		}
+	}
+}
+
 
 /*
  * Name: maxValue

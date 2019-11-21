@@ -21,7 +21,7 @@
 
 #define IDEAL_CENTER 64
 
-int debugcamdata = 0;
+int debugcamdata = 1;
 int capcnt = 0;
 uint16_t line[ARRAY_SIZE];
 char str[100];
@@ -132,7 +132,7 @@ int main(void)
 					getThresholdData(thresholdData, ARRAY_SIZE);
 					
 					
-					memcpy(data, derivData, ARRAY_SIZE * sizeof(uint16_t));
+					memcpy(data, thresholdData, ARRAY_SIZE * sizeof(uint16_t));
 					
 					GPIOB_PCOR |= (1 << 22);
 					// send the array over uart
