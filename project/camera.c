@@ -91,8 +91,8 @@ void processCameraData(uint16_t *adcData, uint8_t length)
  */
 uint8_t findCenterPoint(void)
 {
-	int8_t rightSpike = -1;
-	int8_t leftSpike = -1;
+	uint8_t rightSpike = 127;
+	uint8_t leftSpike = 0;
 
 	
 	
@@ -103,7 +103,7 @@ uint8_t findCenterPoint(void)
 		}
 	}
 	
-	for (uint8_t i = 64 - 1; i >= 0; i--) {
+	for (uint8_t i = 64 - 1; i > 0; i--) {
 		if (thresholdData[i] == 0) {
 			leftSpike = i;
 			break;
