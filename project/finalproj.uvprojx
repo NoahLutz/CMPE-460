@@ -472,6 +472,16 @@
               <FileType>5</FileType>
               <FilePath>.\queue.h</FilePath>
             </File>
+            <File>
+              <FileName>util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\util.c</FilePath>
+            </File>
+            <File>
+              <FileName>util.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\util.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

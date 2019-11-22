@@ -10,6 +10,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include "gpio.h"
 
 typedef enum {
 	MOTOR_SPEED_OFF,
@@ -26,10 +27,10 @@ typedef enum {
 typedef struct {
 	MotorSpeed_t speed;
 	MotorDirection_t direction;
-	volatile uint16_t *modFwd;
-	volatile uint16_t *modRev;
+	volatile uint32_t *modFwd;
+	volatile uint32_t *modRev;
 	bool enabled;
-	GpioPin_t *enablePin
+	GPIOPin_t *enablePin;
 } Motor_t;
 
 extern Motor_t motor1;
@@ -45,8 +46,8 @@ void SetMotorDirection(Motor_t *motor, MotorDirection_t dir);
 void StopMotors(bool hardStop);
 
 // TODO: remove all of these
-void SetMotor1DutyCycle(uint16_t dutyCycle, uint8_t dir)
-void SetMotor2DutyCycle(uint16_t dutyCycle, uint8_t dir)
+void SetMotor1DutyCycle(uint16_t dutyCycle, uint8_t dir);
+void SetMotor2DutyCycle(uint16_t dutyCycle, uint8_t dir);
 void EnableMotor1(void);
 void EnableMotor2(void);
 void DisableMotor1(void);

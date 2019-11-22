@@ -9,6 +9,8 @@
 #include "motor.h"
 #include "gpio.h"
 #include "timers.h"
+#include "MK64F12.h"
+#include "util.h"
 
 #define CLOCK					20485760u
 
@@ -32,7 +34,7 @@ void initMotors(void)
 
 	motor2.speed = MOTOR_SPEED_LOW;
 	motor2.direction = MOTOR_DIR_FWD;
-	motor2.modFwd = &FMT0_C2V;
+	motor2.modFwd = &FTM0_C2V;
 	motor2.modRev = &FTM0_C3V;
 	motor2.enabled = false;
 	motor2.enablePin = &motor2Enable;
@@ -56,7 +58,7 @@ void DisableMotor(Motor_t *motor) {
 
 void SetMotorSpeed(Motor_t *motor, MotorSpeed_t speed) {
 	uint16_t mod;
-   	uint16_t dutyCyle;
+  uint16_t dutyCycle;
 
 	switch(speed) {
 		case MOTOR_SPEED_LOW:
@@ -76,12 +78,12 @@ void SetMotorSpeed(Motor_t *motor, MotorSpeed_t speed) {
 	mod = (uint16_t) (((CLOCK/MOTOR_FREQ) * dutyCycle) / 100);
 
 
-	if(motor->dir == MOTOR_DIR_FWD) {
-		motor->modRev = 0;
-		motor->modFwd = mod;
+	if(motor->direction == MOTOR_DIR_FWD) {
+		*(motor->modRev) = 0;
+		*(motor->modFwd) = mod;
 	} else {
-		motor->modFwd = 0;
-		motor->modRev = mod;
+		*(motor->modFwd) = 0;
+		*(motor->modRev) = mod;
 	}
 }
 
@@ -90,9 +92,9 @@ void SetMotorDirection(Motor_t *motor, MotorDirection_t dir)
 	uint16_t temp;
 	if (motor->direction != dir) {
 		motor->direction = dir;
-		temp = motor->modRev;
-		motor->modRev = motor->modFwd;
-		motor->modFwd = temp;
+		temp = *(motor->modRev);
+		*(motor->modRev) = *(motor->modFwd);
+		*(motor->modFwd) = temp;
 	}
 }
 

@@ -15,6 +15,7 @@
 #include "gpio.h"
 #include "servo.h"
 #include "motor.h"
+#include "util.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -32,7 +33,6 @@ uint8_t centerPoint = 0;
 uint32_t area = 0;
 
 void initialize(void);
-void delay(int del);
 
 int main(void)
 {
@@ -44,8 +44,8 @@ int main(void)
 	
 	
 	// Set Motors at constatnt speed for now
-	SetMotor1DutyCycle(35, 0);
-	SetMotor2DutyCycle(35, 0);
+	SetMotor1DutyCycle(30, 0);
+	SetMotor2DutyCycle(30, 0);
 	
 	delay(100);
 	
@@ -54,7 +54,7 @@ int main(void)
 		
 	for(;;) {
 		
-		updatePIDVars();
+		//updatePIDVars();
 		
 		if (processCameraFlag == true) {
 			processCameraFlag = false;
@@ -74,8 +74,8 @@ int main(void)
 				delay(20);
 				DisableMotor1();
 				DisableMotor2();
-				SetMotor1DutyCycle(35, 0);
-				SetMotor2DutyCycle(35, 0);
+				SetMotor1DutyCycle(30, 0);
+				SetMotor2DutyCycle(30, 0);
 				centerPoint = IDEAL_CENTER;
 			} else if (edgeVal == 1) {
 				sprintf(str, "all white\r\n");
@@ -111,7 +111,7 @@ int main(void)
 			// adjust servo
 			adjustServoAngle(IDEAL_CENTER, centerPoint);
 			
-			delay(10);
+			//delay(10);
 			
 			// send debug data if necessary
 			if (debugcamdata) {
@@ -155,17 +155,6 @@ int main(void)
 }
 
 
-/**
- * Waits for a delay (in milliseconds)
- * 
- * del - The delay in milliseconds
- */
-void delay(int del){
-	int i;
-	for (i=0; i<del*50000; i++){
-		// Do nothing
-	}
-}
 
 void initialize()
 {

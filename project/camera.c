@@ -80,10 +80,10 @@ void processCameraData(uint16_t *adcData, uint8_t length)
 	memcpy(smoothedDataCopy, smoothedData, length * sizeof(uint16_t));
 	
 	// run smoothed data through threshold filter
-	//thresholdFilter(thresholdData, smoothedDataCopy, length);
+	thresholdFilter(thresholdData, smoothedDataCopy, length);
 	
 	// run derivData through derivThresholdFilter
-	derivThresholdFilter(thresholdData, derivDataCopy, length);
+	//derivThresholdFilter(thresholdData, derivDataCopy, length);
 	
 }
 
@@ -105,14 +105,14 @@ uint8_t findCenterPoint(void)
 
 	
 	
-	for (uint8_t i = 64; i < 127; i++) {
+	for (uint8_t i = prevMid; i < 127; i++) {
 		if(thresholdData[i] == 0){
 			rightSpike = i;
 			break;
 		}
 	}
 	
-	for (uint8_t i = 64 - 1; i > 0; i--) {
+	for (uint8_t i = prevMid - 1; i > 0; i--) {
 		if (thresholdData[i] == 0) {
 			leftSpike = i;
 			break;
