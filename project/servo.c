@@ -5,6 +5,8 @@
 #include "string.h"
 #include "stdio.h"
 #include "uart.h"
+#include <float.h>
+#include <math.h>
 
 
 /*
@@ -20,25 +22,28 @@
 
 
 
-#define SERVO_CENTER		1500 //1750
-#define SERVO_MIN				((SERVO_CENTER-650)) // left turn
-#define SERVO_MAX				((SERVO_CENTER+650)) // right turn
-#define SERVO_INCREMENT	35
+#define SERVO_CENTER		1373 //1750
+#define SERVO_MIN				((SERVO_CENTER-450)) // left turn
+#define SERVO_MAX				((SERVO_CENTER+550)) // right turn
+#define SERVO_INCREMENT	20
 
-float kp = 0.50;
-float ki = 0.00; // 0.15
-float kd = 0.00; // 0.25
+float kp = 0.61; //1.12;
+float ki = 0.050; // 0.15
+float kd = 0.8; // 0.7
 
-float adjustment_n1;
+float adjustment_n1 = 0;
 
-int32_t err;
-int32_t err_n1;
-int32_t err_n2;
+float err = 0;
+float err_n1 = 0;
+float err_n2 = 0;
 
 float calculatAdjustmentPID(uint8_t targetCenter, uint8_t currentCenter);
 
 char str2[100];
 
+void initServo(void) {
+	FTM3_C4V = SERVO_CENTER;
+}
 /*
  * adjustServoAngle()
  *
@@ -46,10 +51,12 @@ char str2[100];
  */
 void adjustServoAngle(uint8_t targetCenter, uint8_t currentCenter)
 {
-	float adj = calculatAdjustmentPID(targetCenter, currentCenter);
+	float adj = 0.0;
+	uint32_t mod = 0;
 	
-	uint16_t mod = SERVO_CENTER + (adj * SERVO_INCREMENT);
-	
+	adj = calculatAdjustmentPID(targetCenter, currentCenter);
+
+	mod = SERVO_CENTER + ((int32_t)(adj * SERVO_INCREMENT));
 	if (mod > SERVO_MAX) {
 		mod = SERVO_MAX;
 	} else if (mod < SERVO_MIN) {
@@ -57,6 +64,12 @@ void adjustServoAngle(uint8_t targetCenter, uint8_t currentCenter)
 	}
 	
 	sprintf(str2, "mod:%i\r\ncenter:%i\r\n", mod, currentCenter);
+	//sprintf(str2, "Kp:%f\r\n", kp);
+	if (ki > 0.0f) {
+		sprintf(str2, "ki bigger than zero");
+	} else if (kd > 0.0f) {
+		sprintf(str2, "kd bigger than zero");
+	}
 	uart_put(UART3, str2);
 	setFTM3Chan4Mod(mod);
 	setFTM3Mod(FTM3_MOD_VALUE);
@@ -65,15 +78,16 @@ void adjustServoAngle(uint8_t targetCenter, uint8_t currentCenter)
 float calculatAdjustmentPID(uint8_t targetCenter, uint8_t currentCenter)
 {
 	float adjustment = 0;
-	err = targetCenter - currentCenter;
+	err =(float) (targetCenter - currentCenter);
 	adjustment = adjustment_n1
 							+ kp * (err - err_n1)
 							+ ki * 0.5f * (err + err_n1)
-							+ kd * (err + 2*err_n1 + err_n2);
-	if (adjustment >= 64) {
-		adjustment = 63;
-	}else if (adjustment <= -64) {
-		adjustment = -63;
+							+ kd * (err  - 2*err_n1 + err_n2);
+	
+	if (adjustment >= (SERVO_CENTER/4)) {
+		adjustment = SERVO_CENTER/4;
+	}else if (adjustment <= -(SERVO_CENTER/4)) {
+		adjustment = -SERVO_CENTER/4;
 	}
 	adjustment_n1 = adjustment;
 	err_n2 = err_n1;

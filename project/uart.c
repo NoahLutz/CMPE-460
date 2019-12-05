@@ -227,9 +227,9 @@ void updatePIDVars(void)
 		temp_kd = strToFloat(kd_str_cpy);
 		
 		//Update true values
-		kp = temp_kp;
-		ki = temp_ki;
-		kd = temp_kd;
+		//kp = temp_kp;
+		//ki = temp_ki;
+		//kd = temp_kd;
 		
 		// send response
 		char resp[BUFFER_SIZE];
