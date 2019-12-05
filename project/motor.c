@@ -11,15 +11,20 @@
 #include "timers.h"
 #include "MK64F12.h"
 #include "util.h"
+#include "uart.h"
 
-#define CLOCK					20485760u
+#define CLOCK				 20485760u
 
 #define MOTOR_FREQ   10000U // 10kHz
 
 #define FTM0_MOD_VALUE			(CLOCK/PWM_FREQUENCY)
 
+#define TRACKING_STRAIGTH_TRESH  10
+
 Motor_t motor1;
 Motor_t motor2;
+
+uint16_t tracking;
 
 
 
@@ -27,23 +32,54 @@ void initMotors(void)
 {
 	motor1.speed = MOTOR_SPEED_LOW;
 	motor1.direction = MOTOR_DIR_FWD;
-	motor1.modFwd = &FTM0_C0V;
-	motor1.modRev = &FTM0_C1V;
+	motor1.modFwd = &FTM0_C1V;
+	motor1.modRev = &FTM0_C0V;
 	motor1.enabled = false;
 	motor1.enablePin = &motor1Enable;
 
 	motor2.speed = MOTOR_SPEED_LOW;
 	motor2.direction = MOTOR_DIR_FWD;
-	motor2.modFwd = &FTM0_C2V;
-	motor2.modRev = &FTM0_C3V;
+	motor2.modFwd = &FTM0_C3V;
+	motor2.modRev = &FTM0_C2V;
 	motor2.enabled = false;
 	motor2.enablePin = &motor2Enable;
 
 	gpio_low(motor1.enablePin);
 	gpio_low(motor2.enablePin);
+	
+	tracking = 0;
 
 	//Set FTM0 overall mod value
 	setFTM0Mod(CLOCK/MOTOR_FREQ);
+}
+
+void adjustMotorSpeed(int8_t centerPoint, uint8_t edgeState) {
+	
+	if (edgeState == 2 || edgeState == 3) {
+		StopMotors(true);
+	} else if (edgeState == 0) {
+		if (centerPoint >= 60 && centerPoint <= 68) {
+			tracking++;
+			
+			if (tracking >= TRACKING_STRAIGTH_TRESH) {
+				if(motor1.speed == MOTOR_SPEED_LOW && motor2.speed == MOTOR_SPEED_LOW) {
+					SetMotorSpeed(&motor1, MOTOR_SPEED_MED);
+					SetMotorSpeed(&motor2, MOTOR_SPEED_MED);
+					tracking = 0;
+				} else if (motor1.speed == MOTOR_SPEED_MED && motor2.speed == MOTOR_SPEED_MED) {
+					SetMotorSpeed(&motor1, MOTOR_SPEED_HIGH);
+					SetMotorSpeed(&motor2, MOTOR_SPEED_HIGH);
+				}
+			}
+		} else {
+			SetMotorSpeed(&motor1, MOTOR_SPEED_LOW);
+			SetMotorSpeed(&motor2, MOTOR_SPEED_LOW);
+		
+		}
+		//EnableMotor(&motor1);
+		//EnableMotor(&motor2);
+				
+	}
 }
 
 void EnableMotor(Motor_t *motor) {
@@ -60,6 +96,10 @@ void SetMotorSpeed(Motor_t *motor, MotorSpeed_t speed) {
 	uint16_t mod;
   uint16_t dutyCycle;
 
+	if (motor->modFwd == NULL || motor->modRev == NULL) {
+		return;
+	}
+	
 	switch(speed) {
 		case MOTOR_SPEED_LOW:
 			dutyCycle = 35;
@@ -138,6 +178,7 @@ void StopMotors(bool hardStop)
 
 //TODO: to be removed below this
 
+/*
 void EnableMotor1(void){
 	gpio_high(&motor1Enable);
 }
@@ -153,12 +194,14 @@ void DisableMotor1(void) {
 void DisableMotor2(void) {
 	gpio_low(&motor2Enable);
 }
+*/
 
 /*
  * Change the Motor Duty Cycle
  * @param DutyCycle (0 to 100)
  * @param dir: 0 for fwd 1 for rev
  */
+ /*
 void SetMotor1DutyCycle(uint16_t dutyCycle, uint8_t dir)
 {
 	// Calculate the new cutoff value
@@ -176,13 +219,14 @@ void SetMotor1DutyCycle(uint16_t dutyCycle, uint8_t dir)
 
 	// Update the clock to the new frequency
    setFTM0Mod(CLOCK/MOTOR_FREQ);
-}
+}*/
 
 /*
  * Change the Motor Duty Cycle
  * @param DutyCycle (0 to 100)
  * @param dir: 0 for fwd 1 for rev
  */
+ /*
 void SetMotor2DutyCycle(uint16_t dutyCycle, uint8_t dir)
 {
 	// Calculate the new cutoff value
@@ -201,4 +245,4 @@ void SetMotor2DutyCycle(uint16_t dutyCycle, uint8_t dir)
 	// Update the clock to the new frequency
 	setFTM0Mod(CLOCK/MOTOR_FREQ);
 }
-
+*/

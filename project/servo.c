@@ -23,13 +23,21 @@
 
 
 #define SERVO_CENTER		1373 //1750
-#define SERVO_MIN				((SERVO_CENTER-450)) // left turn
+#define SERVO_MIN				((SERVO_CENTER-425)) // left turn
 #define SERVO_MAX				((SERVO_CENTER+550)) // right turn
 #define SERVO_INCREMENT	20
 
-float kp = 0.61; //1.12;
-float ki = 0.050; // 0.15
-float kd = 0.8; // 0.7
+float kp = 0.59; //1.12;
+//float ki = 0.050; // 0.15
+//float kd = 0.1; // 1.0
+float ki = 0.0;
+float kd = 0.0;
+
+/*
+float kp = 0.68; //.68
+float ki = 0.0001; //0.0001
+float kd = 0.0;
+*/
 
 float adjustment_n1 = 0;
 
@@ -63,14 +71,6 @@ void adjustServoAngle(uint8_t targetCenter, uint8_t currentCenter)
 		mod = SERVO_MIN;
 	}
 	
-	sprintf(str2, "mod:%i\r\ncenter:%i\r\n", mod, currentCenter);
-	//sprintf(str2, "Kp:%f\r\n", kp);
-	if (ki > 0.0f) {
-		sprintf(str2, "ki bigger than zero");
-	} else if (kd > 0.0f) {
-		sprintf(str2, "kd bigger than zero");
-	}
-	uart_put(UART3, str2);
 	setFTM3Chan4Mod(mod);
 	setFTM3Mod(FTM3_MOD_VALUE);
 }

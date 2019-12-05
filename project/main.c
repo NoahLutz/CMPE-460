@@ -42,15 +42,7 @@ int main(void)
 	// Print welcome over serial
 	uart_put(UART3,"Running... \n\r");
 	
-	
-	// Set Motors at constatnt speed for now
-	SetMotor1DutyCycle(30, 0);
-	SetMotor2DutyCycle(30, 0);
-	
 	delay(100);
-	
-  //EnableMotor1();
-  //EnableMotor2();
 		
 	for(;;) {
 		
@@ -64,49 +56,26 @@ int main(void)
 			area = calculateArea();
 			
 			uint8_t edgeVal = hasEdges();
+			
 			if (edgeVal == 2 || edgeVal == 3) {
-				sprintf(str, "Disabling Motors\r\n");
-				uart_put(UART3, "DISABLING MOTORS\r\n");
-				
-				
-				SetMotor1DutyCycle(35, 1);
-				SetMotor2DutyCycle(35, 1);
-				delay(20);
-				DisableMotor1();
-				DisableMotor2();
-				SetMotor1DutyCycle(30, 0);
-				SetMotor2DutyCycle(30, 0);
 				centerPoint = IDEAL_CENTER;
+				sprintf(str, "no track\r\n");
 			} else if (edgeVal == 1) {
 				sprintf(str, "all white\r\n");
 
-				centerPoint = IDEAL_CENTER;
+				//centerPoint = IDEAL_CENTER;
 			} else if (edgeVal == 0) {
-				EnableMotor1();
-				EnableMotor2();
 				sprintf(str, "has edges\r\n");
 
 				centerPoint = findCenterPoint();
 			}
 			
-			//centerPoint = IDEAL_CENTER;
+			uart_put(UART3, str);
 			
-			//uint16_t derivMaxVal = 
-			//uart_put(UART3, str);
-			sprintf(str, "area: %i\r\n", area);
-			//uart_put(UART3, str);
+			adjustMotorSpeed(centerPoint, edgeVal);
 			
-				
-
-      //centerPoint = findCenterPoint();
-
-      //area = calculateArea();
-			
-			//sprintf(str, "areaData: %i\r\n", area);
-			//uart_put(str);
-
-			//sprintf(str, "Center Point: %i\r\nArea: %i\r\n", centerPoint, area);
-			//uart_put(str);
+			sprintf(str, "Motor1:%d, Motor2:%d\r\n", motor1.speed, motor2.speed);
+			uart_put(UART3, str);
 			
 			// adjust servo
 			adjustServoAngle(IDEAL_CENTER, centerPoint);
@@ -173,4 +142,6 @@ void initialize()
 	InitFTM3();
 	InitFTM2();
 	InitPIT();
+	
+	initMotors();
 }

@@ -45,13 +45,15 @@ void SetMotorSpeed(Motor_t *motor, MotorSpeed_t speed);
 void SetMotorDirection(Motor_t *motor, MotorDirection_t dir);
 void StopMotors(bool hardStop);
 
+void adjustMotorSpeed(int8_t center_point, uint8_t edgeState);
+
 // TODO: remove all of these
-void SetMotor1DutyCycle(uint16_t dutyCycle, uint8_t dir);
-void SetMotor2DutyCycle(uint16_t dutyCycle, uint8_t dir);
-void EnableMotor1(void);
-void EnableMotor2(void);
-void DisableMotor1(void);
-void DisableMotor2(void);
+//void SetMotor1DutyCycle(uint16_t dutyCycle, uint8_t dir);
+//void SetMotor2DutyCycle(uint16_t dutyCycle, uint8_t dir);
+//void EnableMotor1(void);
+//void EnableMotor2(void);
+//void DisableMotor1(void);
+//void DisableMotor2(void);
 
 #endif
 

@@ -154,16 +154,64 @@
           <Type>0</Type>
           <LineNumber>110</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>13062</Address>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>.\uart.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>59</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>3686</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\uart.c</Filename>
+          <Filename>.\motor.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\finalproj\uart.c\110</Expression>
+          <Expression>\\finalproj\motor.c\59</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>119</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>5782</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\\main.c\119</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>101</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>3126</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\motor.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\finalproj\motor.c\101</Expression>
         </Bp>
       </Breakpoint>
       <Tracepoint>

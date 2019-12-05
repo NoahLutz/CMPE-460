@@ -19,7 +19,7 @@
 function plot_cams 
 
 %Send over bluetooth or serial
-serialPort = 'COM3';
+serialPort = 'COM5';
 serialObject = serial(serialPort);
 %configure serial connection
 serialObject.BaudRate = 9600; %(Default)
@@ -75,7 +75,7 @@ end %plot_cams
 
 function plotdata(trace, cam)
 drawnow;
-subplot(4,2,cam);
+%subplot(4,2,cam);
 %figure(figureHandle);
 plot(trace);
 %set(figureHandle,'Visible','on');
@@ -86,17 +86,17 @@ for i = 3:126
     %5-point Averager
     smoothtrace(i) = (1/5)*(trace(i-2) + trace(i-1)+ trace(i)+ trace(i+1)+ trace(i+2));
 end
-subplot(4,2,cam+2);
+%subplot(4,2,cam+2);
 %figure(smoothhand);
-plot(smoothtrace);
+%plot(smoothtrace);
 
 derivtrace = smoothtrace;
 for i = 2:127
     derivtrace(i) = abs((1/3)*(trace(i+1) - trace(i-1)));
 end
 
-subplot(4,2, cam+3);
-plot(derivtrace);
+%subplot(4,2, cam+3);
+%plot(derivtrace);
 
 %THRESHOLD
 %calculate 1's and 0's via thresholding
@@ -111,9 +111,9 @@ for i = 1:128
     end
 end
 drawnow;
-subplot(4,2,cam+4);
+%subplot(4,2,cam+4);
 %figure(binfighand);
-plot(bintrace);
+%plot(bintrace);
 
 end %function
 
